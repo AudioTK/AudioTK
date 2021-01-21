@@ -50,7 +50,6 @@ jobs:
     - Python_ADDITIONAL_VERSIONS=3.8.1
     - BUILD_TYPE=Coverage
     - CUSTOM_LCOV=ON
-    - MAKE_WRAPPER="build-wrapper-linux-x86-64 --out-dir bw-outputs "
     - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/opt/python/${Python_ADDITIONAL_VERSIONS}/lib/libpython${PYTHON_VERSION}.so -DPYTHON_INCLUDE_DIR=/opt/python/${Python_ADDITIONAL_VERSIONS}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/opt/python/${Python_ADDITIONAL_VERSIONS}/bin/python -DENABLE_CODECOVERAGE=ON -DENABLE_STATIC_LIBRARIES=OFF -DCMAKE_CXX_FLAGS_DEBUG_INIT=\"-O0\""
   - compiler: gcc-9
     os: linux
@@ -128,7 +127,6 @@ jobs:
     - BUILD_TYPE=Debug
     - ENABLE_STATIC_ANALYSIS=OFF
     - ENABLE_CODECOVERAGE=ON
-    - MAKE_WRAPPER="build-wrapper-linux-x86-64 --out-dir bw-outputs "
     - ADDITONAL_CMAKE_FLAGS="-DENABLE_CODECOVERAGE=ON -DLCOV_SCRIPT=--gcov-tool=`pwd`/scripts/llvm-cov.sh -DENABLE_STATIC_LIBRARIES=OFF -DCMAKE_CXX_FLAGS_DEBUG_INIT=\"-O0\""
   - compiler: clang-9
     os: linux
@@ -245,13 +243,13 @@ install:
 before_script:
   - mkdir build
   - cd build
-  - ${MAKE_WRAPPER} cmake -DENABLE_GPL=ON -DDISABLE_EIGEN_WARNINGS=ON -DCMAKE_CXX_COMPILER=$COMPILER -DBOOST_ROOT=$BOOST_BUILD -DCMAKE_INSTALL_PREFIX=${HOME}/ATK -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_PYTHON=${ENABLE_PYTHON} ${ADDITONAL_CMAKE_FLAGS} ..
+  - cmake -DENABLE_GPL=ON -DDISABLE_EIGEN_WARNINGS=ON -DCMAKE_CXX_COMPILER=$COMPILER -DBOOST_ROOT=$BOOST_BUILD -DCMAKE_INSTALL_PREFIX=${HOME}/ATK -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_PYTHON=${ENABLE_PYTHON} ${ADDITONAL_CMAKE_FLAGS} ..
 
 script:
   - pwd
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then export LD_LIBRARY_PATH=${HOME}/ATK/lib:$LD_LIBRARY_PATH ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export DYLD_LIBRARY_PATH=${HOME}/ATK/lib:$BOOST_BUILD/lib ; fi
-  - ${MAKE_WRAPPER} make -j2
+  - make -j2
   - make install
   - export PYTHONPATH=${HOME}/ATK/lib/site-packages/:$PYTHONPATH
   - echo $DYLD_LIBRARY_PATH
