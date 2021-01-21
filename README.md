@@ -295,9 +295,9 @@ Audio Toolkit is published under the BSD license.
 
 ### Requirements
 
-* C++11 compiler
+* C++17 compiler
 * CMake
-* Boost 1.60
+* Boost 1.75
 * FFT library (for some filters like the fast convolution filter)
   * FFTW
   * IPP (default)
