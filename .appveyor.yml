@@ -10,7 +10,6 @@ notifications:
     on_build_status_changed: true
 
 environment:
-  ATK_ROOT: C:\projects\AudioTK
   ATK_OUT: C:\projects\ATK
   FFTW_ROOT: C:\projects\fftw
   matrix:
@@ -185,7 +184,7 @@ before_build:
   - 7z x %FFTW_NAME%
   - ps: lib /machine:$env:SHORT_MSVC_PLATFORM /def:libfftw3-3.def
   - ps: lib /machine:$env:SHORT_MSVC_PLATFORM /def:libfftw3f-3.def
-  - cd %ATK_ROOT%
+  - cd %APPVEYOR_BUILD_FOLDER%
   - mkdir 3rdParty
   - git clone https://github.com/mbrucher/pybind11 3rdParty\pybind11
   - git clone https://github.com/mbrucher/GSL 3rdParty\gsl
@@ -201,15 +200,15 @@ after_build:
   - cd %ATK_OUT%
   - ps: |
       if($PYTHON_VERSION) {
-        7z a ${env:ATK_ROOT}\AudioTK.${env:MSVC_VERSION}.py${env:PYTHON_VERSION}.${env:OUTPUT}-${env:BUILD_CONFIGURATION}.zip * -tzip
+        7z a ${env:APPVEYOR_BUILD_FOLDER}\AudioTK.${env:MSVC_VERSION}.py${env:PYTHON_VERSION}.${env:OUTPUT}-${env:BUILD_CONFIGURATION}.zip * -tzip
       } else {
-        7z a ${env:ATK_ROOT}\AudioTK.${env:MSVC_VERSION}.${env:OUTPUT}-${env:BUILD_CONFIGURATION}.zip * -tzip
+        7z a ${env:APPVEYOR_BUILD_FOLDER}\AudioTK.${env:MSVC_VERSION}.${env:OUTPUT}-${env:BUILD_CONFIGURATION}.zip * -tzip
       }
 
 test_script:
   - set PATH=%ATK_OUT%\bin;%BOOST_ROOT%\lib%BITS%-%MSVC_VERSION%;%FFTW_ROOT%;%PATH%
   - set PYTHONPATH=%ATK_OUT%\lib\site-packages:%PYTHONPATH%
-  - cd %ATK_ROOT%\build
+  - cd %APPVEYOR_BUILD_FOLDER%\build
   - set CTEST_OUTPUT_ON_FAILURE=True
   - msbuild RUN_TESTS.vcxproj /property:Configuration=%BUILD_CONFIGURATION%
 
@@ -223,4 +222,5 @@ deploy:
   auth_token: ${GITHUB_OAUTH_TOKEN}
   artifact: package
   on:
-    appveyor_repo_tag: true
+    branch: master
+    APPVEYOR_REPO_TAG: true
