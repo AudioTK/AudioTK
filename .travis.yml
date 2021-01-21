@@ -39,8 +39,6 @@ jobs:
         - libatlas-base-dev
         - curl
         - doxygen
-      sonarcloud:
-        organization: "mbrucher-github"
     env:
     - MY_NAME: Static Analysis
     - COMPILER=g++-9
@@ -122,8 +120,6 @@ jobs:
         - libatlas-base-dev
         - curl
         - lcov
-      sonarcloud:
-        organization: "mbrucher-github"
     env:
     - MY_NAME=LLVM coverage
     - COMPILER=clang++-9
@@ -276,11 +272,6 @@ after_success:
     fi
   - cd ${HOME}/ATK
   - tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}.py${PYTHON_VERSION}-${BUILD_TYPE}.tar.gz *
-  - |
-    if [[ "${ENABLE_STATIC_ANALYSIS}" = "ON" ]]; then
-      cd ..
-      sonar-scanner
-    fi
 
 after_script:
   - |
