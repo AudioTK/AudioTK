@@ -184,7 +184,6 @@ jobs:
 before_install:
   - ls /usr/lib
   - ls /usr/lib/llvm-*/lib/clang/ || true
-  - ls /usr/lib/llvm-*/lib/clang/*/lib/linux || true
   - mkdir -p $HOME/usr/bin
   - export PATH="$HOME/usr/bin:$PATH"
   - export PATH="/usr/local/bin:$PATH"
@@ -242,7 +241,7 @@ before_install:
   - git clone https://github.com/google/googletest.git $GTEST_ROOT
 
 install:
-  - "(cd ${GTEST_BUILD}; cmake -DCMAKE_INSTALL_PREFIX=${GTEST_INSTALL} ${GTEST_ROOT} && make && make install)"
+  - "(cd ${GTEST_BUILD}; cmake -DCMAKE_INSTALL_PREFIX=${GTEST_INSTALL} -DCMAKE_POSITION_INDEPENDENT_CODE=ON ${GTEST_ROOT} && make && make install)"
 
 before_script:
   - mkdir build
