@@ -1,8 +1,9 @@
 #
 # CMake utilities for ATK
 #
+include(CMakeParseArguments)
 
-macro(stagedebug target)
+function(stagedebug target)
   if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     if(APPLE)
       add_custom_command(TARGET ${target}
@@ -14,9 +15,9 @@ macro(stagedebug target)
         VERBATIM)
     endif(APPLE)
   endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
-endmacro()
+endfunction(stagedebug)
 
-MACRO(SOURCE_GROUP_BY_FOLDER target)
+function(SOURCE_GROUP_BY_FOLDER target)
   SET(SOURCE_GROUP_DELIMITER "/")
 
   SET(last_dir "")
@@ -36,9 +37,19 @@ MACRO(SOURCE_GROUP_BY_FOLDER target)
   IF (files)
     SOURCE_GROUP("${last_dir}" FILES ${files})
   ENDIF (files)
-ENDMACRO(SOURCE_GROUP_BY_FOLDER)
+endfunction(SOURCE_GROUP_BY_FOLDER)
 
 function(ATK_add_library PREFIX)
+
+set(FLAGS )
+set(SINGLEVALUES NAME FOLDER)
+set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
+
+cmake_parse_arguments(${PREFIX}
+                 "${FLAGS}"
+                 "${SINGLEVALUES}"
+                 "${MULTIVALUES}"
+                ${ARGN})
 
 SOURCE_GROUP_BY_FOLDER(${PREFIX})
 
@@ -102,6 +113,16 @@ endfunction()
 
 function(ATK_add_executable PREFIX)
 
+set(FLAGS INSTALL)
+set(SINGLEVALUES NAME FOLDER)
+set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
+
+cmake_parse_arguments(${PREFIX}
+                 "${FLAGS}"
+                 "${SINGLEVALUES}"
+                 "${MULTIVALUES}"
+                ${ARGN})
+
 SOURCE_GROUP_BY_FOLDER(${PREFIX})
 
 if(NOT ${PREFIX}_NAME)
@@ -123,10 +144,26 @@ if(${PREFIX}_FOLDER_PROJECT)
 endif(${PREFIX}_FOLDER_PROJECT)
 
 target_link_libraries(${${PREFIX}_NAME} ${${PREFIX}_LIBRARIES})
-
+if(${PREFIX}_INSTALL)
+INSTALL(TARGETS ${${PREFIX}_NAME}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/ COMPONENT apps
+  LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT apps
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT apps
+)
+endif()
 endfunction()
 
 function(ATK_add_test PREFIX)
+
+set(FLAGS)
+set(SINGLEVALUES NAME FOLDER TESTNAME)
+set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
+
+cmake_parse_arguments(${PREFIX}
+                 "${FLAGS}"
+                 "${SINGLEVALUES}"
+                 "${MULTIVALUES}"
+                ${ARGN})
 
 if(NOT ${PREFIX}_TESTNAME)
   message(ERROR "No test name set for ${PREFIX}")
@@ -134,13 +171,32 @@ endif(NOT ${PREFIX}_TESTNAME)
 
 SET(${PREFIX}_FOLDER_PROJECT Tests)
 
-ATK_add_executable(${PREFIX})
+ATK_add_executable(${PREFIX}
+  NAME ${${PREFIX}_NAME}
+  FOLDER ${${PREFIX}_FOLDER}
+  SRC ${${PREFIX}_SRC}
+  HEADERS ${${PREFIX}_HEADERS}
+  DEFINITIONS ${${PREFIX}_DEFINITIONS}
+  INCLUDE ${${PREFIX}_INCLUDE}
+  LIBRARIES ${${PREFIX}_LIBRARIES}
+)
+
 add_test(NAME ${${PREFIX}_TESTNAME}
          COMMAND ${${PREFIX}_NAME} --log_level=message)
 
 endfunction()
 
 function(ATK_add_python_module PREFIX)
+
+set(FLAGS INSTALL)
+set(SINGLEVALUES NAME FOLDER)
+set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
+
+cmake_parse_arguments(${PREFIX}
+                 "${FLAGS}"
+                 "${SINGLEVALUES}"
+                 "${MULTIVALUES}"
+                ${ARGN})
 
 if(NOT ${PREFIX}_NAME)
   message(ERROR "No name set for ${PREFIX}")
