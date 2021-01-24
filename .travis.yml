@@ -244,7 +244,8 @@ before_install:
 install:
   - "(cd ${BOOST_ROOT}; ./bootstrap.sh --with-libraries=system,test)"
   - "(cd ${BOOST_ROOT}; ./b2 threading=multi --prefix=${BOOST_BUILD} -d0 install)"
-  - "(cd $GTEST_BUILD; cmake -DCMAKE_INSTALL_PREFIX=${GTEST_INSTALL} ${GTEST_ROOT}; make; make install"
+  - "(cd ${GTEST_BUILD}; cmake -DCMAKE_INSTALL_PREFIX=${GTEST_INSTALL} ${GTEST_ROOT}; make; make install"
+  - "(cd $GTEST_BUILD; make; make install"
 
 before_script:
   - mkdir build
