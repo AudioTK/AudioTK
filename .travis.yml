@@ -232,12 +232,11 @@ before_install:
 
   - wget --no-verbose --output-document=boost_1_73_0.tar.bz2 http://sourceforge.net/projects/boost/files/boost/1.73.0/boost_1_73_0.tar.bz2/download
   - export BOOST_ROOT="$TRAVIS_BUILD_DIR/../boost"
-  - export BOOST_BUILD="$TRAVIS_BUILD_DIR/../boost-build"
+  - mkdir -p ${BOOST_ROOT}
+  - tar jxf boost_1_73_0.tar.bz2 --strip-components=1 -C $BOOST_ROOT
   - export GTEST_ROOT="$TRAVIS_BUILD_DIR/../gtest"
   - export GTEST_BUILD="$TRAVIS_BUILD_DIR/../gtest-build"
   - export GTEST_INSTALL="$TRAVIS_BUILD_DIR/../gtest-install"
-  - mkdir -p ${BOOST_ROOT}
-  - tar jxf boost_1_73_0.tar.bz2 --strip-components=1 -C $BOOST_ROOT
   - mkdir -p ${GTEST_ROOT}
   - mkdir -p ${GTEST_BUILD}
   - git clone https://github.com/google/googletest.git $GTEST_ROOT
@@ -248,12 +247,12 @@ install:
 before_script:
   - mkdir build
   - cd build
-  - cmake -DENABLE_GPL=ON -DDISABLE_EIGEN_WARNINGS=ON -DCMAKE_CXX_COMPILER=$COMPILER -DBOOST_ROOT=$BOOST_BUILD -DGTest_ROOT=${GTEST_INSTALL}/lib/cmake/GTest -DCMAKE_INSTALL_PREFIX=${HOME}/ATK -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_PYTHON=${ENABLE_PYTHON} ${ADDITONAL_CMAKE_FLAGS} ..
+  - cmake -DENABLE_GPL=ON -DDISABLE_EIGEN_WARNINGS=ON -DCMAKE_CXX_COMPILER=$COMPILER -DBOOST_ROOT=${BOOST_ROOT} -DGTest_DIR=${GTEST_INSTALL}/lib/cmake/GTest -DCMAKE_INSTALL_PREFIX=${HOME}/ATK -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_PYTHON=${ENABLE_PYTHON} ${ADDITONAL_CMAKE_FLAGS} ..
 
 script:
   - pwd
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then export LD_LIBRARY_PATH=${HOME}/ATK/lib:$LD_LIBRARY_PATH ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export DYLD_LIBRARY_PATH=${HOME}/ATK/lib:$BOOST_BUILD/lib ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export DYLD_LIBRARY_PATH=${HOME}/ATK/lib ; fi
   - make -j2
   - make install
   - export PYTHONPATH=${HOME}/ATK/lib/site-packages/:$PYTHONPATH
