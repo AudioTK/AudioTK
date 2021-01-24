@@ -66,15 +66,20 @@ if(ENABLE_STATIC_LIBRARIES)
   target_compile_definitions(${${PREFIX}_NAME}_static PRIVATE ${${PREFIX}_DEFINITIONS})
   target_include_directories(${${PREFIX}_NAME}_static PRIVATE ${${PREFIX}_INCLUDE})
   target_include_directories(${${PREFIX}_NAME}_static BEFORE PRIVATE ${PROJECT_SOURCE_DIR})
+  target_include_directories(${${PREFIX}_NAME}_static INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
+    $<INSTALL_INTERFACE:include>
+  )
+  target_link_libraries(${${PREFIX}_NAME}_static PUBLIC ${${PREFIX}_LIBRARIES})
 
-  set_target_properties (${${PREFIX}_NAME}_static PROPERTIES
+  set_target_properties(${${PREFIX}_NAME}_static PROPERTIES
     FOLDER C++/${${PREFIX}_FOLDER}/static
   )
-
   INSTALL(TARGETS ${${PREFIX}_NAME}_static
-    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/ COMPONENT libraries
-    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT libraries
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT libraries
+    EXPORT ATK
+    RUNTIME COMPONENT libraries
+    LIBRARY COMPONENT libraries
+    ARCHIVE COMPONENT libraries
   )
 endif(ENABLE_STATIC_LIBRARIES)
 
@@ -87,19 +92,23 @@ if(ENABLE_SHARED_LIBRARIES)
   target_compile_definitions(${${PREFIX}_NAME} PRIVATE ${${PREFIX}_DEFINITIONS} -DBUILD_${PREFIX} -DATK_SHARED)
   target_include_directories(${${PREFIX}_NAME} PRIVATE ${${PREFIX}_INCLUDE})
   target_include_directories(${${PREFIX}_NAME} BEFORE PRIVATE ${PROJECT_SOURCE_DIR})
+  target_include_directories(${${PREFIX}_NAME} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
+    $<INSTALL_INTERFACE:include>
+  )
+  target_link_libraries(${${PREFIX}_NAME} PUBLIC ${${PREFIX}_LIBRARIES})
 
   set_target_properties (${${PREFIX}_NAME} PROPERTIES
     FOLDER C++/${${PREFIX}_FOLDER}/shared
   )
 
-  target_link_libraries(${${PREFIX}_NAME} ${${PREFIX}_LIBRARIES})
-
   stagedebug(${${PREFIX}_NAME})
 
   INSTALL(TARGETS ${${PREFIX}_NAME}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/ COMPONENT libraries
-    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT libraries
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT libraries
+    EXPORT ATK
+    RUNTIME COMPONENT libraries
+    LIBRARY COMPONENT libraries
+    ARCHIVE COMPONENT libraries
   )
 
 endif(ENABLE_SHARED_LIBRARIES)
@@ -108,7 +117,6 @@ INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include/ATK/
     FILES_MATCHING PATTERN *.h
 )
-
 endfunction()
 
 function(ATK_add_executable PREFIX)
