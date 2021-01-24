@@ -139,7 +139,7 @@ add_executable(${${PREFIX}_NAME}
 
 if(${PREFIX}_FOLDER)
   set_target_properties (${${PREFIX}_NAME} PROPERTIES
-    FOLDER ${${PREFIX}_FOLDER}
+    FOLDER C++/${${PREFIX}_FOLDER}
   )
 endif(${PREFIX}_FOLDER)
 
