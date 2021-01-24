@@ -26,10 +26,9 @@ namespace EQUtilities
   template<typename DataType>
   void zpk_lp2lp(DataType Wn, ZPK<DataType>& zpk)
   {
-    auto z_size = zpk.z.size();
-    auto p_size = zpk.p.size();
-
-    int relative_degree = static_cast<int>(p_size) - static_cast<int>(z_size);
+    auto z_size = static_cast<gsl::index>(zpk.z.size());
+    auto p_size = static_cast<gsl::index>(zpk.p.size());
+    auto relative_degree = p_size - z_size;
 
     for(gsl::index i = 0; i < z_size; ++i)
     {
@@ -47,9 +46,9 @@ namespace EQUtilities
   template<typename DataType>
   void zpk_lp2bp(DataType Wn, DataType bw, ZPK<DataType>& zpk)
   {
-    auto z_size = zpk.z.size();
-    auto p_size = zpk.p.size();
-    int relative_degree = static_cast<int>(p_size) - static_cast<int>(z_size);
+    auto z_size = static_cast<gsl::index>(zpk.z.size());
+    auto p_size = static_cast<gsl::index>(zpk.p.size());
+    auto relative_degree = p_size - z_size;
 
     for(gsl::index i = 0; i < z_size; ++i)
     {
@@ -85,9 +84,9 @@ namespace EQUtilities
   template<typename DataType>
   void zpk_lp2bs(DataType Wn, DataType bw, ZPK<DataType>& zpk)
   {
-    auto z_size = zpk.z.size();
-    auto p_size = zpk.p.size();
-    int relative_degree = static_cast<int>(p_size) - static_cast<int>(z_size);
+    auto z_size = static_cast<gsl::index>(zpk.z.size());
+    auto p_size = static_cast<gsl::index>(zpk.p.size());
+    auto relative_degree = p_size - z_size;
 
     std::complex<DataType> f = 1;
     for(gsl::index i = 0; i < z_size; ++i)
@@ -135,8 +134,8 @@ namespace EQUtilities
   template<typename DataType>
   void zpk_bilinear(std::size_t fs, ZPK<DataType>& zpk)
   {
-    auto z_size = zpk.z.size();
-    auto p_size = zpk.p.size();
+    auto z_size = static_cast<gsl::index>(zpk.z.size());
+    auto p_size = static_cast<gsl::index>(zpk.p.size());
 
     DataType fs2 = 2 * static_cast<DataType>(fs);
   
@@ -167,8 +166,8 @@ namespace EQUtilities
   template<typename DataType>
   void zpk2ba(const ZPK<DataType>& zpk, boost::math::tools::polynomial<DataType>& b, boost::math::tools::polynomial<DataType>& a)
   {
-    auto z_size = zpk.z.size();
-    auto p_size = zpk.p.size();
+    auto z_size = static_cast<gsl::index>(zpk.z.size());
+    auto p_size = static_cast<gsl::index>(zpk.p.size());
 
     b = boost::math::tools::polynomial<DataType>({ zpk.k });
 
