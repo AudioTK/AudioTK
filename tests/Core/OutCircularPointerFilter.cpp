@@ -9,13 +9,11 @@
 #include <ATK/Core/InPointerFilter.h>
 #include <ATK/Core/OutCircularPointerFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #define PROCESSSIZE (512)
 
-BOOST_AUTO_TEST_CASE( OutCircularPointerFloat_sin1k_test )
+TEST(OutCircularPointerFloat, sin1k_test)
 {
   std::array<float, PROCESSSIZE*200> data;
   for(gsl::index i = 0; i < PROCESSSIZE*200; ++i)
@@ -47,16 +45,16 @@ BOOST_AUTO_TEST_CASE( OutCircularPointerFloat_sin1k_test )
     }
     for(gsl::index j = 0; j < max_zero; ++j)
     {
-      BOOST_REQUIRE_EQUAL(outdata[j], 0);
+      ASSERT_EQ(outdata[j], 0);
     }
     for(gsl::index j = max_zero; j < outdata.size(); ++j)
     {
-      BOOST_REQUIRE_EQUAL(outdata[j], data[j + offset]);
+      ASSERT_EQ(outdata[j], data[j + offset]);
     }
   }
 }
 
-BOOST_AUTO_TEST_CASE( OutCircularPointerFloat_sin1k_full_setup_test )
+TEST(OutCircularPointerFloat, sin1k_full_setup_test)
 {
   std::array<float, PROCESSSIZE*200> data;
   for(gsl::index i = 0; i < PROCESSSIZE*200; ++i)
@@ -82,7 +80,7 @@ BOOST_AUTO_TEST_CASE( OutCircularPointerFloat_sin1k_full_setup_test )
     
     for(gsl::index j = 0; j < outdata.size(); ++j)
     {
-      BOOST_REQUIRE_EQUAL(outdata[j], 0);
+      ASSERT_EQ(outdata[j], 0);
     }
   }
 }

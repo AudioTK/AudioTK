@@ -8,77 +8,75 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024*128;
 constexpr gsl::index SAMPLINGRATE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackCoefficients_low_test )
+TEST(IIRFilter, ToneStackCoefficients_low_test)
 {
   ATK::IIRFilter<ATK::ToneStackCoefficients<double> > filter(ATK::ToneStackCoefficients<double>::buildBassmanStack());
   filter.set_input_sampling_rate(SAMPLINGRATE);
   filter.set_output_sampling_rate(SAMPLINGRATE);
   filter.set_low(0.5);
-  BOOST_CHECK_EQUAL(filter.get_low(), 0.5);
+  ASSERT_EQ(filter.get_low(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackCoefficients_throw_low_1_test )
+TEST(IIRFilter, ToneStackCoefficients_throw_low_1_test)
 {
   ATK::IIRFilter<ATK::ToneStackCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_low(1.001), std::out_of_range);
+  ASSERT_THROW(filter.set_low(1.001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackCoefficients_throw_low_0_test )
+TEST(IIRFilter, ToneStackCoefficients_throw_low_0_test)
 {
   ATK::IIRFilter<ATK::ToneStackCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_low(-0.001), std::out_of_range);
+  ASSERT_THROW(filter.set_low(-0.001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackCoefficients_middle_test )
+TEST(IIRFilter, ToneStackCoefficients_middle_test)
 {
   ATK::IIRFilter<ATK::ToneStackCoefficients<double> > filter(ATK::ToneStackCoefficients<double>::buildBassmanStack());
   filter.set_input_sampling_rate(SAMPLINGRATE);
   filter.set_output_sampling_rate(SAMPLINGRATE);
   filter.set_middle(0.5);
-  BOOST_CHECK_EQUAL(filter.get_middle(), 0.5);
+  ASSERT_EQ(filter.get_middle(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackCoefficients_throw_middle_1_test )
+TEST(IIRFilter, ToneStackCoefficients_throw_middle_1_test)
 {
   ATK::IIRFilter<ATK::ToneStackCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_middle(1.001), std::out_of_range);
+  ASSERT_THROW(filter.set_middle(1.001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackCoefficients_throw_middle_0_test )
+TEST(IIRFilter, ToneStackCoefficients_throw_middle_0_test)
 {
   ATK::IIRFilter<ATK::ToneStackCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_middle(-0.001), std::out_of_range);
+  ASSERT_THROW(filter.set_middle(-0.001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackCoefficients_high_test )
+TEST(IIRFilter, ToneStackCoefficients_high_test)
 {
   ATK::IIRFilter<ATK::ToneStackCoefficients<double> > filter(ATK::ToneStackCoefficients<double>::buildBassmanStack());
   filter.set_input_sampling_rate(SAMPLINGRATE);
   filter.set_output_sampling_rate(SAMPLINGRATE);
   filter.set_high(0.5);
-  BOOST_CHECK_EQUAL(filter.get_high(), 0.5);
+  ASSERT_EQ(filter.get_high(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackCoefficients_throw_high_1_test )
+TEST(IIRFilter, ToneStackCoefficients_throw_high_1_test)
 {
   ATK::IIRFilter<ATK::ToneStackCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_high(1.001), std::out_of_range);
+  ASSERT_THROW(filter.set_high(1.001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackCoefficients_throw_high_0_test )
+TEST(IIRFilter, ToneStackCoefficients_throw_high_0_test)
 {
   ATK::IIRFilter<ATK::ToneStackCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_high(-0.001), std::out_of_range);
+  ASSERT_THROW(filter.set_high(-0.001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low0_100_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_low0_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -106,7 +104,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low0_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low0_1k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_low0_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -134,7 +132,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low0_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low0_10k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_low0_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -162,7 +160,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low0_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low1_100_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_low1_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -190,7 +188,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low1_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low1_1k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_low1_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -218,7 +216,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low1_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low1_10k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_low1_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -246,7 +244,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low1_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low05_100_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_low05_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -274,7 +272,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low05_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low05_1k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_low05_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -302,7 +300,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low05_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low05_10k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_low05_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -330,7 +328,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_low05_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle0_100_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_middle0_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -358,7 +356,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle0_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle0_1k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_middle0_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -386,7 +384,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle0_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle0_10k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_middle0_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -414,7 +412,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle0_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle1_100_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_middle1_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -442,7 +440,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle1_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle1_1k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_middle1_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -470,7 +468,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle1_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle1_10k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_middle1_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -498,7 +496,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle1_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle05_100_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_middle05_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -526,7 +524,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle05_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle05_1k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_middle05_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -554,7 +552,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle05_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle05_10k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_middle05_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -582,7 +580,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_middle05_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high0_100_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_high0_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -610,7 +608,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high0_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high0_1k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_high0_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -638,7 +636,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high0_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high0_10k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_high0_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -666,7 +664,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high0_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high1_100_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_high1_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -694,7 +692,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high1_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high1_1k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_high1_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -722,7 +720,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high1_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high1_10k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_high1_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -750,7 +748,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high1_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high05_100_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_high05_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -778,7 +776,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high05_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high05_1k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_high05_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -806,7 +804,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high05_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high05_10k_test )
+TEST(IIRFilter, ToneStackFilter_Bassman_high05_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -834,7 +832,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_Bassman_high05_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_ToneStackFilter_JCM800_low0_100_test )
+TEST(IIRFilter, ToneStackFilter_JCM800_low0_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);

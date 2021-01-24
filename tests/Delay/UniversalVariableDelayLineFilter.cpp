@@ -10,15 +10,13 @@
 
 #include <ATK/Tools/CachedSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 #define PROCESSSIZE (1024)
 
-BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_line16000_delaysinus_test )
+TEST(UniversalVariableDelayLineFilter, sinus_line16000_delaysinus_test)
 {
   std::vector<double> data(PROCESSSIZE);
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -58,11 +56,11 @@ BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_line16000_delaysinu
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(ref[i], outdata[i], 0.01);
+    ASSERT_NEAR(ref[i], outdata[i], 0.01);
   }
 }
 
-BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_cachedgenerator_test )
+TEST(UniversalVariableDelayLineFilter, sinus_cachedgenerator_test)
 {
   std::vector<double> data(PROCESSSIZE);
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -94,42 +92,42 @@ BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_cachedgenerator_tes
   output.process(PROCESSSIZE - 1 - 49 -51);
 }
 
-BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_central_delay_test )
+TEST(UniversalVariableDelayLineFilter, sinus_central_delay_test)
 {
   ATK::UniversalVariableDelayLineFilter<double> filter(128);
   filter.set_central_delay(10);
-  BOOST_CHECK_EQUAL(filter.get_central_delay(), 10);
+  ASSERT_EQ(filter.get_central_delay(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_blend_test )
+TEST(UniversalVariableDelayLineFilter, sinus_blend_test)
 {
   ATK::UniversalVariableDelayLineFilter<double> filter(128);
   filter.set_blend(0.5);
-  BOOST_CHECK_EQUAL(filter.get_blend(), 0.5);
+  ASSERT_EQ(filter.get_blend(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_feedforward_test )
+TEST(UniversalVariableDelayLineFilter, sinus_feedforward_test)
 {
   ATK::UniversalVariableDelayLineFilter<double> filter(128);
   filter.set_feedforward(0.5);
-  BOOST_CHECK_EQUAL(filter.get_feedforward(), 0.5);
+  ASSERT_EQ(filter.get_feedforward(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_feedback_test )
+TEST(UniversalVariableDelayLineFilter, sinus_feedback_test)
 {
   ATK::UniversalVariableDelayLineFilter<double> filter(128);
   filter.set_feedback(0.5);
-  BOOST_CHECK_EQUAL(filter.get_feedback(), 0.5);
+  ASSERT_EQ(filter.get_feedback(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_feedback_range_test )
+TEST(UniversalVariableDelayLineFilter, sinus_feedback_range_test)
 {
   ATK::UniversalVariableDelayLineFilter<double> filter(128);
-  BOOST_CHECK_THROW(filter.set_feedback(1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_feedback(1), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( UniversalVariableDelayLineFilter_sinus_feedback_range2_test )
+TEST(UniversalVariableDelayLineFilter, sinus_feedback_range2_test)
 {
   ATK::UniversalVariableDelayLineFilter<double> filter(128);
-  BOOST_CHECK_THROW(filter.set_feedback(-1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_feedback(-1), ATK::RuntimeError);
 }

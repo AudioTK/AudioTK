@@ -8,28 +8,26 @@
 #include <ATK/Core/OutPointerFilter.h>
 #include <ATK/Core/Utilities.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 64;
 
-BOOST_AUTO_TEST_CASE( GainSwellFilter_softness_test )
+TEST(GainSwellFilter, softness_test)
 {
   ATK::GainFilter<ATK::GainSwellFilter<double>> filter;
   filter.set_softness(0.5);
-  BOOST_CHECK_EQUAL(filter.get_softness(), 0.5);
+  ASSERT_EQ(filter.get_softness(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( GainSwellFilter_softness_range_test )
+TEST(GainSwellFilter, softness_range_test)
 {
   ATK::GainFilter<ATK::GainSwellFilter<double>> filter;
-  BOOST_CHECK_THROW(filter.set_softness(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_softness(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( GainSwellFilter_const_1_test )
+TEST(GainSwellFilter, const_1_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -55,11 +53,11 @@ BOOST_AUTO_TEST_CASE( GainSwellFilter_const_1_test )
   
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(1, outdata[i], 0.1);
+    ASSERT_NEAR(1, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainSwellFilter_const_0_test )
+TEST(GainSwellFilter, const_0_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -84,11 +82,13 @@ BOOST_AUTO_TEST_CASE( GainSwellFilter_const_0_test )
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(1, outdata[i], 0.1); // if input is zero, we still need a gain of 1 to have a progression of 1 for values < threshold
+    ASSERT_NEAR(1,
+        outdata[i],
+        0.1); // if input is zero, we still need a gain of 1 to have a progression of 1 for values < threshold
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainSwellFilter_const_1_threshold_05_ratio_2_test )
+TEST(GainSwellFilter, const_1_threshold_05_ratio_2_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -116,11 +116,11 @@ BOOST_AUTO_TEST_CASE( GainSwellFilter_const_1_threshold_05_ratio_2_test )
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.490775019, outdata[i], 0.1);
+    ASSERT_NEAR(0.490775019, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainSwellFilter_const_1_threshold_05_ratio_4_test )
+TEST(GainSwellFilter, const_1_threshold_05_ratio_4_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -148,6 +148,6 @@ BOOST_AUTO_TEST_CASE( GainSwellFilter_const_1_threshold_05_ratio_4_test )
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.240860119, outdata[i], 0.1);
+    ASSERT_NEAR(0.240860119, outdata[i], 0.1);
   }
 }

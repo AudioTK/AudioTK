@@ -5,9 +5,7 @@
 #include "TriangleCheckerFilter.h"
 #include <ATK/Core/TypeTraits.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <cmath>
 #include <complex>
@@ -22,7 +20,7 @@ namespace
   {
     if constexpr(std::is_integral<DataType>::value)
     {
-      BOOST_REQUIRE_EQUAL(v1, v2);
+      ASSERT_EQ(v1, v2);
     }
     else
     {
@@ -30,13 +28,13 @@ namespace
       {
         auto absv1 = std::abs(v1);
         auto absv2 = std::abs(v2);
-        BOOST_REQUIRE_SMALL(absv1, typename ATK::TypeTraits<DataType>::Scalar(1e-5));
-        BOOST_REQUIRE_SMALL(absv2, typename ATK::TypeTraits<DataType>::Scalar(1e-5));
+        ASSERT_NEAR(absv1, 0, typename ATK::TypeTraits<DataType>::Scalar(1e-5));
+        ASSERT_NEAR(absv2, 0, typename ATK::TypeTraits<DataType>::Scalar(1e-5));
       }
       else
       {
         auto diff = std::abs((v1 - v2) / (v1 + v2));
-        BOOST_REQUIRE_SMALL(diff, typename ATK::TypeTraits<DataType>::Scalar(1e-5));
+        ASSERT_NEAR(diff, 0, typename ATK::TypeTraits<DataType>::Scalar(1e-5));
       }
     }
   }

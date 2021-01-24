@@ -8,159 +8,157 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_frequency_test )
+TEST(IIRFilter, Chebyshev2LowPassCoefficients_frequency_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2LowPassCoefficients<double> > filter;
   filter.set_cut_frequency(20);
-  BOOST_CHECK_EQUAL(filter.get_cut_frequency(), 20);
+  ASSERT_EQ(filter.get_cut_frequency(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_frequency_range_test )
+TEST(IIRFilter, Chebyshev2LowPassCoefficients_frequency_range_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2LowPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_cut_frequency(0), std::out_of_range);
+  ASSERT_THROW(filter.set_cut_frequency(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_order_test )
+TEST(IIRFilter, Chebyshev2LowPassCoefficients_order_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2LowPassCoefficients<double> > filter;
   filter.set_order(3);
-  BOOST_CHECK_EQUAL(filter.get_order(), 3);
+  ASSERT_EQ(filter.get_order(), 3);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_ripple_test )
+TEST(IIRFilter, Chebyshev2LowPassCoefficients_ripple_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2LowPassCoefficients<double> > filter;
   filter.set_ripple(20);
-  BOOST_CHECK_EQUAL(filter.get_ripple(), 20);
+  ASSERT_EQ(filter.get_ripple(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_order_range_test )
+TEST(IIRFilter, Chebyshev2LowPassCoefficients_order_range_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2LowPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_order(0), std::out_of_range);
+  ASSERT_THROW(filter.set_order(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_frequency_test )
+TEST(IIRFilter, Chebyshev2HighPassCoefficients_frequency_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2HighPassCoefficients<double> > filter;
   filter.set_cut_frequency(20);
-  BOOST_CHECK_EQUAL(filter.get_cut_frequency(), 20);
+  ASSERT_EQ(filter.get_cut_frequency(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_frequency_range_test )
+TEST(IIRFilter, Chebyshev2HighPassCoefficients_frequency_range_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2HighPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_cut_frequency(0), std::out_of_range);
+  ASSERT_THROW(filter.set_cut_frequency(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_ripple_test )
+TEST(IIRFilter, Chebyshev2HighPassCoefficients_ripple_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2HighPassCoefficients<double> > filter;
   filter.set_ripple(20);
-  BOOST_CHECK_EQUAL(filter.get_ripple(), 20);
+  ASSERT_EQ(filter.get_ripple(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_order_test )
+TEST(IIRFilter, Chebyshev2HighPassCoefficients_order_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2HighPassCoefficients<double> > filter;
   filter.set_order(3);
-  BOOST_CHECK_EQUAL(filter.get_order(), 3);
+  ASSERT_EQ(filter.get_order(), 3);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_order_range_test )
+TEST(IIRFilter, Chebyshev2HighPassCoefficients_order_range_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2HighPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_order(0), std::out_of_range);
+  ASSERT_THROW(filter.set_order(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_frequency_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_frequency_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandPassCoefficients<double> > filter;
   filter.set_cut_frequencies(20, 100);
-  BOOST_CHECK_EQUAL(filter.get_cut_frequencies().first, 20);
-  BOOST_CHECK_EQUAL(filter.get_cut_frequencies().second, 100);
+  ASSERT_EQ(filter.get_cut_frequencies().first, 20);
+  ASSERT_EQ(filter.get_cut_frequencies().second, 100);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_frequency_range_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_frequency_range_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_cut_frequencies(0, 100), std::out_of_range);
+  ASSERT_THROW(filter.set_cut_frequencies(0, 100), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_frequency_range2_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_frequency_range2_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_cut_frequencies(100, 0), std::out_of_range);
+  ASSERT_THROW(filter.set_cut_frequencies(100, 0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_ripple_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_ripple_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandPassCoefficients<double> > filter;
   filter.set_ripple(20);
-  BOOST_CHECK_EQUAL(filter.get_ripple(), 20);
+  ASSERT_EQ(filter.get_ripple(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_order_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_order_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandPassCoefficients<double> > filter;
   filter.set_order(3);
-  BOOST_CHECK_EQUAL(filter.get_order(), 3);
+  ASSERT_EQ(filter.get_order(), 3);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_order_range_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_order_range_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_order(0), std::out_of_range);
+  ASSERT_THROW(filter.set_order(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_frequency_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_frequency_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandStopCoefficients<double> > filter;
   filter.set_cut_frequencies(20, 100);
-  BOOST_CHECK_EQUAL(filter.get_cut_frequencies().first, 20);
-  BOOST_CHECK_EQUAL(filter.get_cut_frequencies().second, 100);
+  ASSERT_EQ(filter.get_cut_frequencies().first, 20);
+  ASSERT_EQ(filter.get_cut_frequencies().second, 100);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_frequency_range_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_frequency_range_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandStopCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_cut_frequencies(0, 100), std::out_of_range);
+  ASSERT_THROW(filter.set_cut_frequencies(0, 100), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_frequency_range2_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_frequency_range2_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandStopCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_cut_frequencies(100, 0), std::out_of_range);
+  ASSERT_THROW(filter.set_cut_frequencies(100, 0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_ripple_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_ripple_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandStopCoefficients<double> > filter;
   filter.set_ripple(20);
-  BOOST_CHECK_EQUAL(filter.get_ripple(), 20);
+  ASSERT_EQ(filter.get_ripple(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_order_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_order_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandStopCoefficients<double> > filter;
   filter.set_order(3);
-  BOOST_CHECK_EQUAL(filter.get_order(), 3);
+  ASSERT_EQ(filter.get_order(), 3);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_order_range_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_order_range_test)
 {
   ATK::IIRFilter<ATK::Chebyshev2BandStopCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_order(0), std::out_of_range);
+  ASSERT_THROW(filter.set_order(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_1k_test )
+TEST(IIRFilter, Chebyshev2LowPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -190,7 +188,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_100_test )
+TEST(IIRFilter, Chebyshev2LowPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -220,7 +218,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_2k_test )
+TEST(IIRFilter, Chebyshev2LowPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -250,7 +248,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_200_test )
+TEST(IIRFilter, Chebyshev2LowPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -280,7 +278,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2LowPassCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_1k_test )
+TEST(IIRFilter, Chebyshev2HighPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -310,7 +308,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_100_test )
+TEST(IIRFilter, Chebyshev2HighPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -340,7 +338,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_2k_test )
+TEST(IIRFilter, Chebyshev2HighPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -370,7 +368,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_200_test )
+TEST(IIRFilter, Chebyshev2HighPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -400,7 +398,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2HighPassCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_1k_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -430,7 +428,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_100_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -460,7 +458,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_2k_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -490,7 +488,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_200_test )
+TEST(IIRFilter, Chebyshev2BandPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -520,7 +518,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandPassCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_1k_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -550,7 +548,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_100_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -580,7 +578,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_2k_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -610,7 +608,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_Chebyshev2BandStopCoefficients_200_test )
+TEST(IIRFilter, Chebyshev2BandStopCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);

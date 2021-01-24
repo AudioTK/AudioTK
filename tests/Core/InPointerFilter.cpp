@@ -14,13 +14,11 @@
 
 #include <ATK/Tools/SumFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #define PROCESSSIZE (100)
 
-BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k_test )
+TEST(InPointerFloat, sin1k_test)
 {
   std::array<float, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -51,7 +49,7 @@ BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k_test )
   checker.process(PROCESSSIZE - 2);
 }
 
-BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k_test_set_pointer )
+TEST(InPointerFloat, sin1k_test_set_pointer)
 {
   std::array<float, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -84,7 +82,7 @@ BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k_test_set_pointer )
   checker.process(PROCESSSIZE - 2);
 }
 
-BOOST_AUTO_TEST_CASE( InPointerDouble_sin1k_test )
+TEST(InPointerDouble, sin1k_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -115,7 +113,7 @@ BOOST_AUTO_TEST_CASE( InPointerDouble_sin1k_test )
   checker.process(PROCESSSIZE - 2);
 }
 
-BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k2k_interleaved_test )
+TEST(InPointerFloat, sin1k2k_interleaved_test)
 {
   std::array<float, 2*PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -160,7 +158,7 @@ BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k2k_interleaved_test )
   checker.process(PROCESSSIZE - 2);
 }
 
-BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k2k_noninterleaved_test )
+TEST(InPointerFloat, sin1k2k_noninterleaved_test)
 {
   std::array<float, 2*PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -208,7 +206,7 @@ BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k2k_noninterleaved_test )
   checker.process(PROCESSSIZE - 2);
 }
 
-BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k_overflow_interleaved_test )
+TEST(InPointerFloat, sin1k_overflow_interleaved_test)
 {
   std::array<float, 2*PROCESSSIZE> data;
   std::array<float, 2*PROCESSSIZE> output;
@@ -230,10 +228,10 @@ BOOST_AUTO_TEST_CASE( InPointerFloat_sin1k_overflow_interleaved_test )
   
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_CHECK_EQUAL(data[2*i], output[i]);
+    ASSERT_EQ(data[2 * i], output[i]);
   }
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_CHECK_EQUAL(0, output[i + PROCESSSIZE]);
+    ASSERT_EQ(0, output[i + PROCESSSIZE]);
   }
 }

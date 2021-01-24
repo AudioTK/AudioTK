@@ -15,60 +15,58 @@
 
 #include <Eigen/Core>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 1024 * 64;
 
-BOOST_AUTO_TEST_CASE(RLSFilter_destructor_test)
+TEST(RLSFilter, destructor_test)
 {
-  BOOST_CHECK_NO_THROW(std::make_unique<ATK::RLSFilter<double>>(100));
+  ASSERT_NO_THROW(std::make_unique<ATK::RLSFilter<double>>(100));
 }
 
-BOOST_AUTO_TEST_CASE(RLSFilter_size_negative_test)
+TEST(RLSFilter, size_negative_test)
 {
   ATK::RLSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_size(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_size(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(RLSFilter_size_set_test)
+TEST(RLSFilter, size_set_test)
 {
   ATK::RLSFilter<double> filter(100);
   filter.set_size(10);
-  BOOST_CHECK_EQUAL(filter.get_size(), 10);
+  ASSERT_EQ(filter.get_size(), 10);
 }
 
-BOOST_AUTO_TEST_CASE(RLSFilter_memory_negative_test)
+TEST(RLSFilter, memory_negative_test)
 {
   ATK::RLSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_memory(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_memory(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(RLSFilter_memory_test)
+TEST(RLSFilter, memory_test)
 {
   ATK::RLSFilter<double> filter(100);
   filter.set_memory(0.5);
-  BOOST_CHECK_EQUAL(filter.get_memory(), 0.5);
+  ASSERT_EQ(filter.get_memory(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( RLSFilter_memory_positive1_test )
+TEST(RLSFilter, memory_positive1_test)
 {
   ATK::RLSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_memory(1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_memory(1), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(RLSFilter_learning_set_test)
+TEST(RLSFilter, learning_set_test)
 {
   ATK::RLSFilter<double> filter(100);
-  BOOST_CHECK_EQUAL(filter.get_learning(), true);
+  ASSERT_EQ(filter.get_learning(), true);
   filter.set_learning(false);
-  BOOST_CHECK_EQUAL(filter.get_learning(), false);
+  ASSERT_EQ(filter.get_learning(), false);
 }
 
-BOOST_AUTO_TEST_CASE( RLSFilter_memory_99_test )
+TEST(RLSFilter, memory_99_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE( RLSFilter_memory_99_test )
   
   checker.process(PROCESSSIZE);
 
-  BOOST_CHECK_NE(filter.get_w(), nullptr);
+  ASSERT_NE(filter.get_w(), nullptr);
 }
 
-BOOST_AUTO_TEST_CASE( RLSFilter_constant_test )
+TEST(RLSFilter, constant_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -133,7 +131,7 @@ BOOST_AUTO_TEST_CASE( RLSFilter_constant_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( RLSFilter_learning_test )
+TEST(RLSFilter, learning_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -168,11 +166,11 @@ BOOST_AUTO_TEST_CASE( RLSFilter_learning_test )
   
   for(std::int64_t i = 100; i < PROCESSSIZE; ++i) // let the RLS filter start learning first
   {
-    BOOST_REQUIRE_SMALL(std::abs(outdata[i]), 0.1);
+    ASSERT_NEAR(std::abs(outdata[i]), 0, 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE(RLSFilter_learning_training_test)
+TEST(RLSFilter, learning_training_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -209,7 +207,7 @@ BOOST_AUTO_TEST_CASE(RLSFilter_learning_training_test)
 
   for (std::int64_t i = 100; i < PROCESSSIZE; ++i) // let the RLS filter start learning first
   {
-    BOOST_REQUIRE_SMALL(std::abs(outdata[i]), 0.1);
+    ASSERT_NEAR(std::abs(outdata[i]), 0, 0.1);
   }
 
 }

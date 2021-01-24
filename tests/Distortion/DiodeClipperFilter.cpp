@@ -22,13 +22,11 @@
 #include <ATK/Tools/SumFilter.h>
 #include <ATK/Tools/VolumeFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
-#define PROCESSSIZE (1000)
+constexpr gsl::index PROCESSSIZE = 1000;
 
-BOOST_AUTO_TEST_CASE( DiodeClipperFilter_const_sin1k )
+TEST(DiodeClipperFilter, const_sin1k)
 {
   std::array<double, PROCESSSIZE> data;
   {

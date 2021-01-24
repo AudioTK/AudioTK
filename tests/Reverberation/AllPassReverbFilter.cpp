@@ -8,50 +8,48 @@
 #include <ATK/Core/OutPointerFilter.h>
 #include <ATK/Core/Utilities.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_delay_test )
+TEST(AllPassReverbFilter, sinus_delay_test)
 {
   ATK::AllPassReverbFilter<double> filter(128);
   filter.set_delay(10);
-  BOOST_CHECK_EQUAL(filter.get_delay(), 10);
+  ASSERT_EQ(filter.get_delay(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_delay_range_test )
+TEST(AllPassReverbFilter, sinus_delay_range_test)
 {
   ATK::AllPassReverbFilter<double> filter(128);
-  BOOST_CHECK_THROW(filter.set_delay(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_delay(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_delay_range2_test )
+TEST(AllPassReverbFilter, sinus_delay_range2_test)
 {
   ATK::AllPassReverbFilter<double> filter(128);
-  BOOST_CHECK_THROW(filter.set_delay(128), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_delay(128), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_feedback_test )
+TEST(AllPassReverbFilter, sinus_feedback_test)
 {
   ATK::AllPassReverbFilter<double> filter(128);
   filter.set_feedback(0.5);
-  BOOST_CHECK_EQUAL(filter.get_feedback(), 0.5);
+  ASSERT_EQ(filter.get_feedback(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_feedback_range_test )
+TEST(AllPassReverbFilter, sinus_feedback_range_test)
 {
   ATK::AllPassReverbFilter<double> filter(128);
-  BOOST_CHECK_THROW(filter.set_feedback(1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_feedback(1), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_feedback_range2_test )
+TEST(AllPassReverbFilter, sinus_feedback_range2_test)
 {
   ATK::AllPassReverbFilter<double> filter(128);
-  BOOST_CHECK_THROW(filter.set_feedback(-1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_feedback(-1), ATK::RuntimeError);
 }
 
 namespace
@@ -60,17 +58,17 @@ namespace
   {
     if(std::abs(v1) < 1e-5 || std::abs(v2) < 1e-5)
     {
-      BOOST_REQUIRE_SMALL(v1, static_cast<double>(1e-5));
-      BOOST_REQUIRE_SMALL(v2, static_cast<double>(1e-5));
+      ASSERT_NEAR(v1, 0, static_cast<double>(1e-5));
+      ASSERT_NEAR(v2, 0, static_cast<double>(1e-5));
     }
     else
     {
-      BOOST_REQUIRE_CLOSE(v1, v2, 0.001);
+      ASSERT_NEAR(v1, v2, 0.001);
     }
   }
 }
 
-BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_line100_delay50_test )
+TEST(AllPassReverbFilter, sinus_line100_delay50_test)
 {
   std::vector<double> data(PROCESSSIZE);
   for(int64_t i = 0; i < PROCESSSIZE; ++i)
@@ -108,7 +106,7 @@ BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_line100_delay50_test )
   }
 }
 
-BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_line25_delay24_feedback_0_5_test )
+TEST(AllPassReverbFilter, sinus_line25_delay24_feedback_0_5_test)
 {
   std::vector<double> data(PROCESSSIZE);
   for(int64_t i = 0; i < PROCESSSIZE; ++i)
@@ -151,7 +149,7 @@ BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_line25_delay24_feedback_0_5_test
   }
 }
 
-BOOST_AUTO_TEST_CASE( AllPassReverbFilter_sinus_line25_delay24_feedback_1_test )
+TEST(AllPassReverbFilter, sinus_line25_delay24_feedback_1_test)
 {
   std::vector<double> data(PROCESSSIZE);
   for(int64_t i = 0; i < PROCESSSIZE; ++i)

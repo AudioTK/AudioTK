@@ -8,108 +8,106 @@
 #include <ATK/Core/OutPointerFilter.h>
 #include <ATK/Core/Utilities.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_attack_test )
+TEST(AttackReleaseHysteresis, attack_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
   filter.set_attack(0.5);
-  BOOST_CHECK_EQUAL(filter.get_attack(), 0.5);
+  ASSERT_EQ(filter.get_attack(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_attack_range_test )
+TEST(AttackReleaseHysteresis, attack_range_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_attack(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_attack(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_attack_range2_test )
+TEST(AttackReleaseHysteresis, attack_range2_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_attack(1.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_attack(1.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_release_test )
+TEST(AttackReleaseHysteresis, release_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
   filter.set_release(0.5);
-  BOOST_CHECK_EQUAL(filter.get_release(), 0.5);
+  ASSERT_EQ(filter.get_release(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( AttackRelease_Hysteresisrelease_range_test )
+TEST(AttackReleaseHysteresis, release_range_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_release(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_release(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_release_range2_test )
+TEST(AttackReleaseHysteresis, release_range2_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_release(1.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_release(1.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_attack_hysteresis_test )
+TEST(AttackReleaseHysteresis, attack_hysteresis_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
   filter.set_release_hysteresis(0.1);
   filter.set_attack_hysteresis(0.5);
-  BOOST_CHECK_EQUAL(filter.get_attack_hysteresis(), 0.5);
+  ASSERT_EQ(filter.get_attack_hysteresis(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_attack_hysteresis_db_test )
+TEST(AttackReleaseHysteresis, attack_hysteresis_db_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
   filter.set_release_hysteresis(0.001);
   filter.set_attack_hysteresis_db(-20);
-  BOOST_CHECK_CLOSE(filter.get_attack_hysteresis(), 0.1, 0.1);
+  ASSERT_NEAR(filter.get_attack_hysteresis(), 0.1, 0.1);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_attack_hysteresis_range_test )
+TEST(AttackReleaseHysteresis, attack_hysteresis_range_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
   filter.set_release_hysteresis(.5);
-  BOOST_CHECK_THROW(filter.set_attack_hysteresis(.5-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_attack_hysteresis(.5 - 0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_attack_hysteresis_range2_test )
+TEST(AttackReleaseHysteresis, attack_hysteresis_range2_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_attack_hysteresis(1.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_attack_hysteresis(1.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_hysteresis_release_test )
+TEST(AttackReleaseHysteresis, hysteresis_release_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
   filter.set_release_hysteresis(0.5);
-  BOOST_CHECK_EQUAL(filter.get_release_hysteresis(), 0.5);
+  ASSERT_EQ(filter.get_release_hysteresis(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_release_hysteresis_db_test )
+TEST(AttackReleaseHysteresis, release_hysteresis_db_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
   filter.set_release_hysteresis_db(-20);
-  BOOST_CHECK_CLOSE(filter.get_release_hysteresis(), 0.1, 0.1);
+  ASSERT_NEAR(filter.get_release_hysteresis(), 0.1, 0.1);
 }
 
-BOOST_AUTO_TEST_CASE( AttackRelease_Hysteresisrelease_hysteresis_range_test )
+TEST(AttackReleaseHysteresis, release_hysteresis_range_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_release_hysteresis(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_release_hysteresis(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresis_release_hysteresis_range2_test )
+TEST(AttackReleaseHysteresis, release_hysteresis_range2_test)
 {
   ATK::AttackReleaseHysteresisFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_release_hysteresis(1.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_release_hysteresis(1.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresisFilter_triangle_test )
+TEST(AttackReleaseHysteresisFilter, triangle_test)
 {
   std::vector<double> data(PROCESSSIZE);
   for(gsl::index i = 0; i < PROCESSSIZE/2; ++i)
@@ -140,17 +138,17 @@ BOOST_AUTO_TEST_CASE( AttackReleaseHysteresisFilter_triangle_test )
   
   for(gsl::index i = 0; i < PROCESSSIZE/2; ++i)
   {
-    BOOST_REQUIRE_GE(data[i], outdata[i]);
+    ASSERT_GE(data[i], outdata[i]);
   }
   for(gsl::index i = 0; i < PROCESSSIZE/2; ++i)
   {
-    BOOST_REQUIRE_GE(outdata[PROCESSSIZE/2+i], outdata[PROCESSSIZE/2+i-1]);
+    ASSERT_GE(outdata[PROCESSSIZE / 2 + i], outdata[PROCESSSIZE / 2 + i - 1]);
   }
 }
 
 #define CUSTOMPROCESSSIZE 7
 
-BOOST_AUTO_TEST_CASE( AttackReleaseHysteresisFilter_release_custom_test )
+TEST(AttackReleaseHysteresisFilter, release_custom_test)
 {
   double data[] = {0., 1., .5, .4, .3, .2, .1};
   double target[] = {0., 1., 1., .46, .46, .226, .1126};
@@ -175,6 +173,6 @@ BOOST_AUTO_TEST_CASE( AttackReleaseHysteresisFilter_release_custom_test )
   
   for(gsl::index i = 0; i < CUSTOMPROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(target[i], outdata[i], .001);
+    ASSERT_NEAR(target[i], outdata[i], .001);
   }
 }

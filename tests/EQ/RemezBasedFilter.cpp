@@ -8,13 +8,11 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #define PROCESSSIZE (1024*64)
 
-BOOST_AUTO_TEST_CASE(FIRFilter_Remez_bad_template_test)
+TEST(FIRFilter, Remez_bad_template_test)
 {
   ATK::FIRFilter<ATK::RemezBasedCoefficients<double> > filter;
   filter.set_input_sampling_rate(1024 * 64);
@@ -24,10 +22,10 @@ BOOST_AUTO_TEST_CASE(FIRFilter_Remez_bad_template_test)
   target.push_back(std::make_pair(std::make_pair(0, 0.4), std::make_pair(1, 1)));
   target.push_back(std::make_pair(std::make_pair(0, 1), std::make_pair(0, 2)));
 
-  BOOST_CHECK_THROW(filter.set_template(target), std::runtime_error);
+  ASSERT_THROW(filter.set_template(target), std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE(FIRFilter_Remez_even_order_test)
+TEST(FIRFilter, Remez_even_order_test)
 {
   ATK::FIRFilter<ATK::RemezBasedCoefficients<double> > filter;
   filter.set_input_sampling_rate(1024 * 64);
@@ -37,10 +35,10 @@ BOOST_AUTO_TEST_CASE(FIRFilter_Remez_even_order_test)
   target.push_back(std::make_pair(std::make_pair(0.5, 1), std::make_pair(0, 2)));
   filter.set_template(target);
 
-  BOOST_CHECK_THROW(filter.set_order(13), std::runtime_error);
+  ASSERT_THROW(filter.set_order(13), std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE( FIRFilter_Remez_LowPassCoefficients_16k_test )
+TEST(FIRFilter, Remez_LowPassCoefficients_16k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);

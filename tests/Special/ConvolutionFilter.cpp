@@ -14,9 +14,7 @@
 #include <ATK/EQ/FIRFilter.h>
 #include <ATK/Special/ConvolutionFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #define PROCESSSIZE (2048)
 
@@ -24,7 +22,7 @@
 // Split convolution: 7.4s
 // fast FFT: 1s
 
-BOOST_AUTO_TEST_CASE( ConvolutionFilter_ramp_test )
+TEST(ConvolutionFilter, ramp_test)
 {
   const int impulse_size = 10000;
   const int split_size = 128;

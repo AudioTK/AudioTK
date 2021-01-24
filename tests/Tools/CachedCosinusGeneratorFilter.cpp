@@ -10,41 +10,39 @@
 #include <ATK/Tools/SumFilter.h>
 #include <ATK/Tools/CachedCosinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( CachedCosinusGeneratorFilter_volume_test )
+TEST(CachedCosinusGeneratorFilter, volume_test)
 {
   ATK::CachedCosinusGeneratorFilter<double> filter(10000, 10);
   filter.set_volume(10);
-  BOOST_CHECK_EQUAL(filter.get_volume(), 10);
+  ASSERT_EQ(filter.get_volume(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( CachedCosinusGeneratorFilter_offset_test )
+TEST(CachedCosinusGeneratorFilter, offset_test)
 {
   ATK::CachedCosinusGeneratorFilter<double> filter(10000, 10);
   filter.set_offset(10);
-  BOOST_CHECK_EQUAL(filter.get_offset(), 10);
+  ASSERT_EQ(filter.get_offset(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( CachedCosinusGeneratorFilter_frequency_test )
+TEST(CachedCosinusGeneratorFilter, frequency_test)
 {
   ATK::CachedCosinusGeneratorFilter<double> filter(10000, 10);
   filter.set_frequency(1000, 1);
-  BOOST_CHECK_EQUAL(filter.get_frequency().first, 1000);
-  BOOST_CHECK_EQUAL(filter.get_frequency().second, 1);
+  ASSERT_EQ(filter.get_frequency().first, 1000);
+  ASSERT_EQ(filter.get_frequency().second, 1);
 }
 
-BOOST_AUTO_TEST_CASE( CachedCosinusGeneratorFilter_frequency_range_test )
+TEST(CachedCosinusGeneratorFilter, frequency_range_test)
 {
   ATK::CachedCosinusGeneratorFilter<double> filter(10000, 10);
-  BOOST_CHECK_THROW(filter.set_frequency(0), std::out_of_range);
+  ASSERT_THROW(filter.set_frequency(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( CachedCosinusGeneratorFilter_1k_test )
+TEST(CachedCosinusGeneratorFilter, 1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_input_sampling_rate(48000);

@@ -27,13 +27,11 @@
 #include <ATK/Tools/SumFilter.h>
 #include <ATK/Tools/VolumeFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #define PROCESSSIZE (1200)
 
-BOOST_AUTO_TEST_CASE( TriodeFilter_Koren_0_const )
+TEST(TriodeFilter, Koren_0_const)
 {
   std::array<double, PROCESSSIZE> data;
   for(int64_t i = 0; i < PROCESSSIZE; ++i)
@@ -59,11 +57,11 @@ BOOST_AUTO_TEST_CASE( TriodeFilter_Koren_0_const )
   
   for(int64_t i = 0; i < 50; ++i)
   {
-    BOOST_REQUIRE_SMALL(outdata[i], 1e-10);
+    ASSERT_NEAR(outdata[i], 0, 1e-10);
   }
 }
 
-BOOST_AUTO_TEST_CASE( TriodeFilter_Koren_sin1k )
+TEST(TriodeFilter, Koren_sin1k)
 {
   std::array<double, PROCESSSIZE> data;
   {
@@ -128,7 +126,7 @@ BOOST_AUTO_TEST_CASE( TriodeFilter_Koren_sin1k )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TriodeFilter_EnhancedKoren_sin1k )
+TEST(TriodeFilter, EnhancedKoren_sin1k)
 {
   std::array<double, PROCESSSIZE> data;
   {
@@ -193,7 +191,7 @@ BOOST_AUTO_TEST_CASE( TriodeFilter_EnhancedKoren_sin1k )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TriodeFilter_Leach_0_const_sin1k )
+TEST(TriodeFilter, Leach_0_const_sin1k)
 {
   std::array<double, PROCESSSIZE> data;
   {
@@ -258,7 +256,7 @@ BOOST_AUTO_TEST_CASE( TriodeFilter_Leach_0_const_sin1k )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TriodeFilter_MunroPiazza_sin1k )
+TEST(TriodeFilter, MunroPiazza_sin1k)
 {
   std::array<double, PROCESSSIZE> data;
   {
@@ -323,7 +321,7 @@ BOOST_AUTO_TEST_CASE( TriodeFilter_MunroPiazza_sin1k )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TriodeFilter_Dempwolf_sin1k )
+TEST(TriodeFilter, Dempwolf_sin1k)
 {
   std::array<double, PROCESSSIZE> data;
   {

@@ -10,13 +10,11 @@
 #include <ATK/Mock/TriangleCheckerFilter.h>
 #include <ATK/Mock/TriangleGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024;
 
-BOOST_AUTO_TEST_CASE( SumFilter_test )
+TEST(SumFilter, test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -42,7 +40,7 @@ BOOST_AUTO_TEST_CASE( SumFilter_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SumFilter_VolumeFilter_test )
+TEST(SumFilter, VolumeFilter_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -70,7 +68,7 @@ BOOST_AUTO_TEST_CASE( SumFilter_VolumeFilter_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SumFilter_MultipleVolumeFilter_test )
+TEST(SumFilter, MultipleVolumeFilter_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);

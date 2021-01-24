@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project(AudioTK)
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
@@ -30,8 +30,6 @@ message(STATUS " Build SIMD: ${ENABLE_SIMD}")
 message(STATUS " Build shared libraries: ${ENABLE_SHARED_LIBRARIES}")
 message(STATUS " Build static libraries: ${ENABLE_STATIC_LIBRARIES}")
 message(STATUS " Build tests: ${ENABLE_TESTS}")
-
-enable_testing()
 
 if(ENABLE_PYTHON)
   add_subdirectory(${CMAKE_SOURCE_DIR}/3rdParty/pybind11)
@@ -125,7 +123,9 @@ else(HAVE_IPP)
 endif(HAVE_IPP)
 
 if(ENABLE_TESTS)
-  find_package(Boost REQUIRED unit_test_framework system)
+  enable_testing()
+  find_package(GTest CONFIG REQUIRED)
+  include(GoogleTest)
 endif(ENABLE_TESTS)
 
 include(Utilities)
@@ -163,7 +163,7 @@ endif(ENABLE_PYTHON)
 
 add_subdirectory(modules)
 
-FILE(GLOB CMAKE_OTHER_SRC CMake/*.cmake *.in ATK/*.in *.yml *.md *.properties *.py scripts/*.sh)
+FILE(GLOB CMAKE_OTHER_SRC CMake/*.cmake *.in ATK/*.in *.yml *.md *.properties *.py scripts/*.sh tests/Python/CMakeLists.txt)
 SOURCE_GROUP_BY_FOLDER(CMAKE_OTHER)
 add_custom_target(CMake SOURCES ${CMAKE_OTHER_SRC})
 

@@ -9,20 +9,18 @@
 #include <ATK/Mock/TriangleCheckerFilter.h>
 #include <ATK/Mock/TriangleGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024;
 
-BOOST_AUTO_TEST_CASE( VolumeFilter_volume_test )
+TEST(VolumeFilter, volume_test)
 {
   ATK::VolumeFilter<double> volumefilter;
   volumefilter.set_volume(10);
-  BOOST_CHECK_EQUAL(volumefilter.get_volume(), 10);
+  ASSERT_EQ(volumefilter.get_volume(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( VolumeFilter_1_test )
+TEST(VolumeFilter, 1_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -43,7 +41,7 @@ BOOST_AUTO_TEST_CASE( VolumeFilter_1_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( VolumeFilter_0dB_test )
+TEST(VolumeFilter, 0dB_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -65,7 +63,7 @@ BOOST_AUTO_TEST_CASE( VolumeFilter_0dB_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( VolumeFilter_2_test )
+TEST(VolumeFilter, 2_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -87,7 +85,7 @@ BOOST_AUTO_TEST_CASE( VolumeFilter_2_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( VolumeFilter_6dB_test )
+TEST(VolumeFilter, 6dB_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -109,7 +107,7 @@ BOOST_AUTO_TEST_CASE( VolumeFilter_6dB_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( VolumeFilter_0_5_test )
+TEST(VolumeFilter, 0_5_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -131,7 +129,7 @@ BOOST_AUTO_TEST_CASE( VolumeFilter_0_5_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( VolumeFilter__6dB_test )
+TEST(VolumeFilter, _6dB_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);

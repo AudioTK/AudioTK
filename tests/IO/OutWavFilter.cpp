@@ -12,13 +12,11 @@
 
 #include <ATK/Tools/SumFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #define PROCESSSIZE (1024)
 
-BOOST_AUTO_TEST_CASE( OutWavFilter_OutFloat_1k_test )
+TEST(OutWavFilter, OutFloat_1k_test)
 {
   {// setup
     ATK::SimpleSinusGeneratorFilter<float> generator;
@@ -65,7 +63,7 @@ BOOST_AUTO_TEST_CASE( OutWavFilter_OutFloat_1k_test )
   checker.process(PROCESSSIZE/2);
 }
 
-BOOST_AUTO_TEST_CASE( OutWavFilter_OutFloat_1k2k_test )
+TEST(OutWavFilter, OutFloat_1k2k_test)
 {
   {
     ATK::SimpleSinusGeneratorFilter<float> generator1k;

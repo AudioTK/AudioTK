@@ -184,11 +184,11 @@ ATK_add_executable(${PREFIX}
   HEADERS ${${PREFIX}_HEADERS}
   DEFINITIONS ${${PREFIX}_DEFINITIONS}
   INCLUDE ${${PREFIX}_INCLUDE}
-  LIBRARIES ${${PREFIX}_LIBRARIES}
+  LIBRARIES ${${PREFIX}_LIBRARIES} GTest::gtest_main GTest::gtest
 )
 
-add_test(NAME ${${PREFIX}_TESTNAME}
-         COMMAND ${${PREFIX}_NAME} --log_level=message)
+gtest_discover_tests(${${PREFIX}_NAME}
+  TEST_PREFIX ${${PREFIX}_TESTNAME})
 
 endfunction()
 

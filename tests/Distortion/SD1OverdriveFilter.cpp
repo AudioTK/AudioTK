@@ -22,32 +22,30 @@
 #include <ATK/Tools/SumFilter.h>
 #include <ATK/Tools/VolumeFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1000;
 
-BOOST_AUTO_TEST_CASE( SD1OverdriveFilter_sinus_drive_test )
+TEST(SD1OverdriveFilter, sinus_drive_test)
 {
   ATK::SD1OverdriveFilter<double> filter;
   filter.set_drive(0.5);
-  BOOST_CHECK_EQUAL(filter.get_drive(), 0.5);
+  ASSERT_EQ(filter.get_drive(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( SD1OverdriveFilter_sinus_drive_range_test )
+TEST(SD1OverdriveFilter, sinus_drive_range_test)
 {
   ATK::SD1OverdriveFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_drive(1.0000001), std::out_of_range);
+  ASSERT_THROW(filter.set_drive(1.0000001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( SD1OverdriveFilter_sinus_drive_range2_test )
+TEST(SD1OverdriveFilter, sinus_drive_range2_test)
 {
   ATK::SD1OverdriveFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_drive(-0.0000001), std::out_of_range);
+  ASSERT_THROW(filter.set_drive(-0.0000001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( SD1OverdriveFilter_const_sin1k )
+TEST(SD1OverdriveFilter, const_sin1k)
 {
   std::array<double, PROCESSSIZE> data;
   {

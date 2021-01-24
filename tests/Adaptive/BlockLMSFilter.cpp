@@ -19,97 +19,95 @@
 
 #include <Eigen/Core>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 1200;
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_destructor_test)
+TEST(BlockLMSFilter, destructor_test)
 {
-  BOOST_CHECK_NO_THROW(std::make_unique<ATK::BlockLMSFilter<double>>(100));
+  ASSERT_NO_THROW(std::make_unique<ATK::BlockLMSFilter<double>>(100));
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_size_negative_test)
+TEST(BlockLMSFilter, size_negative_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_size(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_size(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_size_set_test)
+TEST(BlockLMSFilter, size_set_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
   filter.set_size(10);
-  BOOST_CHECK_EQUAL(filter.get_size(), 10);
+  ASSERT_EQ(filter.get_size(), 10);
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_build_throw_test)
+TEST(BlockLMSFilter, build_throw_test)
 {
-  BOOST_CHECK_THROW(ATK::BlockLMSFilter<double> filter(0), ATK::RuntimeError);
+  ASSERT_THROW(ATK::BlockLMSFilter<double> filter(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_blocksize_negative_test)
+TEST(BlockLMSFilter, blocksize_negative_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_block_size(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_block_size(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_blocksize_set_test)
+TEST(BlockLMSFilter, blocksize_set_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
   filter.set_block_size(10);
-  BOOST_CHECK_EQUAL(filter.get_block_size(), 10);
+  ASSERT_EQ(filter.get_block_size(), 10);
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_memory_negative_test)
+TEST(BlockLMSFilter, memory_negative_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_memory(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_memory(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_memory_test)
+TEST(BlockLMSFilter, memory_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
   filter.set_memory(0.5);
-  BOOST_CHECK_EQUAL(filter.get_memory(), 0.5);
+  ASSERT_EQ(filter.get_memory(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( BlockLMSFilter_memory_positive1_test )
+TEST(BlockLMSFilter, memory_positive1_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_memory(1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_memory(1), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_mu_negative_test)
+TEST(BlockLMSFilter, mu_negative_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_mu(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_mu(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_mu_test)
+TEST(BlockLMSFilter, mu_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
   filter.set_mu(0.5);
-  BOOST_CHECK_EQUAL(filter.get_mu(), 0.5);
+  ASSERT_EQ(filter.get_mu(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( BlockLMSFilter_mu_positive1_test )
+TEST(BlockLMSFilter, mu_positive1_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_mu(1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_mu(1), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(BlockLMSFilter_learning_set_test)
+TEST(BlockLMSFilter, learning_set_test)
 {
   ATK::BlockLMSFilter<double> filter(100);
-  BOOST_CHECK_EQUAL(filter.get_learning(), true);
+  ASSERT_EQ(filter.get_learning(), true);
   filter.set_learning(false);
-  BOOST_CHECK_EQUAL(filter.get_learning(), false);
+  ASSERT_EQ(filter.get_learning(), false);
 }
 
-BOOST_AUTO_TEST_CASE( BlockLMSFilter_memory_999_test )
+TEST(BlockLMSFilter, memory_999_test)
 {
   std::array<double, PROCESSSIZE> data;
   {
@@ -137,7 +135,7 @@ BOOST_AUTO_TEST_CASE( BlockLMSFilter_memory_999_test )
 
   filter.process(100);
   output.process(PROCESSSIZE);
-  BOOST_CHECK_NE(filter.get_w(), nullptr);
+  ASSERT_NE(filter.get_w(), nullptr);
 
   std::array<double, PROCESSSIZE> ref;
   {
@@ -147,6 +145,6 @@ BOOST_AUTO_TEST_CASE( BlockLMSFilter_memory_999_test )
 
   for (unsigned int i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_CHECK_CLOSE(outdata[i], ref[i], 0.0001);
+    ASSERT_NEAR(outdata[i], ref[i], 0.0001);
   }
 }

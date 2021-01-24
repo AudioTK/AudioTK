@@ -10,41 +10,39 @@
 #include <ATK/Mock/TriangleCheckerFilter.h>
 #include <ATK/Mock/TriangleGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024;
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_mute_test )
+TEST(MuteSoloBufferFilter, mute_test)
 {
   ATK::MuteSoloBufferFilter<double> bufferfilter;
-  BOOST_CHECK_EQUAL(bufferfilter.get_mute(0), false);
+  ASSERT_EQ(bufferfilter.get_mute(0), false);
   bufferfilter.set_mute(0, true);
-  BOOST_CHECK_EQUAL(bufferfilter.get_mute(0), true);
+  ASSERT_EQ(bufferfilter.get_mute(0), true);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_solo_test )
+TEST(MuteSoloBufferFilter, solo_test)
 {
   ATK::MuteSoloBufferFilter<double> bufferfilter;
-  BOOST_CHECK_EQUAL(bufferfilter.get_solo(0), false);
+  ASSERT_EQ(bufferfilter.get_solo(0), false);
   bufferfilter.set_solo(0, true);
-  BOOST_CHECK_EQUAL(bufferfilter.get_solo(0), true);
+  ASSERT_EQ(bufferfilter.get_solo(0), true);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_input_ports_test )
+TEST(MuteSoloBufferFilter, input_ports_test)
 {
   ATK::MuteSoloBufferFilter<double> bufferfilter;
-  BOOST_CHECK_THROW(bufferfilter.set_nb_input_ports(10), std::runtime_error);
+  ASSERT_THROW(bufferfilter.set_nb_input_ports(10), std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_output_ports_test )
+TEST(MuteSoloBufferFilter, output_ports_test)
 {
   ATK::MuteSoloBufferFilter<double> bufferfilter;
-  BOOST_CHECK_THROW(bufferfilter.set_nb_output_ports(10), std::runtime_error);
+  ASSERT_THROW(bufferfilter.set_nb_output_ports(10), std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_test )
+TEST(MuteSoloBufferFilter, test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -65,7 +63,7 @@ BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multipleon_test )
+TEST(MuteSoloBufferFilter, multipleon_test)
 {
   ATK::TriangleGeneratorFilter<double> generator1;
   generator1.set_output_sampling_rate(48000);
@@ -112,7 +110,7 @@ BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multipleon_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_one_mute_test )
+TEST(MuteSoloBufferFilter, multiple_one_mute_test)
 {
   ATK::TriangleGeneratorFilter<double> generator1;
   generator1.set_output_sampling_rate(48000);
@@ -160,7 +158,7 @@ BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_one_mute_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_one_mute2_test )
+TEST(MuteSoloBufferFilter, multiple_one_mute2_test)
 {
   ATK::TriangleGeneratorFilter<double> generator1;
   generator1.set_output_sampling_rate(48000);
@@ -209,7 +207,7 @@ BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_one_mute2_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_one_solo_test )
+TEST(MuteSoloBufferFilter, multiple_one_solo_test)
 {
   ATK::TriangleGeneratorFilter<double> generator1;
   generator1.set_output_sampling_rate(48000);
@@ -257,7 +255,7 @@ BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_one_solo_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_one_solo2_test )
+TEST(MuteSoloBufferFilter, multiple_one_solo2_test)
 {
   ATK::TriangleGeneratorFilter<double> generator1;
   generator1.set_output_sampling_rate(48000);
@@ -306,7 +304,7 @@ BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_one_solo2_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_dual_solo_test )
+TEST(MuteSoloBufferFilter, multiple_dual_solo_test)
 {
   ATK::TriangleGeneratorFilter<double> generator1;
   generator1.set_output_sampling_rate(48000);
@@ -355,7 +353,7 @@ BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_dual_solo_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( MuteSoloBufferFilter_multiple_one_mutesolo_test )
+TEST(MuteSoloBufferFilter, multiple_one_mutesolo_test)
 {
   ATK::TriangleGeneratorFilter<double> generator1;
   generator1.set_output_sampling_rate(48000);
