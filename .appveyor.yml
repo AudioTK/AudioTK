@@ -12,84 +12,8 @@ notifications:
 environment:
   ATK_OUT: C:\projects\ATK
   FFTW_ROOT: C:\projects\fftw
+  GTest_ROOT: C:\projects\gtest
   matrix:
-
-#### VS 2017
- ### Debug build
-    - MY_NAME: VS 2017 Debug
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      BOOST_ROOT: C:/Libraries/boost_1_69_0
-      FFTW_NAME: fftw-3.3.5-dll64.zip
-      BITS: 64
-      MSVC_PLATFORM: amd64
-      SHORT_MSVC_PLATFORM: x64
-      COMPILER: Visual Studio 15 2017
-      OUTPUT: dynamic-x64
-      ADDITONAL_CMAKE_FLAGS: "-A x64 -DENABLE_PYTHON=OFF"
-      VSINSTALL: "Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build"
-      MSVC_VERSION: msvc-14.1
-      BUILD_CONFIGURATION: Debug
-
- ### static runtime
-    - MY_NAME: VS 2017 Release Static 32
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      BOOST_ROOT: C:/Libraries/boost_1_69_0
-      FFTW_NAME: fftw-3.3.5-dll32.zip
-      BITS: 32
-      MSVC_PLATFORM: x86
-      SHORT_MSVC_PLATFORM: x86
-      COMPILER: Visual Studio 15 2017
-      OUTPUT: static-x86
-      ADDITONAL_CMAKE_FLAGS: "-A Win32 -DENABLE_PYTHON=OFF -DENABLE_SIMD=OFF -DMSVC_RUNTIME=Static -DENABLE_SHARED_LIBRARIES=OFF -DENABLE_TESTS=OFF"
-      VSINSTALL: "Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build"
-      MSVC_VERSION: msvc-14.1
-      BUILD_CONFIGURATION: Release
-
-    - MY_NAME: VS 2017 Release Static 64
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      BOOST_ROOT: C:/Libraries/boost_1_69_0
-      FFTW_NAME: fftw-3.3.5-dll64.zip
-      BITS: 64
-      MSVC_PLATFORM: amd64
-      SHORT_MSVC_PLATFORM: x64
-      COMPILER: Visual Studio 15 2017
-      OUTPUT: static-x64
-      ADDITONAL_CMAKE_FLAGS: "-A x64 -DENABLE_PYTHON=OFF -DMSVC_RUNTIME=Static -DENABLE_SHARED_LIBRARIES=OFF -DENABLE_TESTS=OFF"
-      VSINSTALL: "Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build"
-      MSVC_VERSION: msvc-14.1
-      BUILD_CONFIGURATION: Release
-
-    - MY_NAME: VS 2017 Release Shared 32 Python 3
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      BOOST_ROOT: C:/Libraries/boost_1_69_0
-      FFTW_NAME: fftw-3.3.5-dll32.zip
-      BITS: 32
-      MSVC_PLATFORM: x86
-      SHORT_MSVC_PLATFORM: x86
-      COMPILER: Visual Studio 15 2017 
-      OUTPUT: dynamic-x86
-      ADDITONAL_CMAKE_FLAGS: "-A Win32 -DENABLE_SIMD=OFF -DENABLE_PYTHON=ON -DDISABLE_PYTHON_TESTS=ON -DPYTHON_EXECUTABLE=C:\\Python37\\python.exe"
-      VSINSTALL: "Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build"
-      MSVC_VERSION: msvc-14.1
-      PYTHON: C:\\Python37
-      PYTHON_VERSION: 3.7
-      BUILD_CONFIGURATION: Release
-
-    - MY_NAME: VS 2017 Release Shared 64 Python 3
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      BOOST_ROOT: C:/Libraries/boost_1_69_0
-      FFTW_NAME: fftw-3.3.5-dll64.zip
-      BITS: 64
-      MSVC_PLATFORM: amd64
-      SHORT_MSVC_PLATFORM: x64
-      COMPILER: Visual Studio 15 2017
-      OUTPUT: dynamic-x64
-      ADDITONAL_CMAKE_FLAGS: "-A x64 -DENABLE_PYTHON=ON -DDISABLE_PYTHON_TESTS=ON -DPYTHON_EXECUTABLE=C:\\Python37-x64\\python.exe"
-      VSINSTALL: "Microsoft Visual Studio\\2017\\Community\\VC\\Auxiliary\\Build"
-      MSVC_VERSION: msvc-14.1
-      PYTHON: C:\\Python37-x64
-      PYTHON_VERSION: 3.7
-      BUILD_CONFIGURATION: Release
 
 #### VS 2019
  ### Debug build
@@ -189,9 +113,16 @@ before_build:
   - git clone https://github.com/mbrucher/pybind11 3rdParty\pybind11
   - git clone https://github.com/mbrucher/GSL 3rdParty\gsl
   - git clone https://github.com/mbrucher/eigen-git-mirror 3rdParty\eigen
+  - git clone https://github.com/google/googletest.git 3rdParty\gtest
+  - cd 3rdParty\gtest
   - mkdir build
   - cd build
-  - cmake -G "%COMPILER%" %ADDITONAL_CMAKE_FLAGS% -DENABLE_GPL=ON -DBOOST_ROOT=%BOOST_ROOT% -DCMAKE_INSTALL_PREFIX=%ATK_OUT% -DFFTW_INCLUDES=%FFTW_ROOT% -DFFTW_LIBRARY_FFTW3=%FFTW_ROOT%\libfftw3-3.lib -DFFTW_LIBRARY_FFTW3F=%FFTW_ROOT%\libfftw3f-3.lib -DENABLE_STATIC_LIBRARIES=ON ..
+  - cmake -G "%COMPILER%" -DCMAKE_INSTALL_PREFIX=%GTest_ROOT% ..
+  - msbuild INSTALL.vcxproj /property:Configuration=%BUILD_CONFIGURATION%
+  - cd ..\..\..
+  - mkdir build
+  - cd build
+  - cmake -G "%COMPILER%" %ADDITONAL_CMAKE_FLAGS% -DENABLE_GPL=ON -DBOOST_ROOT=%BOOST_ROOT% -DGTest_DIR=%GTest_ROOT% -DCMAKE_INSTALL_PREFIX=%ATK_OUT% -DFFTW_INCLUDES=%FFTW_ROOT% -DFFTW_LIBRARY_FFTW3=%FFTW_ROOT%\libfftw3-3.lib -DFFTW_LIBRARY_FFTW3F=%FFTW_ROOT%\libfftw3f-3.lib -DENABLE_STATIC_LIBRARIES=ON ..
 
 build_script:
   - msbuild INSTALL.vcxproj /property:Configuration=%BUILD_CONFIGURATION%

@@ -39,6 +39,7 @@ jobs:
         - libatlas-base-dev
         - curl
         - doxygen
+        - libgtest-dev
     env:
     - MY_NAME: Coverage
     - COMPILER=g++-9
@@ -64,6 +65,7 @@ jobs:
         - libfftw3-dev
         - libsndfile-dev
         - swig
+        - libgtest-dev
     env:
     - MY_NAME: Release
     - COMPILER=g++-9
@@ -90,6 +92,7 @@ jobs:
         - libsndfile-dev
         - swig
         - libatlas-base-dev
+        - libgtest-dev
     env:
     - MY_NAME=ASAN
     - COMPILER=clang++-9
@@ -119,6 +122,7 @@ jobs:
         - libatlas-base-dev
         - curl
         - lcov
+        - libgtest-dev
     env:
     - MY_NAME=Coverage
     - COMPILER=clang++-9
@@ -144,6 +148,7 @@ jobs:
         - libfftw3-dev
         - libsndfile-dev
         - swig
+        - libgtest-dev
     env:
     - MY_NAME: Release
     - COMPILER=clang++-9

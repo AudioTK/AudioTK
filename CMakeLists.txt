@@ -151,8 +151,6 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
 add_subdirectory(ATK)
 if(ENABLE_TESTS)
-  find_package(Boost REQUIRED unit_test_framework system)
-  ADD_DEFINITIONS("-DBOOST_ALL_NO_LIB")
   add_subdirectory(tests)
   add_subdirectory(profiling)
 endif(ENABLE_TESTS)
