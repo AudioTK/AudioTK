@@ -147,6 +147,8 @@ INSTALL(FILES ${PROJECT_BINARY_DIR}/atk-config.cmake
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+
 add_subdirectory(ATK)
 if(ENABLE_TESTS)
   find_package(Boost REQUIRED unit_test_framework system)

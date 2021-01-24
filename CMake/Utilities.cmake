@@ -68,7 +68,7 @@ if(ENABLE_STATIC_LIBRARIES)
   target_include_directories(${${PREFIX}_NAME}_static BEFORE PRIVATE ${PROJECT_SOURCE_DIR})
 
   set_target_properties (${${PREFIX}_NAME}_static PROPERTIES
-    FOLDER C++/static
+    FOLDER C++/${${PREFIX}_FOLDER}/static
   )
 
   INSTALL(TARGETS ${${PREFIX}_NAME}_static
@@ -89,7 +89,7 @@ if(ENABLE_SHARED_LIBRARIES)
   target_include_directories(${${PREFIX}_NAME} BEFORE PRIVATE ${PROJECT_SOURCE_DIR})
 
   set_target_properties (${${PREFIX}_NAME} PROPERTIES
-    FOLDER C++/shared
+    FOLDER C++/${${PREFIX}_FOLDER}/shared
   )
 
   target_link_libraries(${${PREFIX}_NAME} ${${PREFIX}_LIBRARIES})
@@ -137,11 +137,11 @@ add_executable(${${PREFIX}_NAME}
   ${${PREFIX}_SRC} ${${PREFIX}_HEADERS} ${NATVIS_FILE}
 )
 
-if(${PREFIX}_FOLDER_PROJECT)
+if(${PREFIX}_FOLDER)
   set_target_properties (${${PREFIX}_NAME} PROPERTIES
-    FOLDER ${${PREFIX}_FOLDER_PROJECT}
+    FOLDER ${${PREFIX}_FOLDER}
   )
-endif(${PREFIX}_FOLDER_PROJECT)
+endif(${PREFIX}_FOLDER)
 
 target_link_libraries(${${PREFIX}_NAME} ${${PREFIX}_LIBRARIES})
 if(${PREFIX}_INSTALL)
@@ -156,7 +156,7 @@ endfunction()
 function(ATK_add_test PREFIX)
 
 set(FLAGS)
-set(SINGLEVALUES NAME FOLDER TESTNAME)
+set(SINGLEVALUES NAME TESTNAME)
 set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
 
 cmake_parse_arguments(${PREFIX}
@@ -169,11 +169,9 @@ if(NOT ${PREFIX}_TESTNAME)
   message(ERROR "No test name set for ${PREFIX}")
 endif(NOT ${PREFIX}_TESTNAME)
 
-SET(${PREFIX}_FOLDER_PROJECT Tests)
-
 ATK_add_executable(${PREFIX}
   NAME ${${PREFIX}_NAME}
-  FOLDER ${${PREFIX}_FOLDER}
+  FOLDER Tests
   SRC ${${PREFIX}_SRC}
   HEADERS ${${PREFIX}_HEADERS}
   DEFINITIONS ${${PREFIX}_DEFINITIONS}
