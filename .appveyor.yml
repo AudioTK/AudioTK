@@ -117,7 +117,7 @@ before_build:
   - cd 3rdParty\gtest
   - mkdir build
   - cd build
-  - cmake -G "%COMPILER%" -DCMAKE_INSTALL_PREFIX=%GTest_ROOT% ..
+  - cmake -G "%COMPILER%" -DCMAKE_INSTALL_PREFIX=%GTest_ROOT% -DBUILD_SHARED_LIBS=ON ..
   - msbuild INSTALL.vcxproj /property:Configuration=%BUILD_CONFIGURATION%
   - cd ..\..\..
   - mkdir build
@@ -137,7 +137,7 @@ after_build:
       }
 
 test_script:
-  - set PATH=%ATK_OUT%\bin;%BOOST_ROOT%\lib%BITS%-%MSVC_VERSION%;%FFTW_ROOT%;%PATH%
+  - set PATH=%ATK_OUT%\bin;%GTest_ROOT%\lib;%BOOST_ROOT%\lib%BITS%-%MSVC_VERSION%;%FFTW_ROOT%;%PATH%
   - set PYTHONPATH=%ATK_OUT%\lib\site-packages:%PYTHONPATH%
   - cd %APPVEYOR_BUILD_FOLDER%\build
   - set CTEST_OUTPUT_ON_FAILURE=True
