@@ -10,7 +10,7 @@ FILE(GLOB
 )
 
 if(ENABLE_TESTS)
-  ATK_add_library(ATK_EQ
+  ATK_add_library(ATK_MOCK
     NAME ATKMock
     FOLDER Mock
     DEFINITIONS "-DBOOST_ALL_NO_LIB"
