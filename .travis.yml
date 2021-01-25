@@ -35,7 +35,6 @@ jobs:
         - g++-9
         - libfftw3-dev
         - libsndfile-dev
-        - swig
         - libatlas-base-dev
         - curl
         - doxygen
@@ -63,7 +62,6 @@ jobs:
         - g++-9
         - libfftw3-dev
         - libsndfile-dev
-        - swig
     env:
     - MY_NAME: Release
     - COMPILER=g++-9
@@ -88,7 +86,6 @@ jobs:
         - g++-9
         - libfftw3-dev
         - libsndfile-dev
-        - swig
         - libatlas-base-dev
     env:
     - MY_NAME=ASAN
@@ -116,7 +113,6 @@ jobs:
         - g++-9
         - libfftw3-dev
         - libsndfile-dev
-        - swig
     env:
     - MY_NAME: Release
     - COMPILER=clang++-11
@@ -137,7 +133,7 @@ jobs:
     - ADDITONAL_CMAKE_FLAGS=-DDISABLE_PYTHON_TESTS=ON -DCMAKE_OSX_ARCHITECTURES="x86_64" -DENABLE_STATIC_LIBRARIES=ON
     - ENABLE_PYTHON=ON
     - PYTHON_VERSION=3.9
-    - PYTHON=python
+    - PYTHON=python3
     - Python_ADDITIONAL_VERSIONS=3.9.1_6
     - BUILD_TYPE=Release
     - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
@@ -151,7 +147,7 @@ jobs:
     - ADDITONAL_CMAKE_FLAGS=-DDISABLE_PYTHON_TESTS=ON -DCMAKE_OSX_ARCHITECTURES="i386,x86_64" -DENABLE_STATIC_LIBRARIES=ON
     - ENABLE_PYTHON=ON
     - PYTHON_VERSION=3.9
-    - PYTHON=python
+    - PYTHON=python3
     - Python_ADDITIONAL_VERSIONS=3.9.1_6
     - BUILD_TYPE=Release
     - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
@@ -183,9 +179,9 @@ before_install:
   - |
     if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then
       ls /opt/python/
-      wget https://cmake.org/files/v3.12/cmake-3.12.1-Linux-x86_64.sh
-      chmod +x cmake-3.12.1-Linux-x86_64.sh
-      ./cmake-3.12.1-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
+      wget https://cmake.org/files/v3.19/cmake-3.19.3-Linux-x86_64.sh
+      chmod +x cmake-3.19.3-Linux-x86_64.sh
+      ./cmake-3.19.3-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
       if [[ "$ENABLE_PYTHON" == "ON" ]]; then
         /opt/python/${Python_ADDITIONAL_VERSIONS}/bin/python${Python_ADDITIONAL_VERSIONS} -m pip install numpy scipy nose
       fi
@@ -195,7 +191,7 @@ before_install:
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew update
       rm -f /usr/local/include/c++
-      brew install fftw libsndfile swig
+      brew install fftw libsndfile
       brew upgrade cmake
       if [[ "$ENABLE_PYTHON" == "ON" ]]; then
         if [[ "$PYTHON" == "python3" ]]; then brew upgrade python ; fi
@@ -207,7 +203,7 @@ before_install:
   - wget --no-verbose --output-document=boost_1_73_0.tar.bz2 http://sourceforge.net/projects/boost/files/boost/1.73.0/boost_1_73_0.tar.bz2/download
   - export BOOST_ROOT="$TRAVIS_BUILD_DIR/../boost"
   - mkdir -p ${BOOST_ROOT}
-  - tar jxf boost_1_73_0.tar.bz2 --strip-components=1 -C $BOOST_ROOT
+  - tar jxf boost_1_75_0.tar.bz2 --strip-components=1 -C $BOOST_ROOT
   - export GTEST_ROOT="$TRAVIS_BUILD_DIR/../gtest"
   - export GTEST_BUILD="$TRAVIS_BUILD_DIR/../gtest-build"
   - export GTEST_INSTALL="$TRAVIS_BUILD_DIR/../gtest-install"
