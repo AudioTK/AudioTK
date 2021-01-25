@@ -154,7 +154,7 @@ jobs:
     - PYTHON=python
     - Python_ADDITIONAL_VERSIONS=3.9.1_6
     - BUILD_TYPE=Release
-- ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
+    - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
 
 before_install:
   - ls /usr/lib
