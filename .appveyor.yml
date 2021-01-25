@@ -30,6 +30,7 @@ environment:
       VSINSTALL: "Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build"
       MSVC_VERSION: msvc-14.2
       PYTHON_VERSION: none
+      ENABLE_TESTS: ON
       BUILD_CONFIGURATION: Debug
 
     - MY_NAME: VS 2019 Release Static 32
@@ -90,6 +91,7 @@ environment:
       MSVC_VERSION: msvc-14.2
       PYTHON: C:\\Python38-x64
       PYTHON_VERSION: 3.8
+      ENABLE_TESTS: ON
       BUILD_CONFIGURATION: Release
 
 matrix:
@@ -141,7 +143,10 @@ test_script:
   - set PYTHONPATH=%ATK_OUT%\lib\site-packages:%PYTHONPATH%
   - cd %APPVEYOR_BUILD_FOLDER%\build
   - set CTEST_OUTPUT_ON_FAILURE=True
-  - msbuild RUN_TESTS.vcxproj /property:Configuration=%BUILD_CONFIGURATION%
+  - ps: |
+    if($ENABLE_TESTS) {
+      msbuild RUN_TESTS.vcxproj /property:Configuration=%BUILD_CONFIGURATION%
+    }
 
 artifacts: 
   - path: AudioTK.*.zip

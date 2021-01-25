@@ -136,10 +136,11 @@ jobs:
     - PLATFORM=xcode-12
     - ADDITONAL_CMAKE_FLAGS=-DDISABLE_PYTHON_TESTS=ON -DCMAKE_OSX_ARCHITECTURES="x86_64" -DENABLE_STATIC_LIBRARIES=ON
     - ENABLE_PYTHON=ON
-    - PYTHON_VERSION=3.7
+    - PYTHON_VERSION=3.9
     - PYTHON=python
-    - Python_ADDITIONAL_VERSIONS=3.7
+    - Python_ADDITIONAL_VERSIONS=3.9.1_3
     - BUILD_TYPE=Release
+    - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
   - os: osx
     osx_image: xcode11.6
     python: 3.7
@@ -149,10 +150,11 @@ jobs:
     - PLATFORM=xcode-11.6
     - ADDITONAL_CMAKE_FLAGS=-DDISABLE_PYTHON_TESTS=ON -DCMAKE_OSX_ARCHITECTURES="i386,x86_64" -DENABLE_STATIC_LIBRARIES=ON
     - ENABLE_PYTHON=ON
-    - PYTHON_VERSION=3.7
+    - PYTHON_VERSION=3.9
     - PYTHON=python
-    - Python_ADDITIONAL_VERSIONS=3.7
+    - Python_ADDITIONAL_VERSIONS=3.9.1_3
     - BUILD_TYPE=Release
+- ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
 
 before_install:
   - ls /usr/lib
@@ -197,6 +199,7 @@ before_install:
       brew upgrade cmake
       if [[ "$ENABLE_PYTHON" == "ON" ]]; then
         if [[ "$PYTHON" == "python3" ]]; then brew upgrade python ; fi
+        ls /usr/local/Cellar/python@${PYTHON_VERSION}
         ${PYTHON} -V
         sudo ${PYTHON} -m pip install numpy scipy nose
       fi
