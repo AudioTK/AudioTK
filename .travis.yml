@@ -17,7 +17,7 @@ stages:
   - install
   - before_script
   - script
-  - after_success
+  - name: after_success
     if: branch = main
   - name: after_script
     if: branch = main
