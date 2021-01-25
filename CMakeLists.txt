@@ -22,6 +22,7 @@ option(ENABLE_SIMD "Enable SIMD support" OFF)
 option(ENABLE_GPL "Enable GPL library support like FFTW and LIBSNDFILE" OFF)
 option(ENABLE_CODECOVERAGE "Generate code coverage data" OFF)
 option(ENABLE_ADDRESS_SANITIZER "Activate address sanitizer support" OFF)
+option(ENABLE_TEST_DISCOVERY "Activate test discovery in ctest" ON)
 option(BUILD_DOC "Build Doxygen documentation" OFF)
 option(DISABLE_EIGEN_WARNINGS "Removes lots of Eigen warnings" OFF)
 option(DISABLE_PYTHON_TESTS "Don't test Python modules" OFF) #Use this for CI

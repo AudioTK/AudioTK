@@ -187,8 +187,13 @@ ATK_add_executable(${PREFIX}
   LIBRARIES ${${PREFIX}_LIBRARIES} GTest::gtest_main GTest::gtest
 )
 
-gtest_discover_tests(${${PREFIX}_NAME}
-  TEST_PREFIX ${${PREFIX}_TESTNAME})
+if(ENABLE_TEST_DISCOVERY)
+  gtest_discover_tests(${${PREFIX}_NAME}
+    TEST_PREFIX ${${PREFIX}_TESTNAME})
+else()
+  add_test(NAME ${${PREFIX}_TESTNAME}
+     COMMAND ${${PREFIX}_NAME})
+endif()
 
 endfunction()
 

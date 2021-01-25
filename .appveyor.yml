@@ -126,6 +126,7 @@ before_build:
   - set PATH=%ATK_OUT%\bin;%GTest_ROOT%\bin;%BOOST_ROOT%\lib%BITS%-%MSVC_VERSION%;%FFTW_ROOT%;%PATH%
 
 build_script:
+  - set PATH=%ATK_OUT%\bin;%GTest_ROOT%\bin;%BOOST_ROOT%\lib%BITS%-%MSVC_VERSION%;%FFTW_ROOT%;%PATH%
   - msbuild INSTALL.vcxproj /property:Configuration=%BUILD_CONFIGURATION%
 
 after_build:
@@ -138,6 +139,7 @@ after_build:
       }
 
 test_script:
+  - set PATH=%ATK_OUT%\bin;%GTest_ROOT%\bin;%BOOST_ROOT%\lib%BITS%-%MSVC_VERSION%;%FFTW_ROOT%;%PATH%
   - set PYTHONPATH=%ATK_OUT%\lib\site-packages:%PYTHONPATH%
   - cd %APPVEYOR_BUILD_FOLDER%\build
   - set CTEST_OUTPUT_ON_FAILURE=True
