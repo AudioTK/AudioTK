@@ -147,9 +147,9 @@ test_script:
   - cd %APPVEYOR_BUILD_FOLDER%\build
   - set CTEST_OUTPUT_ON_FAILURE=True
   - ps: |
-    if($ENABLE_TESTS) {
-      msbuild RUN_TESTS.vcxproj /property:Configuration=${env:BUILD_CONFIGURATION}
-    }
+      if($ENABLE_TESTS) {
+        msbuild RUN_TESTS.vcxproj /property:Configuration=${env:BUILD_CONFIGURATION}
+      }
 
 artifacts: 
   - path: AudioTK.*.zip
