@@ -138,7 +138,7 @@ jobs:
     - ENABLE_PYTHON=ON
     - PYTHON_VERSION=3.9
     - PYTHON=python
-    - Python_ADDITIONAL_VERSIONS=3.9.1_3
+    - Python_ADDITIONAL_VERSIONS=3.9.1_6
     - BUILD_TYPE=Release
     - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
   - os: osx
@@ -152,7 +152,7 @@ jobs:
     - ENABLE_PYTHON=ON
     - PYTHON_VERSION=3.9
     - PYTHON=python
-    - Python_ADDITIONAL_VERSIONS=3.9.1_3
+    - Python_ADDITIONAL_VERSIONS=3.9.1_6
     - BUILD_TYPE=Release
 - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
 
@@ -199,7 +199,6 @@ before_install:
       brew upgrade cmake
       if [[ "$ENABLE_PYTHON" == "ON" ]]; then
         if [[ "$PYTHON" == "python3" ]]; then brew upgrade python ; fi
-        ls /usr/local/Cellar/python@${PYTHON_VERSION}
         ${PYTHON} -V
         sudo ${PYTHON} -m pip install numpy scipy nose
       fi
