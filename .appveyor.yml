@@ -122,7 +122,7 @@ before_build:
   - cd 3rdParty\gtest
   - mkdir build
   - cd build
-  - cmake -G "%COMPILER%" -DCMAKE_INSTALL_PREFIX=%GTest_ROOT% -DBUILD_SHARED_LIBS=ON ..
+  - cmake -G "%COMPILER%" %ADDITONAL_CMAKE_FLAGS% -DCMAKE_INSTALL_PREFIX=%GTest_ROOT% -DBUILD_SHARED_LIBS=ON ..
   - msbuild INSTALL.vcxproj /property:Configuration=%BUILD_CONFIGURATION%
   - cd ..\..\..
   - mkdir build
