@@ -124,8 +124,8 @@ jobs:
     - BUILD_TYPE=Release
     - ADDITONAL_CMAKE_FLAGS="-DDISABLE_PYTHON_TESTS=ON -DPYTHON_LIBRARY=/opt/python/${Python_ADDITIONAL_VERSIONS}/lib/libpython${PYTHON_VERSION}.so -DPYTHON_INCLUDE_DIR=/opt/python/${Python_ADDITIONAL_VERSIONS}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/opt/python/${Python_ADDITIONAL_VERSIONS}/bin/python -DENABLE_STATIC_LIBRARIES=ON"
   - os: osx
-    osx_image: xcode12
-    python: 3.7
+    osx_image: xcode12.2
+    python: 3.9
     env:
     - MY_NAME: XCode
     - COMPILER=clang++
@@ -136,21 +136,7 @@ jobs:
     - PYTHON=python3
     - Python_ADDITIONAL_VERSIONS=3.9.1_6
     - BUILD_TYPE=Release
-    - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
-  - os: osx
-    osx_image: xcode11.6
-    python: 3.7
-    env:
-    - MY_NAME: XCode
-    - COMPILER=clang++
-    - PLATFORM=xcode-11.6
-    - ADDITONAL_CMAKE_FLAGS=-DDISABLE_PYTHON_TESTS=ON -DCMAKE_OSX_ARCHITECTURES="i386,x86_64" -DENABLE_STATIC_LIBRARIES=ON
-    - ENABLE_PYTHON=ON
-    - PYTHON_VERSION=3.9
-    - PYTHON=python3
-    - Python_ADDITIONAL_VERSIONS=3.9.1_6
-    - BUILD_TYPE=Release
-    - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
+    - ADDITONAL_CMAKE_FLAGS="-DDISABLE_PYTHON_TESTS=ON -DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
 
 before_install:
   - ls /usr/lib
@@ -194,7 +180,7 @@ before_install:
       brew install fftw libsndfile
       brew upgrade cmake
       if [[ "$ENABLE_PYTHON" == "ON" ]]; then
-        if [[ "$PYTHON" == "python3" ]]; then brew upgrade python ; fi
+        brew upgrade ${PYTHON}
         ${PYTHON} -V
         sudo ${PYTHON} -m pip install numpy scipy nose
       fi
