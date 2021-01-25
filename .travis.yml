@@ -18,8 +18,9 @@ stages:
   - before_script
   - script
   - after_success
+    if: branch = main
   - name: after_script
-    if: branch = master
+    if: branch = main
     
 jobs:
   include:
@@ -224,7 +225,7 @@ script:
 
 after_success:
   - |
-    if [[ "${ENABLE_CODECOVERAGE}" = "ON" ]]; then
+    if [[ "${ENABLE_CODECOVERAGE}" == "ON" ]]; then
       bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
     fi
   - cd ${HOME}/ATK
@@ -237,7 +238,7 @@ after_success:
 
 after_script:
   - |
-    if [[ "${ENABLE_STATIC_ANALYSIS}" = "ON" ]]; then
+    if [[ "${ENABLE_STATIC_ANALYSIS}" == "ON" ]]; then
       cd ${HOME}
       echo "-----BEGIN RSA PRIVATE KEY-----" > ${HOME}/.ssh/key
       echo ${SSH_KEY} | awk '{for(i=1;i<length;i+=64) print substr($0,i,64)}' >> ${HOME}/.ssh/key
