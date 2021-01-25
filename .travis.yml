@@ -200,10 +200,12 @@ before_install:
       fi
     fi
 
-  - wget --no-verbose --output-document=boost_1_73_0.tar.bz2 http://sourceforge.net/projects/boost/files/boost/1.73.0/boost_1_73_0.tar.bz2/download
+  - export BOOST_VERSION_DOT="1.75.0"
+  - export BOOST_VERSION="1_75_0"
+  - wget --no-verbose --output-document=boost_${BOOST_VERSION}.tar.bz2 http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION_DOT}/boost_${BOOST_VERSION}.tar.bz2/download
   - export BOOST_ROOT="$TRAVIS_BUILD_DIR/../boost"
   - mkdir -p ${BOOST_ROOT}
-  - tar jxf boost_1_75_0.tar.bz2 --strip-components=1 -C $BOOST_ROOT
+  - tar jxf boost_${BOOST_VERSION}.tar.bz2 --strip-components=1 -C $BOOST_ROOT
   - export GTEST_ROOT="$TRAVIS_BUILD_DIR/../gtest"
   - export GTEST_BUILD="$TRAVIS_BUILD_DIR/../gtest-build"
   - export GTEST_INSTALL="$TRAVIS_BUILD_DIR/../gtest-install"
