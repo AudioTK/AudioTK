@@ -164,7 +164,7 @@ endfunction()
 function(ATK_add_test PREFIX)
 
 set(FLAGS)
-set(SINGLEVALUES NAME TESTNAME)
+set(SINGLEVALUES NAME TESTNAME WORKING_DIRECTORY)
 set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
 
 cmake_parse_arguments(${PREFIX}
@@ -176,6 +176,9 @@ cmake_parse_arguments(${PREFIX}
 if(NOT ${PREFIX}_TESTNAME)
   message(ERROR "No test name set for ${PREFIX}")
 endif(NOT ${PREFIX}_TESTNAME)
+if(NOT ${PREFIX}_WORKING_DIRECTORY)
+  set(${PREFIX}_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+endif()
 
 ATK_add_executable(${PREFIX}
   NAME ${${PREFIX}_NAME}
@@ -189,7 +192,9 @@ ATK_add_executable(${PREFIX}
 
 if(ENABLE_TEST_DISCOVERY)
   gtest_discover_tests(${${PREFIX}_NAME}
-    TEST_PREFIX ${${PREFIX}_TESTNAME})
+    TEST_PREFIX ${${PREFIX}_TESTNAME}
+    WORKING_DIRECTORY ${${PREFIX}_WORKING_DIRECTORY}
+  )
 else()
   add_test(NAME ${${PREFIX}_TESTNAME}
      COMMAND ${${PREFIX}_NAME})

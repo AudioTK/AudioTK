@@ -216,7 +216,7 @@ script:
   - make install
   - export PYTHONPATH=${HOME}/ATK/lib/site-packages/:$PYTHONPATH
   - |
-    if [[ "${ENABLE_CODECOVERAGE}" = "ON" ]]; then
+    if [[ "${ENABLE_CODECOVERAGE}" == "ON" ]]; then
       export PATH=${TRAVIS_BUILD_DIR}/script/:${PATH}
       VERBOSE=1 CTEST_OUTPUT_ON_FAILURE=TRUE make codecoverage
     else
@@ -230,7 +230,7 @@ after_success:
     fi
   - cd ${HOME}/ATK
   - |
-    if [[ "ENABLE_PYTHON" = "ON" ]]; then
+    if [[ "ENABLE_PYTHON" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]]; then
       tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}.py${PYTHON_VERSION}-${MY_NAME}.tar.gz *
     else
       tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}-${MY_NAME}.tar.gz *
@@ -238,7 +238,7 @@ after_success:
 
 after_script:
   - |
-    if [[ "${ENABLE_STATIC_ANALYSIS}" == "ON" ]]; then
+    if [[ "${ENABLE_STATIC_ANALYSIS}" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]] && [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
       cd ${HOME}
       echo "-----BEGIN RSA PRIVATE KEY-----" > ${HOME}/.ssh/key
       echo ${SSH_KEY} | awk '{for(i=1;i<length;i+=64) print substr($0,i,64)}' >> ${HOME}/.ssh/key
