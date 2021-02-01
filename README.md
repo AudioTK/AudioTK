@@ -1,8 +1,8 @@
 # AudioTK
 
 [![codecov](https://codecov.io/gh/audiotk/audiotk/branch/main/graph/badge.svg)](https://codecov.io/gh/audiotk/audiotk)
-[![Travis](https://travis-ci.org/mbrucher/AudioTK.svg?branch=master)](https://travis-ci.org/mbrucher/AudioTK)
-[![Appveyor](https://ci.appveyor.com/api/projects/status/j6k8jkxk2ebwvvoe/branch/master?svg=true)](https://ci.appveyor.com/project/mbrucher/audiotk)
+[![Travis](https://travis-ci.org/audiotk/AudioTK.svg?branch=master)](https://travis-ci.org/audiotk/AudioTK)
+[![Appveyor](https://ci.appveyor.com/api/projects/status/l5srcflqwirt4m1s?svg=true)](https://ci.appveyor.com/project/mbrucher/audiotk-67s1l)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 Audio ToolKit is a set of audio filters. It helps assembling workflows for specific audio processing workloads.
@@ -20,6 +20,10 @@ and output sampling rates are also identical.
 Audio Toolkit is published under the BSD license.
 
 ## Changelog
+### 3.3.0
+* Enhance CMake functionality for external Audio ToolKit projects 
+* Reorder headers
+
 ### 3.2.0
 * Cleanup
 

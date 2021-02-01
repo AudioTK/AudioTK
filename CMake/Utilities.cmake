@@ -193,7 +193,6 @@ ATK_add_executable(${PREFIX}
 if(ENABLE_TEST_DISCOVERY)
   gtest_discover_tests(${${PREFIX}_NAME}
     TEST_PREFIX ${${PREFIX}_TESTNAME}
-    WORKING_DIRECTORY ${${PREFIX}_WORKING_DIRECTORY}
   )
 else()
   add_test(NAME ${${PREFIX}_TESTNAME}
