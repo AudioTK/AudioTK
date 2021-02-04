@@ -24,10 +24,8 @@ namespace ATK
   {
   }
 
-  template<typename SVFCoefficients>
-  SecondOrderSVFFilter<SVFCoefficients>::~SecondOrderSVFFilter()
-  {
-  }
+  template <typename SVFCoefficients>
+  SecondOrderSVFFilter<SVFCoefficients>::~SecondOrderSVFFilter() = default;
 
   template<typename SVFCoefficients>
   void SecondOrderSVFFilter<SVFCoefficients>::full_setup()
