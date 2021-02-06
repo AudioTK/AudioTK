@@ -19,7 +19,7 @@
 
 #include <boost/math/constants/constants.hpp>
 
-#define PROCESSSIZE (1024*64)
+constexpr gsl::index PROCESSSIZE = (1024 * 64);
 
 TEST(FixedDelayLineFilter, line100_delay_1_test)
 {

@@ -109,12 +109,6 @@ namespace Utilities
   }
 
   template<typename DataType_, typename DataType__>
-  TypedBaseFilter<DataType_, DataType__>::TypedBaseFilter(TypedBaseFilter&& other)
-  : Parent(std::move(other)), converted_inputs_delay(std::move(other.converted_inputs_delay)), converted_inputs(std::move(other.converted_inputs)), converted_inputs_size(std::move(other.converted_inputs_size)), converted_in_delays(std::move(other.converted_in_delays)), direct_filters(std::move(other.direct_filters)), outputs_delay(std::move(other.outputs_delay)), outputs(std::move(other.outputs)), outputs_size(std::move(other.outputs_size)), default_input(std::move(other.default_input)), default_output(std::move(other.default_output))
-  {
-  }
-
-  template<typename DataType_, typename DataType__>
   void TypedBaseFilter<DataType_, DataType__>::set_nb_input_ports(gsl::index nb_ports)
   {
     if(nb_ports == nb_input_ports)

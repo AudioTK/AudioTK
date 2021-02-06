@@ -16,7 +16,7 @@
 
 #include <gtest/gtest.h>
 
-#define PROCESSSIZE (100)
+constexpr gsl::index PROCESSSIZE = 100;
 
 TEST(InPointerFloat, sin1k_test)
 {

@@ -16,7 +16,7 @@
 
 #include <gtest/gtest.h>
 
-#define PROCESSSIZE (2048)
+constexpr gsl::index PROCESSSIZE = (2048);
 
 // Original time (FIR time): 20s
 // Split convolution: 7.4s

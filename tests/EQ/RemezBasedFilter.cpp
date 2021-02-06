@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#define PROCESSSIZE (1024*64)
+constexpr gsl::index PROCESSSIZE = (1024 * 64);
 
 TEST(FIRFilter, Remez_bad_template_test)
 {

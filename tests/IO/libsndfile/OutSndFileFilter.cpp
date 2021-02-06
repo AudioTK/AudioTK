@@ -14,7 +14,7 @@
 
 #include <gtest/gtest.h>
 
-#define PROCESSSIZE (1024)
+constexpr gsl::index PROCESSSIZE = (1024);
 
 TEST(OutSndFileFilter, OutFloat_1k_test)
 {

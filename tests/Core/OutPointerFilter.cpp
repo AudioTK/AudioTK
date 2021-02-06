@@ -11,7 +11,7 @@
 
 #include <gtest/gtest.h>
 
-#define PROCESSSIZE (10)
+constexpr gsl::index PROCESSSIZE = 10;
 
 TEST(OutPointerFloat, sin1k_test)
 {

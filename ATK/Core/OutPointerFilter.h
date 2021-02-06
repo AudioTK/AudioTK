@@ -33,7 +33,9 @@ namespace ATK
     OutPointerFilter(DataType* array, int channels, gsl::index size, bool interleaved);
     /// Destructor
     ~OutPointerFilter() override = default;
-    
+    OutPointerFilter(OutPointerFilter&&) = default;
+    OutPointerFilter& operator=(OutPointerFilter&&) = default;
+
     /**
      * @brief Resets the pointer and the internal offset
      * @param array is the pointer to the new array

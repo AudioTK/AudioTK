@@ -34,7 +34,9 @@ namespace ATK
     InPointerFilter(const DataType* array, int channels, gsl::index size, bool interleaved);
     /// Destructor
     ~InPointerFilter() override = default;
-    
+    InPointerFilter(InPointerFilter&&) = default;
+    InPointerFilter& operator=(InPointerFilter&&) = default;
+
     /**
      * @brief Resets the pointer and the internal offset
      * @param array is the pointer to the new array

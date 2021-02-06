@@ -13,7 +13,7 @@
 
 #include <gtest/gtest.h>
 
-#define PROCESSSIZE (1024)
+constexpr gsl::index PROCESSSIZE = (1024);
 
 TEST(InWavFilter, InFloat_1k_test)
 {

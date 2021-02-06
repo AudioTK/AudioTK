@@ -24,7 +24,7 @@
 
 #include <gtest/gtest.h>
 
-#define PROCESSSIZE (1200)
+constexpr gsl::index PROCESSSIZE = (1200);
 
 TEST(TransistorClassAFilter, sin1k)
 {

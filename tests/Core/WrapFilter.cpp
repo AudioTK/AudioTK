@@ -1,10 +1,11 @@
 /**
- * \file PipelineGlobalSinkFilter.cpp
+ * \file WrapFilter.cpp
  */
 
 #include <cstdint>
 
 #include <ATK/Core/PipelineGlobalSinkFilter.h>
+#include <ATK/Core/WrapFilter.h>
 
 #include <ATK/Mock/TriangleCheckerFilter.h>
 #include <ATK/Mock/TriangleGeneratorFilter.h>
@@ -13,33 +14,7 @@
 
 constexpr gsl::index PROCESSSIZE = (1024 * 1024);
 
-TEST(PipelineGlobalSinkFilter, constructor_test)
-{
-  ASSERT_NO_THROW(ATK::PipelineGlobalSinkFilter filter);
-}
-
-TEST(PipelineGlobalSinkFilter, check_remove_inexisting_test)
-{
-  ATK::TriangleCheckerFilter<int64_t> checker;
-  
-  ATK::PipelineGlobalSinkFilter globalsink;
-
-  ASSERT_THROW(globalsink.remove_filter(&checker), std::runtime_error);
-}
-
-TEST(PipelineGlobalSinkFilter, check_remove_existing_test)
-{
-  ATK::TriangleCheckerFilter<int64_t> checker;
-  
-  ATK::PipelineGlobalSinkFilter globalsink;
-  ASSERT_NO_THROW(globalsink.add_filter(&checker));
-  ASSERT_THROW(globalsink.add_filter(&checker), std::runtime_error);
-
-  ASSERT_NO_THROW(globalsink.remove_filter(&checker));
-  ASSERT_THROW(globalsink.remove_filter(&checker), std::runtime_error);
-}
-
-TEST(PipelineGlobalSinkFilter, 2sinks_first_test)
+TEST(WrapFilter, 2sinks_first_test)
 {
   ATK::TriangleGeneratorFilter<int64_t> generator;
   generator.set_output_sampling_rate(48000);
@@ -50,23 +25,35 @@ TEST(PipelineGlobalSinkFilter, 2sinks_first_test)
   checker1.set_input_sampling_rate(48000);
   checker1.set_amplitude(1000000);
   checker1.set_frequency(1000);
-  checker1.set_input_port(0, &generator, 0);
 
   ATK::TriangleCheckerFilter<int64_t> checker2;
   checker2.set_input_sampling_rate(48000);
   checker2.set_amplitude(1000000);
   checker2.set_frequency(1000);
-  checker2.set_input_port(0, &generator, 0);
+
+  ATK::WrapFilter<int64_t> wrap(2,
+      2,
+      [](std::vector<ATK::InPointerFilter<int64_t>>& inputFilters,
+          std::vector<ATK::OutPointerFilter<int64_t>>& outputFilters,
+          std::vector<gsl::unique_ptr<ATK::BaseFilter>>& filters) {
+        outputFilters[0].set_input_port(0, &inputFilters[0], 0);
+        outputFilters[1].set_input_port(0, &inputFilters[1], 0);
+      });
+  wrap.set_input_sampling_rate(48000);
+  wrap.full_setup();
+  wrap.set_input_port(0, &generator, 0);
+  wrap.set_input_port(1, &generator, 0);
+  checker1.set_input_port(0, &wrap, 0);
+  checker2.set_input_port(0, &wrap, 1);
 
   ATK::PipelineGlobalSinkFilter globalsink;
   globalsink.set_input_sampling_rate(48000);
   globalsink.add_filter(&checker1);
   globalsink.add_filter(&checker2);
   globalsink.process(PROCESSSIZE);
-  checker1.process(PROCESSSIZE);
 }
 
-TEST(PipelineGlobalSinkFilter, 2sinks_second_test)
+TEST(WrapFilter, 2sinks_second_test)
 {
   ATK::TriangleGeneratorFilter<int64_t> generator;
   generator.set_output_sampling_rate(48000);
@@ -77,29 +64,29 @@ TEST(PipelineGlobalSinkFilter, 2sinks_second_test)
   checker1.set_input_sampling_rate(48000);
   checker1.set_amplitude(1000000);
   checker1.set_frequency(1000);
-  checker1.set_input_port(0, &generator, 0);
 
   ATK::TriangleCheckerFilter<int64_t> checker2;
   checker2.set_input_sampling_rate(48000);
   checker2.set_amplitude(1000000);
   checker2.set_frequency(1000);
-  checker2.set_input_port(0, &generator, 0);
+
+  ATK::WrapFilter<int64_t> wrap(1,
+      2,
+      [](std::vector<ATK::InPointerFilter<int64_t>>& inputFilters,
+          std::vector<ATK::OutPointerFilter<int64_t>>& outputFilters,
+          std::vector<gsl::unique_ptr<ATK::BaseFilter>>& filters) {
+        outputFilters[0].set_input_port(0, &inputFilters[0], 0);
+        outputFilters[1].set_input_port(0, &inputFilters[0], 0);
+      });
+  wrap.set_input_sampling_rate(48000);
+  wrap.full_setup();
+  wrap.set_input_port(0, &generator, 0);
+  checker1.set_input_port(0, &wrap, 0);
+  checker2.set_input_port(0, &wrap, 1);
 
   ATK::PipelineGlobalSinkFilter globalsink;
   globalsink.set_input_sampling_rate(48000);
   globalsink.add_filter(&checker1);
   globalsink.add_filter(&checker2);
   globalsink.process(PROCESSSIZE);
-  checker2.process(PROCESSSIZE);
-}
-
-TEST(PipelineGlobalSinkFilter, no_set_input_test)
-{
-  ATK::TriangleGeneratorFilter<int64_t> generator;
-  generator.set_output_sampling_rate(48000);
-  generator.set_amplitude(1000000);
-  generator.set_frequency(1000);
-  
-  ATK::PipelineGlobalSinkFilter globalsink;
-  ASSERT_THROW(globalsink.set_input_port(0, &generator, 0), std::runtime_error);
 }

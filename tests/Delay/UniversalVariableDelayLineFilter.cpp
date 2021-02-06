@@ -14,7 +14,7 @@
 
 #include <boost/math/constants/constants.hpp>
 
-#define PROCESSSIZE (1024)
+constexpr gsl::index PROCESSSIZE = (1024);
 
 TEST(UniversalVariableDelayLineFilter, sinus_line16000_delaysinus_test)
 {

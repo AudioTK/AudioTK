@@ -11,7 +11,7 @@
 
 #include <gtest/gtest.h>
 
-#define PROCESSSIZE (512)
+constexpr gsl::index PROCESSSIZE = 512;
 
 TEST(OutCircularPointerFloat, sin1k_test)
 {
@@ -29,9 +29,9 @@ TEST(OutCircularPointerFloat, sin1k_test)
   output.set_input_port(0, &generator, 0);
   
   auto nb_iterations = 4 + ATK::OutCircularPointerFilter<float>::slice_size * ATK::OutCircularPointerFilter<float>::nb_slices / PROCESSSIZE;
-  auto max_zero = std::max(0, int(ATK::OutCircularPointerFilter<float>::out_slice_size));
-  auto offset = 0;
-  
+  auto max_zero = std::max(gsl::index(0), gsl::index(ATK::OutCircularPointerFilter<float>::out_slice_size));
+  gsl::index offset = 0;
+
   for(int i = 0; i < nb_iterations; ++i)
   {
     output.process(PROCESSSIZE);
@@ -40,8 +40,11 @@ TEST(OutCircularPointerFloat, sin1k_test)
     
     if(process && i!=0)
     {
-      max_zero = std::max(0, int(ATK::OutCircularPointerFilter<float>::out_slice_size - (i+1) * PROCESSSIZE));
-      offset = std::max(0, (i+1) * PROCESSSIZE - int(ATK::OutCircularPointerFilter<float>::out_slice_size)) - max_zero ;
+      max_zero = std::max(
+          gsl::index(0), gsl::index(ATK::OutCircularPointerFilter<float>::out_slice_size - (i + 1) * PROCESSSIZE));
+      offset = std::max(gsl::index(0),
+                   (i + 1) * PROCESSSIZE - gsl::index(ATK::OutCircularPointerFilter<float>::out_slice_size))
+             - max_zero;
     }
     for(gsl::index j = 0; j < max_zero; ++j)
     {
