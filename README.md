@@ -21,6 +21,7 @@ Audio Toolkit is published under the BSD license.
 
 ## Changelog
 ### 3.3.0
+* Add WrapFilter that wraps a series of plugins as a unique filter
 * Enhance CMake functionality for external Audio ToolKit projects 
 * Reorder headers
 

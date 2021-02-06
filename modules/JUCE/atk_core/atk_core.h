@@ -45,5 +45,6 @@
 #include <ATK/Core/PipelineGlobalSinkFilter.h>
 #include <ATK/Core/TypedBaseFilter.h>
 #include <ATK/Core/Utilities.h>
+#include <ATK/Core/WrapFilter.h>
 
 #endif

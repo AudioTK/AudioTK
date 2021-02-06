@@ -19,3 +19,4 @@
 #include <ATK/Core/PipelineGlobalSinkFilter.cpp>
 #include <ATK/Core/TypedBaseFilter.cpp>
 #include <ATK/Core/Utilities.cpp>
+#include <ATK/Core/WrapFilter.cpp>
