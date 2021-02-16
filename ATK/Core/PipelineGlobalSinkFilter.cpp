@@ -73,31 +73,42 @@ namespace ATK
     // Nothing to do
   }
 
+  void PipelineGlobalSinkFilter::dryrun(gsl::index size)
+  {
+    for(auto filter: filters)
+    {
+      filter->reset();
+    }
+    for(auto filter: filters)
+    {
+      filter->process_conditionnally<false>(uint64_t(size) * filter->get_output_sampling_rate() / input_sampling_rate);
+    }
+  }
+
   void PipelineGlobalSinkFilter::process_impl(gsl::index size ) const
   {
-    for (auto it = filters.begin(); it != filters.end(); ++it)
+    for(auto filter: filters)
     {
-      if ((*it) != nullptr)
-      {
-        (*it)->reset();
-      }
+      filter->reset();
     }
 #if ATK_USE_THREADPOOL == 1
     if (activate_parallel)
     {
       tbb::task_group g;
-      for (auto it = filters.begin(); it != filters.end(); ++it)
+      for(auto filter: filters)
       {
-        auto filter = (*it);
-        g.run([=] {filter->process_conditionnally(uint64_t(size) * (*it)->get_output_sampling_rate() / input_sampling_rate); });
+        g.run([=] {
+          filter->process_conditionnally<true>(
+              uint64_t(size) * (*it)->get_output_sampling_rate() / input_sampling_rate);
+        });
       }
       g.wait();
       return;
     }
 #endif
-    for (auto it = filters.begin(); it != filters.end(); ++it)
+    for(auto filter: filters)
     {
-      (*it)->process_conditionnally<true>(uint64_t(size) * (*it)->get_output_sampling_rate() / input_sampling_rate);
+      filter->process_conditionnally<true>(uint64_t(size) * filter->get_output_sampling_rate() / input_sampling_rate);
     }
   }
 
