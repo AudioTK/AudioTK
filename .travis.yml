@@ -262,11 +262,11 @@ after_script:
       ssh -i ${HOME}/.ssh/key -o "StrictHostKeyChecking no" 3649288@git.sd3.gpaas.net deploy doc.audio-tk.com.git
     fi
 
-deploy:
-  skip_cleanup: true
-  provider: releases
-  file_glob: true
-  file: ${HOME}/AudioTK.*.tar.gz
-  on:
-    repo: AudioTK/AudioTK
-    tags: true
+#deploy:
+#  skip_cleanup: true
+#  provider: releases
+#  file_glob: true
+#  file: ${HOME}/AudioTK.*.tar.gz
+#  on:
+#    repo: AudioTK/AudioTK
+#    tags: true
