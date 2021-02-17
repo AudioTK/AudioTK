@@ -5,10 +5,6 @@
 #include "WrapFilter.h"
 #include <ATK/Core/Utilities.h>
 
-#if ATK_USE_THREADPOOL == 1
-#  include <tbb/task_group.h>
-#endif
-
 #include <algorithm>
 
 namespace ATK
