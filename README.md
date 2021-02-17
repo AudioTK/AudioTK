@@ -1,7 +1,7 @@
 # AudioTK
 
 [![codecov](https://codecov.io/gh/audiotk/audiotk/branch/main/graph/badge.svg)](https://codecov.io/gh/audiotk/audiotk)
-[![Travis](https://travis-ci.org/audiotk/AudioTK.svg?branch=master)](https://travis-ci.org/audiotk/AudioTK)
+[![Travis](https://travis-ci.com/audiotk/AudioTK.svg?branch=master)](https://travis-ci.org/audiotk/AudioTK)
 [![Appveyor](https://ci.appveyor.com/api/projects/status/l5srcflqwirt4m1s?svg=true)](https://ci.appveyor.com/project/mbrucher/audiotk-67s1l)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
