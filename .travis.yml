@@ -230,7 +230,7 @@ after_success:
     fi
   - cd ${HOME}/ATK
   - |
-    if [[ "ENABLE_PYTHON" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]]; then
+    if [[ "${ENABLE_PYTHON}" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]]; then
       tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}.py${PYTHON_VERSION}-${MY_NAME}.tar.gz *
     else
       tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}-${MY_NAME}.tar.gz *
@@ -238,7 +238,7 @@ after_success:
 
 after_script:
   - |
-    if [[ "${ENABLE_STATIC_ANALYSIS}" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]] && [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+    if [[ "${ENABLE_STATIC_ANALYSIS}" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]]; then
       cd ${HOME}
       echo "-----BEGIN RSA PRIVATE KEY-----" > ${HOME}/.ssh/key
       echo ${SSH_KEY} | awk '{for(i=1;i<length;i+=64) print substr($0,i,64)}' >> ${HOME}/.ssh/key
