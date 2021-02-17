@@ -11,11 +11,9 @@
 #include <ATK/Mock/TriangleCheckerFilter.h>
 #include <ATK/Mock/TriangleGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
-BOOST_AUTO_TEST_CASE( MaxFilter_test )
+TEST(MaxFilter, test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);

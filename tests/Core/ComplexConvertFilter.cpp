@@ -13,13 +13,11 @@
 
 #include <ATK/Core/PipelineGlobalSinkFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
-#define PROCESSSIZE (1024*1024)
+constexpr gsl::index PROCESSSIZE = (1024 * 1024);
 
-BOOST_AUTO_TEST_CASE( ConvertBasedFilter_triangle_real_to_complex_test )
+TEST(ConvertBasedFilter, triangle_real_to_complex_test)
 {
   ATK::TriangleGeneratorFilter<float> generator;
   generator.set_output_sampling_rate(48000);
@@ -40,7 +38,7 @@ BOOST_AUTO_TEST_CASE( ConvertBasedFilter_triangle_real_to_complex_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(ConvertBasedFilter_triangle_complex_to_real_test)
+TEST(ConvertBasedFilter, triangle_complex_to_real_test)
 {
   ATK::TriangleGeneratorFilter<std::complex<float>> generator;
   generator.set_output_sampling_rate(48000);

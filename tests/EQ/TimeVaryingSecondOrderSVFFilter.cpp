@@ -13,54 +13,52 @@
 
 #include <boost/math/constants/constants.hpp>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 constexpr gsl::index input_sampling_rate = 1024*64;
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBandPassCoefficients_Q_test )
+TEST(TimeVaryingSecondOrderSVFBandPassCoefficients, Q_test)
 {
   ATK::TimeVaryingSecondOrderSVFFilter<ATK::TimeVaryingSecondOrderSVFBandPassCoefficients<double> > filter;
   filter.set_Q(0.5);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 0.5);
+  ASSERT_EQ(filter.get_Q(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBandPassCoefficients_Q_range_test )
+TEST(TimeVaryingSecondOrderSVFBandPassCoefficients, Q_range_test)
 {
   ATK::TimeVaryingSecondOrderSVFFilter<ATK::TimeVaryingSecondOrderSVFBandPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0.), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0.), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBellCoefficients_gain_test )
+TEST(TimeVaryingSecondOrderSVFBellCoefficients, gain_test)
 {
   ATK::TimeVaryingSecondOrderSVFFilter<ATK::TimeVaryingSecondOrderSVFBellCoefficients<double> > filter;
   filter.set_gain(0.5);
-  BOOST_CHECK_EQUAL(filter.get_gain(), 0.5);
+  ASSERT_EQ(filter.get_gain(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBellCoefficients_gain_range_test )
+TEST(TimeVaryingSecondOrderSVFBellCoefficients, gain_range_test)
 {
   ATK::TimeVaryingSecondOrderSVFFilter<ATK::TimeVaryingSecondOrderSVFBellCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_gain(0.), std::out_of_range);
+  ASSERT_THROW(filter.set_gain(0.), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowShelfCoefficients_Q_test )
+TEST(TimeVaryingSecondOrderSVFLowShelfCoefficients, Q_test)
 {
   ATK::TimeVaryingSecondOrderSVFFilter<ATK::TimeVaryingSecondOrderSVFLowShelfCoefficients<double> > filter;
   filter.set_gain(0.5);
-  BOOST_CHECK_EQUAL(filter.get_gain(), 0.5);
+  ASSERT_EQ(filter.get_gain(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighShelfCoefficients_Q_test )
+TEST(TimeVaryingSecondOrderSVFHighShelfCoefficients, Q_test)
 {
   ATK::TimeVaryingSecondOrderSVFFilter<ATK::TimeVaryingSecondOrderSVFHighShelfCoefficients<double> > filter;
   filter.set_gain(0.5);
-  BOOST_CHECK_EQUAL(filter.get_gain(), 0.5);
+  ASSERT_EQ(filter.get_gain(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBandPassCoefficients_1k_test )
+TEST(TimeVaryingSecondOrderSVFBandPassCoefficients, 1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -98,7 +96,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBandPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBandPassCoefficients_100_test )
+TEST(TimeVaryingSecondOrderSVFBandPassCoefficients, 100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -136,7 +134,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBandPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBandPassCoefficients_2k_test )
+TEST(TimeVaryingSecondOrderSVFBandPassCoefficients, 2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -174,7 +172,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFBandPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowPassCoefficients_1k_test )
+TEST(TimeVaryingSecondOrderSVFLowPassCoefficients, 1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -211,7 +209,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowPassCoefficients_100_test )
+TEST(TimeVaryingSecondOrderSVFLowPassCoefficients, 100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -248,7 +246,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowPassCoefficients_2k_test )
+TEST(TimeVaryingSecondOrderSVFLowPassCoefficients, 2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -285,7 +283,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowPassCoefficients_200_test )
+TEST(TimeVaryingSecondOrderSVFLowPassCoefficients, 200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -322,7 +320,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowPassCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighPassCoefficients_1k_test )
+TEST(TimeVaryingSecondOrderSVFHighPassCoefficients, 1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -359,7 +357,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighPassCoefficients_100_test )
+TEST(TimeVaryingSecondOrderSVFHighPassCoefficients, 100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -396,7 +394,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighPassCoefficients_2k_test )
+TEST(TimeVaryingSecondOrderSVFHighPassCoefficients, 2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -433,7 +431,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighPassCoefficients_200_test )
+TEST(TimeVaryingSecondOrderSVFHighPassCoefficients, 200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -470,7 +468,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighPassCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFNotchCoefficients_1k_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFNotchCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -507,7 +505,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFNotchCoefficients_1k_te
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFNotchCoefficients_100_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFNotchCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -544,7 +542,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFNotchCoefficients_100_t
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFNotchCoefficients_2k_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFNotchCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -581,7 +579,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFNotchCoefficients_2k_te
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFNotchCoefficients_200_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFNotchCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -618,7 +616,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFNotchCoefficients_200_t
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFPeakCoefficients_1k_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFPeakCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -655,7 +653,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFPeakCoefficients_1k_tes
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFPeakCoefficients_100_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFPeakCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -692,7 +690,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFPeakCoefficients_100_te
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFPeakCoefficients_2k_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFPeakCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -729,7 +727,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFPeakCoefficients_2k_tes
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFPeakCoefficients_200_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFPeakCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -766,7 +764,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFPeakCoefficients_200_te
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFBellCoefficients_1k_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFBellCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -804,7 +802,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFBellCoefficients_1k_tes
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFBellCoefficients_100_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFBellCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -842,7 +840,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFBellCoefficients_100_te
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFBellCoefficients_2k_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFBellCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -880,7 +878,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFBellCoefficients_2k_tes
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFBellCoefficients_200_test )
+TEST(TimeVaryingSecondOrderSVFFilter, SVFBellCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -918,7 +916,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFFilter_SVFBellCoefficients_200_te
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowShelvingCoefficients_1k_test )
+TEST(TimeVaryingSecondOrderSVFLowShelvingCoefficients, 1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -956,7 +954,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowShelvingCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowShelvingCoefficients_100_test )
+TEST(TimeVaryingSecondOrderSVFLowShelvingCoefficients, 100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -994,7 +992,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowShelvingCoefficients_100_test 
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowShelvingCoefficients_200_test )
+TEST(TimeVaryingSecondOrderSVFLowShelvingCoefficients, 200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -1032,7 +1030,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFLowShelvingCoefficients_200_test 
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighShelvingCoefficients_1k_test )
+TEST(TimeVaryingSecondOrderSVFHighShelvingCoefficients, 1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -1070,7 +1068,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighShelvingCoefficients_1k_test 
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighShelvingCoefficients_10k_test )
+TEST(TimeVaryingSecondOrderSVFHighShelvingCoefficients, 10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -1108,7 +1106,7 @@ BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighShelvingCoefficients_10k_test
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( TimeVaryingSecondOrderSVFHighShelvingCoefficients_500_test )
+TEST(TimeVaryingSecondOrderSVFHighShelvingCoefficients, 500_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);

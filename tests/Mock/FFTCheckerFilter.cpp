@@ -7,13 +7,11 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
-#define PROCESSSIZE (1024*1024)
+constexpr gsl::index PROCESSSIZE = (1024 * 1024);
 
-BOOST_AUTO_TEST_CASE( FFTCheckerFilter_sinus_test )
+TEST(FFTCheckerFilter, sinus_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);

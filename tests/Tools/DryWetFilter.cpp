@@ -12,32 +12,30 @@
 #include <ATK/Mock/TriangleCheckerFilter.h>
 #include <ATK/Mock/TriangleGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024;
 
-BOOST_AUTO_TEST_CASE( DryWetFilter_drywet_set_test )
+TEST(DryWetFilter, drywet_set_test)
 {
   ATK::DryWetFilter<double> filter;
   filter.set_dry(0.5);
-  BOOST_CHECK_EQUAL(filter.get_dry(), 0.5);
+  ASSERT_EQ(filter.get_dry(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( DryWetFilter_drywet_range_test )
+TEST(DryWetFilter, drywet_range_test)
 {
   ATK::DryWetFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_dry(-0.00001), std::out_of_range);
+  ASSERT_THROW(filter.set_dry(-0.00001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( DryWetFilter_drywet_range2_test )
+TEST(DryWetFilter, drywet_range2_test)
 {
   ATK::DryWetFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_dry(1.00001), std::out_of_range);
+  ASSERT_THROW(filter.set_dry(1.00001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( DryWetFilter_1_test )
+TEST(DryWetFilter, 1_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -59,7 +57,7 @@ BOOST_AUTO_TEST_CASE( DryWetFilter_1_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( DryWetFilter_0_test )
+TEST(DryWetFilter, 0_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -82,7 +80,7 @@ BOOST_AUTO_TEST_CASE( DryWetFilter_0_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( DryWetFilter_0_5_test )
+TEST(DryWetFilter, 0_5_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);

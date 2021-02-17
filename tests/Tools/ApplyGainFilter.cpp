@@ -7,15 +7,13 @@
 #include <ATK/Core/InPointerFilter.h>
 #include <ATK/Core/OutPointerFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 1024;
 
-BOOST_AUTO_TEST_CASE( ApplyGainFilter_sinus_test )
+TEST(ApplyGainFilter, sinus_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -41,6 +39,6 @@ BOOST_AUTO_TEST_CASE( ApplyGainFilter_sinus_test )
   
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_EQUAL(data[i] * data[i], outdata[i]);
+    ASSERT_EQ(data[i] * data[i], outdata[i]);
   }
 }

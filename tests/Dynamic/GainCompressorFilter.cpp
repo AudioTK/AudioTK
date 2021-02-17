@@ -8,61 +8,59 @@
 #include <ATK/Core/OutPointerFilter.h>
 #include <ATK/Core/Utilities.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 64;
 
-BOOST_AUTO_TEST_CASE( GainFilter_threshold_test )
+TEST(GainFilter, threshold_test)
 {
   ATK::GainFilter<ATK::GainCompressorFilter<double>> filter;
   filter.set_threshold(10);
-  BOOST_CHECK_EQUAL(filter.get_threshold(), 10);
+  ASSERT_EQ(filter.get_threshold(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( GainFilter_threshold_db_test )
+TEST(GainFilter, threshold_db_test)
 {
   ATK::GainFilter<ATK::GainCompressorFilter<double>> filter;
   filter.set_threshold_db(20);
-  BOOST_CHECK_EQUAL(filter.get_threshold(), 100);
+  ASSERT_EQ(filter.get_threshold(), 100);
 }
 
-BOOST_AUTO_TEST_CASE( GainFilter_threshold_range_test )
+TEST(GainFilter, threshold_range_test)
 {
   ATK::GainFilter<ATK::GainCompressorFilter<double>> filter;
-  BOOST_CHECK_THROW(filter.set_threshold(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_threshold(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( GainFilter_ratio_test )
+TEST(GainFilter, ratio_test)
 {
   ATK::GainFilter<ATK::GainCompressorFilter<double>> filter;
   filter.set_ratio(10);
-  BOOST_CHECK_EQUAL(filter.get_ratio(), 10);
+  ASSERT_EQ(filter.get_ratio(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( GainFilter_ratio_range_test )
+TEST(GainFilter, ratio_range_test)
 {
   ATK::GainFilter<ATK::GainCompressorFilter<double>> filter;
-  BOOST_CHECK_THROW(filter.set_ratio(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_ratio(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( GainCompressorFilter_softness_test )
+TEST(GainCompressorFilter, softness_test)
 {
   ATK::GainFilter<ATK::GainCompressorFilter<double>> filter;
   filter.set_softness(0.5);
-  BOOST_CHECK_EQUAL(filter.get_softness(), 0.5);
+  ASSERT_EQ(filter.get_softness(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( GainCompressorFilter_softness_range_test )
+TEST(GainCompressorFilter, softness_range_test)
 {
   ATK::GainFilter<ATK::GainCompressorFilter<double>> filter;
-  BOOST_CHECK_THROW(filter.set_softness(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_softness(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( GainCompressorFilter_const_1_test )
+TEST(GainCompressorFilter, const_1_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -88,11 +86,11 @@ BOOST_AUTO_TEST_CASE( GainCompressorFilter_const_1_test )
   
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(1, outdata[i], 0.1);
+    ASSERT_NEAR(1, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainCompressorFilter_const_0_test )
+TEST(GainCompressorFilter, const_0_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -117,11 +115,13 @@ BOOST_AUTO_TEST_CASE( GainCompressorFilter_const_0_test )
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(1, outdata[i], 0.1); // if input is zero, we still need a gain of 1 to have a progression of 1 for values < threshold
+    ASSERT_NEAR(1,
+        outdata[i],
+        0.1); // if input is zero, we still need a gain of 1 to have a progression of 1 for values < threshold
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainCompressorFilter_const_1_threshold_05_ratio_2_test )
+TEST(GainCompressorFilter, const_1_threshold_05_ratio_2_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -149,11 +149,11 @@ BOOST_AUTO_TEST_CASE( GainCompressorFilter_const_1_threshold_05_ratio_2_test )
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.836990654, outdata[i], 0.1);
+    ASSERT_NEAR(0.836990654, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE(GainCompressorFilter_const_1_threshold_05_ratio_2_test_LUT)
+TEST(GainCompressorFilter, const_1_threshold_05_ratio_2_test_LUT)
 {
   std::array<double, PROCESSSIZE> data;
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -182,11 +182,11 @@ BOOST_AUTO_TEST_CASE(GainCompressorFilter_const_1_threshold_05_ratio_2_test_LUT)
 
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.836990654, outdata[i], 0.1);
+    ASSERT_NEAR(0.836990654, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainCompressorFilter_const_1_threshold_05_ratio_4_test )
+TEST(GainCompressorFilter, const_1_threshold_05_ratio_4_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -214,11 +214,11 @@ BOOST_AUTO_TEST_CASE( GainCompressorFilter_const_1_threshold_05_ratio_4_test )
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.765739262, outdata[i], 0.1);
+    ASSERT_NEAR(0.765739262, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE(GainCompressorFilter_const_1_threshold_05_ratio_4_test_LUT)
+TEST(GainCompressorFilter, const_1_threshold_05_ratio_4_test_LUT)
 {
   std::array<double, PROCESSSIZE> data;
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -247,6 +247,6 @@ BOOST_AUTO_TEST_CASE(GainCompressorFilter_const_1_threshold_05_ratio_4_test_LUT)
 
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.765739262, outdata[i], 0.1);
+    ASSERT_NEAR(0.765739262, outdata[i], 0.1);
   }
 }

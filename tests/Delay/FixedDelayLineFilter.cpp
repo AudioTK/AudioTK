@@ -15,27 +15,25 @@
 
 #include <ATK/Tools/SumFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
-#define PROCESSSIZE (1024*64)
+constexpr gsl::index PROCESSSIZE = (1024 * 64);
 
-BOOST_AUTO_TEST_CASE( FixedDelayLineFilter_line100_delay_1_test )
+TEST(FixedDelayLineFilter, line100_delay_1_test)
 {
   ATK::FixedDelayLineFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_delay(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_delay(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( FixedDelayLineFilter_line100_delay_100_test )
+TEST(FixedDelayLineFilter, line100_delay_100_test)
 {
   ATK::FixedDelayLineFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_delay(100), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_delay(100), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( FixedDelayLineFilter_sinus_line100_delay50_test )
+TEST(FixedDelayLineFilter, sinus_line100_delay50_test)
 {
   std::vector<double> data(PROCESSSIZE);
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -64,16 +62,16 @@ BOOST_AUTO_TEST_CASE( FixedDelayLineFilter_sinus_line100_delay50_test )
   
   for(gsl::index i = 0; i < 50; ++i)
   {
-    BOOST_REQUIRE_EQUAL(0, outdata[i]);
+    ASSERT_EQ(0, outdata[i]);
   }
   
   for(gsl::index i = 50; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_EQUAL(data[i - 50], outdata[i]);
+    ASSERT_EQ(data[i - 50], outdata[i]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(FixedDelayLineFilter_sinus_line100_delay50_progressive_test)
+TEST(FixedDelayLineFilter, sinus_line100_delay50_progressive_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -101,7 +99,7 @@ BOOST_AUTO_TEST_CASE(FixedDelayLineFilter_sinus_line100_delay50_progressive_test
   }
 }
 
-BOOST_AUTO_TEST_CASE(FixedDelayLineFilter_sinus_line1000_delay50_progressive_test)
+TEST(FixedDelayLineFilter, sinus_line1000_delay50_progressive_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -129,10 +127,9 @@ BOOST_AUTO_TEST_CASE(FixedDelayLineFilter_sinus_line1000_delay50_progressive_tes
   }
 }
 
-
-BOOST_AUTO_TEST_CASE(FixedDelayLineFilter_sinus_delay_test )
+TEST(FixedDelayLineFilter, sinus_delay_test)
 {
   ATK::FixedDelayLineFilter<double> filter(128);
   filter.set_delay(10);
-  BOOST_CHECK_EQUAL(filter.get_delay(), 10);
+  ASSERT_EQ(filter.get_delay(), 10);
 }

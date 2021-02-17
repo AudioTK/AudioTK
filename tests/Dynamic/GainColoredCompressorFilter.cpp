@@ -8,48 +8,46 @@
 #include <ATK/Core/OutPointerFilter.h>
 #include <ATK/Core/Utilities.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 64;
 
-BOOST_AUTO_TEST_CASE( GainColoredCompressorFilter_softness_test )
+TEST(GainColoredCompressorFilter, softness_test)
 {
   ATK::GainFilter<ATK::GainColoredCompressorFilter<double>> filter;
   filter.set_softness(0.5);
-  BOOST_CHECK_EQUAL(filter.get_softness(), 0.5);
+  ASSERT_EQ(filter.get_softness(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( GainColoredCompressorFilter_softness_range_test )
+TEST(GainColoredCompressorFilter, softness_range_test)
 {
   ATK::GainFilter<ATK::GainColoredCompressorFilter<double>> filter;
-  BOOST_CHECK_THROW(filter.set_softness(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_softness(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( GainColoredCompressorFilter_color_test )
+TEST(GainColoredCompressorFilter, color_test)
 {
   ATK::GainFilter<ATK::GainColoredCompressorFilter<double>> filter;
   filter.set_color(0.5);
-  BOOST_CHECK_EQUAL(filter.get_color(), 0.5);
+  ASSERT_EQ(filter.get_color(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( GainColoredCompressorFilter_quality_test )
+TEST(GainColoredCompressorFilter, quality_test)
 {
   ATK::GainFilter<ATK::GainColoredCompressorFilter<double>> filter;
   filter.set_quality(0.5);
-  BOOST_CHECK_EQUAL(filter.get_quality(), 0.5);
+  ASSERT_EQ(filter.get_quality(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( GainColoredCompressorFilter_quality_range_test )
+TEST(GainColoredCompressorFilter, quality_range_test)
 {
   ATK::GainFilter<ATK::GainColoredCompressorFilter<double>> filter;
-  BOOST_CHECK_THROW(filter.set_quality(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_quality(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_const_1_test)
+TEST(GainColoredCompressorFilter, const_1_test)
 {
   std::array<double, PROCESSSIZE> data;
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -75,11 +73,11 @@ BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_const_1_test)
 
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(1, outdata[i], 0.1);
+    ASSERT_NEAR(1, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_const_0_test)
+TEST(GainColoredCompressorFilter, const_0_test)
 {
   std::array<double, PROCESSSIZE> data;
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -104,11 +102,13 @@ BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_const_0_test)
 
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(1, outdata[i], 0.1); // if input is zero, we still need a gain of 1 to have a progression of 1 for values < threshold
+    ASSERT_NEAR(1,
+        outdata[i],
+        0.1); // if input is zero, we still need a gain of 1 to have a progression of 1 for values < threshold
   }
 }
 
-BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_const_1_threshold_05_ratio_2_test)
+TEST(GainColoredCompressorFilter, const_1_threshold_05_ratio_2_test)
 {
   std::array<double, PROCESSSIZE> data;
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -136,11 +136,11 @@ BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_const_1_threshold_05_ratio_2_te
 
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.836990654, outdata[i], 0.1);
+    ASSERT_NEAR(0.836990654, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_const_1_threshold_05_ratio_4_test)
+TEST(GainColoredCompressorFilter, const_1_threshold_05_ratio_4_test)
 {
   std::array<double, PROCESSSIZE> data;
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -168,11 +168,11 @@ BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_const_1_threshold_05_ratio_4_te
 
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.765739262, outdata[i], 0.1);
+    ASSERT_NEAR(0.765739262, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_always_more_1_test)
+TEST(GainColoredCompressorFilter, always_more_1_test)
 {
   std::array<double, PROCESSSIZE> data;
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -200,11 +200,11 @@ BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_always_more_1_test)
 
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_GE(outdata[i], 1 - 10 * std::numeric_limits<float>::epsilon());
+    ASSERT_GE(outdata[i], 1 - 10 * std::numeric_limits<float>::epsilon());
   }
 }
 
-BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_always_less_1_test)
+TEST(GainColoredCompressorFilter, always_less_1_test)
 {
   std::array<double, PROCESSSIZE> data;
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -232,6 +232,6 @@ BOOST_AUTO_TEST_CASE(GainColoredCompressorFilter_always_less_1_test)
 
   for (gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_LE(outdata[i], 1 + 10 * std::numeric_limits<float>::epsilon());
+    ASSERT_LE(outdata[i], 1 + 10 * std::numeric_limits<float>::epsilon());
   }
 }

@@ -33,7 +33,9 @@ namespace ATK
     OutPointerFilter(DataType* array, int channels, gsl::index size, bool interleaved);
     /// Destructor
     ~OutPointerFilter() override = default;
-    
+    OutPointerFilter(OutPointerFilter&&) = default;
+    OutPointerFilter& operator=(OutPointerFilter&&) = default;
+
     /**
      * @brief Resets the pointer and the internal offset
      * @param array is the pointer to the new array
@@ -45,13 +47,13 @@ namespace ATK
     /// This implementation retrieves inputs from other filters and converts it accordingly
     void process_impl(gsl::index size) const final;
     /// Current offset in the array
-    mutable gsl::index offset = 0;
+    mutable gsl::index offset{0};
     /// Output array
     DataType* array = nullptr;
     /// Size of the output array
-    gsl::index mysize = 0;
+    gsl::index mysize{0};
     /// Number of channels/ports in the array
-    unsigned int channels = 0;
+    unsigned int channels{0};
     /// Is the output array interleaved?
     bool interleaved = false;
   };

@@ -2,7 +2,7 @@
  * \file ComplexConvertFilter.cpp
  */
 
-#include <ATK/Core/ComplexConvertFilter.h>
+#include "ComplexConvertFilter.h"
 
 #include <cassert>
 #include <cmath>
@@ -59,7 +59,9 @@ namespace ATK
   }
 
   template class RealToComplexFilter<float>;
-  template class RealToComplexFilter<double>;
   template class ComplexToRealFilter<float>;
+#if ATK_ENABLE_INSTANTIATION
+  template class RealToComplexFilter<double>;
   template class ComplexToRealFilter<double>;
+#endif
 }

@@ -12,16 +12,15 @@
 
 #include <ATK/Mock/TriangleCheckerFilter.h>
 
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024;
 
-BOOST_AUTO_TEST_CASE( InSndFileFilter_InFloat_1k_test )
+TEST(InSndFileFilter, InFloat_1k_test)
 {
   ATK::InSndFileFilter<float> generator(ATK_SOURCE_TREE "/tests/data/sinus1k.wav");
-  BOOST_CHECK_EQUAL(generator.get_frames(), PROCESSSIZE);
-  
+  ASSERT_EQ(generator.get_frames(), PROCESSSIZE);
+
   ATK::InWavFilter<float> filter(ATK_SOURCE_TREE "/tests/data/sinus1k.wav");
   filter.set_output_sampling_rate(48000);
 
@@ -46,7 +45,7 @@ BOOST_AUTO_TEST_CASE( InSndFileFilter_InFloat_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( InSndFileFilter_InFloat_1k2k_test )
+TEST(InSndFileFilter, InFloat_1k2k_test)
 {
   ATK::InSndFileFilter<float> generator(ATK_SOURCE_TREE "/tests/data/sinus1k2k.wav");
   
@@ -88,7 +87,7 @@ BOOST_AUTO_TEST_CASE( InSndFileFilter_InFloat_1k2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( InSndFileFilter_InDouble_1k_test )
+TEST(InSndFileFilter, InDouble_1k_test)
 {
   ATK::InSndFileFilter<double> generator(ATK_SOURCE_TREE "/tests/data/sinus1k.wav");
   
@@ -116,7 +115,7 @@ BOOST_AUTO_TEST_CASE( InSndFileFilter_InDouble_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( InSndFileFilter_InDouble_1k2k_test )
+TEST(InSndFileFilter, InDouble_1k2k_test)
 {
   ATK::InSndFileFilter<double> generator(ATK_SOURCE_TREE "/tests/data/sinus1k2k.wav");
   

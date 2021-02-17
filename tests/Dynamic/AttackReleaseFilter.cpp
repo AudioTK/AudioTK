@@ -8,53 +8,51 @@
 #include <ATK/Core/OutPointerFilter.h>
 #include <ATK/Core/Utilities.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( AttackRelease_attack_test )
+TEST(AttackRelease, attack_test)
 {
   ATK::AttackReleaseFilter<double> filter;
   filter.set_attack(0.5);
-  BOOST_CHECK_EQUAL(filter.get_attack(), 0.5);
+  ASSERT_EQ(filter.get_attack(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( AttackRelease_attack_range_test )
+TEST(AttackRelease, attack_range_test)
 {
   ATK::AttackReleaseFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_attack(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_attack(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackRelease_attack_range2_test )
+TEST(AttackRelease, attack_range2_test)
 {
   ATK::AttackReleaseFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_attack(1.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_attack(1.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackRelease_release_test )
+TEST(AttackRelease, release_test)
 {
   ATK::AttackReleaseFilter<double> filter;
   filter.set_release(0.5);
-  BOOST_CHECK_EQUAL(filter.get_release(), 0.5);
+  ASSERT_EQ(filter.get_release(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( AttackRelease_release_range_test )
+TEST(AttackRelease, release_range_test)
 {
   ATK::AttackReleaseFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_release(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_release(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackRelease_release_range2_test )
+TEST(AttackRelease, release_range2_test)
 {
   ATK::AttackReleaseFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_release(1.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_release(1.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( AttackReleaseFilter_triangle_test )
+TEST(AttackReleaseFilter, triangle_test)
 {
   std::vector<double> data(PROCESSSIZE);
   for(gsl::index i = 0; i < PROCESSSIZE/2; ++i)
@@ -85,10 +83,10 @@ BOOST_AUTO_TEST_CASE( AttackReleaseFilter_triangle_test )
   
   for(gsl::index i = 0; i < PROCESSSIZE/2; ++i)
   {
-    BOOST_REQUIRE_GE(data[i], outdata[i]);
+    ASSERT_GE(data[i], outdata[i]);
   }
   for(gsl::index i = 0; i < PROCESSSIZE/2; ++i)
   {
-    BOOST_REQUIRE_GE(outdata[PROCESSSIZE/2+i], outdata[PROCESSSIZE/2+i-1]);
+    ASSERT_GE(outdata[PROCESSSIZE / 2 + i], outdata[PROCESSSIZE / 2 + i - 1]);
   }
 }

@@ -12,14 +12,12 @@
 
 #include <boost/math/constants/constants.hpp>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1000;
 constexpr gsl::index SAMPLING_RATE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( TanFilter_const_sin1k )
+TEST(TanFilter, const_sin1k)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLING_RATE);
@@ -38,6 +36,6 @@ BOOST_AUTO_TEST_CASE( TanFilter_const_sin1k )
   
   for(size_t i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_CHECK_CLOSE(array[i], std::tan(sin[i] * boost::math::constants::pi<double>() / SAMPLING_RATE), 0.00001);
+    ASSERT_NEAR(array[i], std::tan(sin[i] * boost::math::constants::pi<double>() / SAMPLING_RATE), 0.00001);
   }
 }

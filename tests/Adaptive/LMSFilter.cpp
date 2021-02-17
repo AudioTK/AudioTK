@@ -15,81 +15,84 @@
 
 #include <Eigen/Core>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 1200;
 
-BOOST_AUTO_TEST_CASE(LMSFilter_size_negative_test)
+TEST(LMSFilter, destructor_test)
 {
-  ATK::LMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_size(0), ATK::RuntimeError);
+  ASSERT_NO_THROW(std::make_unique<ATK::LMSFilter<double>>(100));
 }
 
-BOOST_AUTO_TEST_CASE(LMSFilter_size_set_test)
+TEST(LMSFilter, size_negative_test)
+{
+  ATK::LMSFilter<double> filter(100);
+  ASSERT_THROW(filter.set_size(0), ATK::RuntimeError);
+}
+
+TEST(LMSFilter, size_set_test)
 {
   ATK::LMSFilter<double> filter(100);
   filter.set_size(10);
-  BOOST_CHECK_EQUAL(filter.get_size(), 10);
+  ASSERT_EQ(filter.get_size(), 10);
 }
 
-BOOST_AUTO_TEST_CASE(LMSFilter_mode_set_test)
+TEST(LMSFilter, mode_set_test)
 {
   ATK::LMSFilter<double> filter(100);
   filter.set_mode(ATK::LMSFilter<double>::Mode::NORMALIZED);
-  BOOST_CHECK(filter.get_mode() == ATK::LMSFilter<double>::Mode::NORMALIZED);
+  ASSERT_EQ(filter.get_mode(), ATK::LMSFilter<double>::Mode::NORMALIZED);
 }
 
-BOOST_AUTO_TEST_CASE(LMSFilter_memory_negative_test)
+TEST(LMSFilter, memory_negative_test)
 {
   ATK::LMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_memory(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_memory(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(LMSFilter_memory_test)
+TEST(LMSFilter, memory_test)
 {
   ATK::LMSFilter<double> filter(100);
   filter.set_memory(0.5);
-  BOOST_CHECK_EQUAL(filter.get_memory(), 0.5);
+  ASSERT_EQ(filter.get_memory(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( LMSFilter_memory_positive1_test )
+TEST(LMSFilter, memory_positive1_test)
 {
   ATK::LMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_memory(1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_memory(1), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(LMSFilter_mu_negative_test)
+TEST(LMSFilter, mu_negative_test)
 {
   ATK::LMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_mu(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_mu(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(LMSFilter_mu_test)
+TEST(LMSFilter, mu_test)
 {
   ATK::LMSFilter<double> filter(100);
   filter.set_mu(0.5);
-  BOOST_CHECK_EQUAL(filter.get_mu(), 0.5);
+  ASSERT_EQ(filter.get_mu(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( LMSFilter_mu_positive1_test )
+TEST(LMSFilter, mu_positive1_test)
 {
   ATK::LMSFilter<double> filter(100);
-  BOOST_CHECK_THROW(filter.set_mu(1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_mu(1), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE(LMSFilter_learning_set_test)
+TEST(LMSFilter, learning_set_test)
 {
   ATK::LMSFilter<double> filter(100);
-  BOOST_CHECK_EQUAL(filter.get_learning(), true);
+  ASSERT_EQ(filter.get_learning(), true);
   filter.set_learning(false);
-  BOOST_CHECK_EQUAL(filter.get_learning(), false);
+  ASSERT_EQ(filter.get_learning(), false);
 }
 
-BOOST_AUTO_TEST_CASE( LMSFilter_memory_99_test )
+TEST(LMSFilter, memory_99_test)
 {
   std::array<double, PROCESSSIZE> data;
   {
@@ -110,6 +113,7 @@ BOOST_AUTO_TEST_CASE( LMSFilter_memory_99_test )
   filter.set_input_port(1, &generator, 0);
   
   filter.process(PROCESSSIZE);
+  ASSERT_NE(filter.get_w(), nullptr);
 
   std::array<double, PROCESSSIZE> outdata;
   {
@@ -119,6 +123,6 @@ BOOST_AUTO_TEST_CASE( LMSFilter_memory_99_test )
 
   for (unsigned int i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_CHECK_CLOSE(outdata[i], filter.get_output_array(0)[i], 0.0001);
+    ASSERT_NEAR(outdata[i], filter.get_output_array(0)[i], 0.0001);
   }
 }

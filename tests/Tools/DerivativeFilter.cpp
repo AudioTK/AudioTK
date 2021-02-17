@@ -12,16 +12,14 @@
 
 #include <boost/math/constants/constants.hpp>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1000;
 constexpr gsl::index SAMPLING_RATE = 2*1024*1024;
 constexpr gsl::index freq = 1024;
 constexpr gsl::index offset = SAMPLING_RATE / (4 * freq);
 
-BOOST_AUTO_TEST_CASE( DerivativeFilter_const_sin1k )
+TEST(DerivativeFilter, const_sin1k)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLING_RATE);
@@ -42,6 +40,6 @@ BOOST_AUTO_TEST_CASE( DerivativeFilter_const_sin1k )
   
   for(size_t i = 1; i < PROCESSSIZE - offset; ++i)
   {
-    BOOST_CHECK_CLOSE(array[i], coeff * sin[i + offset], 5);
+    ASSERT_NEAR(array[i], coeff * sin[i + offset], 5);
   }
 }

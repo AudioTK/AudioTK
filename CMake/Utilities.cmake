@@ -1,8 +1,9 @@
 #
 # CMake utilities for ATK
 #
+include(CMakeParseArguments)
 
-macro(stagedebug target)
+function(stagedebug target)
   if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     if(APPLE)
       add_custom_command(TARGET ${target}
@@ -14,9 +15,9 @@ macro(stagedebug target)
         VERBATIM)
     endif(APPLE)
   endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
-endmacro()
+endfunction(stagedebug)
 
-MACRO(SOURCE_GROUP_BY_FOLDER target)
+function(SOURCE_GROUP_BY_FOLDER target)
   SET(SOURCE_GROUP_DELIMITER "/")
 
   SET(last_dir "")
@@ -36,9 +37,19 @@ MACRO(SOURCE_GROUP_BY_FOLDER target)
   IF (files)
     SOURCE_GROUP("${last_dir}" FILES ${files})
   ENDIF (files)
-ENDMACRO(SOURCE_GROUP_BY_FOLDER)
+endfunction(SOURCE_GROUP_BY_FOLDER)
 
 function(ATK_add_library PREFIX)
+
+set(FLAGS )
+set(SINGLEVALUES NAME FOLDER)
+set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
+
+cmake_parse_arguments(${PREFIX}
+                 "${FLAGS}"
+                 "${SINGLEVALUES}"
+                 "${MULTIVALUES}"
+                ${ARGN})
 
 SOURCE_GROUP_BY_FOLDER(${PREFIX})
 
@@ -55,12 +66,17 @@ if(ENABLE_STATIC_LIBRARIES)
   target_compile_definitions(${${PREFIX}_NAME}_static PRIVATE ${${PREFIX}_DEFINITIONS})
   target_include_directories(${${PREFIX}_NAME}_static PRIVATE ${${PREFIX}_INCLUDE})
   target_include_directories(${${PREFIX}_NAME}_static BEFORE PRIVATE ${PROJECT_SOURCE_DIR})
-
-  set_target_properties (${${PREFIX}_NAME}_static PROPERTIES
-    FOLDER C++/static
+  target_include_directories(${${PREFIX}_NAME}_static INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
+    $<INSTALL_INTERFACE:include>
   )
+  target_link_libraries(${${PREFIX}_NAME}_static PUBLIC ${${PREFIX}_LIBRARIES})
 
+  set_target_properties(${${PREFIX}_NAME}_static PROPERTIES
+    FOLDER C++/${${PREFIX}_FOLDER}/static
+  )
   INSTALL(TARGETS ${${PREFIX}_NAME}_static
+    EXPORT ATK
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/ COMPONENT libraries
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT libraries
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT libraries
@@ -76,16 +92,20 @@ if(ENABLE_SHARED_LIBRARIES)
   target_compile_definitions(${${PREFIX}_NAME} PRIVATE ${${PREFIX}_DEFINITIONS} -DBUILD_${PREFIX} -DATK_SHARED)
   target_include_directories(${${PREFIX}_NAME} PRIVATE ${${PREFIX}_INCLUDE})
   target_include_directories(${${PREFIX}_NAME} BEFORE PRIVATE ${PROJECT_SOURCE_DIR})
+  target_include_directories(${${PREFIX}_NAME} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
+    $<INSTALL_INTERFACE:include>
+  )
+  target_link_libraries(${${PREFIX}_NAME} PUBLIC ${${PREFIX}_LIBRARIES})
 
   set_target_properties (${${PREFIX}_NAME} PROPERTIES
-    FOLDER C++/shared
+    FOLDER C++/${${PREFIX}_FOLDER}/shared
   )
-
-  target_link_libraries(${${PREFIX}_NAME} ${${PREFIX}_LIBRARIES})
 
   stagedebug(${${PREFIX}_NAME})
 
   INSTALL(TARGETS ${${PREFIX}_NAME}
+    EXPORT ATK
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/ COMPONENT libraries
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT libraries
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT libraries
@@ -97,10 +117,19 @@ INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include/ATK/
     FILES_MATCHING PATTERN *.h
 )
-
 endfunction()
 
 function(ATK_add_executable PREFIX)
+
+set(FLAGS INSTALL)
+set(SINGLEVALUES NAME FOLDER)
+set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
+
+cmake_parse_arguments(${PREFIX}
+                 "${FLAGS}"
+                 "${SINGLEVALUES}"
+                 "${MULTIVALUES}"
+                ${ARGN})
 
 SOURCE_GROUP_BY_FOLDER(${PREFIX})
 
@@ -116,31 +145,73 @@ add_executable(${${PREFIX}_NAME}
   ${${PREFIX}_SRC} ${${PREFIX}_HEADERS} ${NATVIS_FILE}
 )
 
-if(${PREFIX}_FOLDER_PROJECT)
+if(${PREFIX}_FOLDER)
   set_target_properties (${${PREFIX}_NAME} PROPERTIES
-    FOLDER ${${PREFIX}_FOLDER_PROJECT}
+    FOLDER C++/${${PREFIX}_FOLDER}
   )
-endif(${PREFIX}_FOLDER_PROJECT)
+endif(${PREFIX}_FOLDER)
 
 target_link_libraries(${${PREFIX}_NAME} ${${PREFIX}_LIBRARIES})
-
+if(${PREFIX}_INSTALL)
+INSTALL(TARGETS ${${PREFIX}_NAME}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/ COMPONENT apps
+  LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT apps
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/ COMPONENT apps
+)
+endif()
 endfunction()
 
 function(ATK_add_test PREFIX)
 
+set(FLAGS)
+set(SINGLEVALUES NAME TESTNAME WORKING_DIRECTORY)
+set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
+
+cmake_parse_arguments(${PREFIX}
+                 "${FLAGS}"
+                 "${SINGLEVALUES}"
+                 "${MULTIVALUES}"
+                ${ARGN})
+
 if(NOT ${PREFIX}_TESTNAME)
   message(ERROR "No test name set for ${PREFIX}")
 endif(NOT ${PREFIX}_TESTNAME)
+if(NOT ${PREFIX}_WORKING_DIRECTORY)
+  set(${PREFIX}_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+endif()
 
-SET(${PREFIX}_FOLDER_PROJECT Tests)
+ATK_add_executable(${PREFIX}
+  NAME ${${PREFIX}_NAME}
+  FOLDER Tests
+  SRC ${${PREFIX}_SRC}
+  HEADERS ${${PREFIX}_HEADERS}
+  DEFINITIONS ${${PREFIX}_DEFINITIONS}
+  INCLUDE ${${PREFIX}_INCLUDE}
+  LIBRARIES ${${PREFIX}_LIBRARIES} GTest::gtest_main GTest::gtest
+)
 
-ATK_add_executable(${PREFIX})
-add_test(NAME ${${PREFIX}_TESTNAME}
-         COMMAND ${${PREFIX}_NAME} --log_level=message)
+if(ENABLE_TEST_DISCOVERY)
+  gtest_discover_tests(${${PREFIX}_NAME}
+    TEST_PREFIX ${${PREFIX}_TESTNAME}
+  )
+else()
+  add_test(NAME ${${PREFIX}_TESTNAME}
+     COMMAND ${${PREFIX}_NAME})
+endif()
 
 endfunction()
 
 function(ATK_add_python_module PREFIX)
+
+set(FLAGS INSTALL)
+set(SINGLEVALUES NAME FOLDER)
+set(MULTIVALUES SRC HEADERS DEFINITIONS INCLUDE LIBRARIES)
+
+cmake_parse_arguments(${PREFIX}
+                 "${FLAGS}"
+                 "${SINGLEVALUES}"
+                 "${MULTIVALUES}"
+                ${ARGN})
 
 if(NOT ${PREFIX}_NAME)
   message(ERROR "No name set for ${PREFIX}")

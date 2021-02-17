@@ -8,14 +8,12 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 const int PROCESSSIZE = 1024*64;
 const int SAMPLINGRATE = 96000;
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_100_test )
+TEST(IIRFilter, RIAACoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -42,7 +40,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_200_test )
+TEST(IIRFilter, RIAACoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -69,7 +67,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_1k_test )
+TEST(IIRFilter, RIAACoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -96,7 +94,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_2k_test )
+TEST(IIRFilter, RIAACoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -123,7 +121,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_10k_test )
+TEST(IIRFilter, RIAACoefficients_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -150,7 +148,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RIAACoefficients_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_InverseRIAACoefficients_100_test )
+TEST(IIRFilter, InverseRIAACoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -177,7 +175,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_InverseRIAACoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_InverseRIAACoefficients_200_test )
+TEST(IIRFilter, InverseRIAACoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -204,7 +202,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_InverseRIAACoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_InverseRIAACoefficients_1k_test )
+TEST(IIRFilter, InverseRIAACoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -231,7 +229,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_InverseRIAACoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_InverseRIAACoefficients_2k_test )
+TEST(IIRFilter, InverseRIAACoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -258,7 +256,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_InverseRIAACoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_InverseRIAACoefficients_10k_test )
+TEST(IIRFilter, InverseRIAACoefficients_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);

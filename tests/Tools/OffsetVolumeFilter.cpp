@@ -14,27 +14,25 @@
 
 #include <array>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024;
 
-BOOST_AUTO_TEST_CASE( OffsetVolumeFilter_volume_test )
+TEST(OffsetVolumeFilter, volume_test)
 {
   ATK::OffsetVolumeFilter<double> volumefilter;
   volumefilter.set_volume(10);
-  BOOST_CHECK_EQUAL(volumefilter.get_volume(), 10);
+  ASSERT_EQ(volumefilter.get_volume(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( OffsetVolumeFilter_offset_test )
+TEST(OffsetVolumeFilter, offset_test)
 {
   ATK::OffsetVolumeFilter<double> volumefilter;
   volumefilter.set_offset(10);
-  BOOST_CHECK_EQUAL(volumefilter.get_offset(), 10);
+  ASSERT_EQ(volumefilter.get_offset(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( OffsetVolumeFilter_1_0_test )
+TEST(OffsetVolumeFilter, 1_0_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -55,7 +53,7 @@ BOOST_AUTO_TEST_CASE( OffsetVolumeFilter_1_0_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( OffsetVolumeFilter_1_1_test )
+TEST(OffsetVolumeFilter, 1_1_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -92,7 +90,7 @@ BOOST_AUTO_TEST_CASE( OffsetVolumeFilter_1_1_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( OffsetVolumeFilter_2_test )
+TEST(OffsetVolumeFilter, 2_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -114,7 +112,7 @@ BOOST_AUTO_TEST_CASE( OffsetVolumeFilter_2_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( OffsetVolumeFilter_0_5_test )
+TEST(OffsetVolumeFilter, 0_5_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);

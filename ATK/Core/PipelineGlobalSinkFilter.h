@@ -42,6 +42,9 @@ namespace ATK
      * @brief Indicates if we can process the pipeline in parallel
      */
     void set_parallel(bool parallel);
+
+    void dryrun(gsl::index size);
+
   protected:
     void process_impl(gsl::index size) const final;
     void prepare_process(gsl::index size) final;

@@ -2,13 +2,11 @@
  * \file FFTCheckerFilter.cpp
  */
 
-#include <ATK/Mock/FFTCheckerFilter.h>
+#include "FFTCheckerFilter.h"
+
+#include <gtest/gtest.h>
 
 #include <cmath>
-
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
 
 namespace ATK
 {
@@ -50,11 +48,11 @@ namespace ATK
         DataType amp_check = frequency_checks[j].second * frequency_checks[j].second;
         if(amp_check < 0.001)
         {
-          BOOST_REQUIRE_SMALL(amp, 0.001);
+          ASSERT_NEAR(amp, 0, 0.001);
         }
         else
         {
-          BOOST_REQUIRE_CLOSE(2*amp, amp_check, 0.1);
+          ASSERT_NEAR(2 * amp, amp_check, 0.1);
         }
       }
     }

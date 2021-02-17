@@ -1,10 +1,14 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project(AudioTK)
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-set(ATK_VERSION 3.2.0)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(ATK_VERSION 3.3.0)
 set(ATK_CURRENTLY_BUILDING ON)
 
 option(ENABLE_TESTS "Enable tests generation" ON)
@@ -18,6 +22,7 @@ option(ENABLE_SIMD "Enable SIMD support" OFF)
 option(ENABLE_GPL "Enable GPL library support like FFTW and LIBSNDFILE" OFF)
 option(ENABLE_CODECOVERAGE "Generate code coverage data" OFF)
 option(ENABLE_ADDRESS_SANITIZER "Activate address sanitizer support" OFF)
+option(ENABLE_TEST_DISCOVERY "Activate test discovery in ctest" ON)
 option(BUILD_DOC "Build Doxygen documentation" OFF)
 option(DISABLE_EIGEN_WARNINGS "Removes lots of Eigen warnings" OFF)
 option(DISABLE_PYTHON_TESTS "Don't test Python modules" OFF) #Use this for CI
@@ -26,8 +31,6 @@ message(STATUS " Build SIMD: ${ENABLE_SIMD}")
 message(STATUS " Build shared libraries: ${ENABLE_SHARED_LIBRARIES}")
 message(STATUS " Build static libraries: ${ENABLE_STATIC_LIBRARIES}")
 message(STATUS " Build tests: ${ENABLE_TESTS}")
-
-enable_testing()
 
 if(ENABLE_PYTHON)
   add_subdirectory(${CMAKE_SOURCE_DIR}/3rdParty/pybind11)
@@ -105,10 +108,8 @@ SET(USE_FFTW 0)
 SET(USE_IPP 0)
 
 if(HAVE_IPP)
-  include_directories(${IPP_INCLUDE_DIRS})
   SET(FFT_INCLUDES ${IPP_INCLUDE_DIRS})
   SET(FFT_LIBRARIES ${IPP_LIBRARIES})
-  SET(FFTLIBRARIES ${IPP_LIBRARIES})
   SET(USE_IPP 1)
 else(HAVE_IPP)
   if(ENABLE_GPL)
@@ -117,14 +118,15 @@ else(HAVE_IPP)
     include_directories(${FFTW_INCLUDES})
     SET(FFT_INCLUDES ${FFTW_INCLUDES})
     SET(FFT_LIBRARIES ${FFTW_LIBRARIES})
-    SET(FFTLIBRARIES ${FFTW_LIBRARIES})
   else(ENABLE_GPL)
     MESSAGE(FATAL_ERROR "No FFT support")
   endif(ENABLE_GPL)
 endif(HAVE_IPP)
 
 if(ENABLE_TESTS)
-  find_package(Boost REQUIRED unit_test_framework system)
+  enable_testing()
+  find_package(GTest CONFIG REQUIRED)
+  include(GoogleTest)
 endif(ENABLE_TESTS)
 
 include(Utilities)
@@ -143,14 +145,13 @@ configure_file (
 INSTALL(FILES ${PROJECT_BINARY_DIR}/atk-config.cmake
  DESTINATION ${CMAKE_INSTALL_PREFIX}
  )
+install(EXPORT ATK DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
 add_subdirectory(ATK)
 if(ENABLE_TESTS)
-  find_package(Boost REQUIRED unit_test_framework system)
-  ADD_DEFINITIONS("-DBOOST_ALL_NO_LIB")
   add_subdirectory(tests)
   add_subdirectory(profiling)
 endif(ENABLE_TESTS)
@@ -161,7 +162,7 @@ endif(ENABLE_PYTHON)
 
 add_subdirectory(modules)
 
-FILE(GLOB CMAKE_OTHER_SRC CMake/*.cmake *.in ATK/*.in *.yml *.md *.properties *.py scripts/*.sh)
+FILE(GLOB CMAKE_OTHER_SRC CMake/*.cmake *.in ATK/*.in *.yml *.md *.py scripts/*.sh tests/Python/CMakeLists.txt)
 SOURCE_GROUP_BY_FOLDER(CMAKE_OTHER)
 add_custom_target(CMake SOURCES ${CMAKE_OTHER_SRC})
 

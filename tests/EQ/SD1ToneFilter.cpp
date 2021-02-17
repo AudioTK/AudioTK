@@ -8,33 +8,31 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024*1026;
 constexpr gsl::index SAMPLINGRATE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_tone_test )
+TEST(IIRFilter, SD1ToneCoefficients_tone_test)
 {
   ATK::IIRFilter<ATK::SD1ToneCoefficients<double> > filter;
   filter.set_tone(.5);
-  BOOST_CHECK_EQUAL(filter.get_tone(), .5);
+  ASSERT_EQ(filter.get_tone(), .5);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_throw_1_test )
+TEST(IIRFilter, SD1ToneCoefficients_throw_1_test)
 {
   ATK::IIRFilter<ATK::SD1ToneCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_tone(1.001), std::out_of_range);
+  ASSERT_THROW(filter.set_tone(1.001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_throw_0_test )
+TEST(IIRFilter, SD1ToneCoefficients_throw_0_test)
 {
   ATK::IIRFilter<ATK::SD1ToneCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_tone(-0.001), std::out_of_range);
+  ASSERT_THROW(filter.set_tone(-0.001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha0_100_test )
+TEST(IIRFilter, SD1ToneCoefficients_alpha0_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -62,7 +60,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha0_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha0_1k_test )
+TEST(IIRFilter, SD1ToneCoefficients_alpha0_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -90,7 +88,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha0_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha0_10k_test )
+TEST(IIRFilter, SD1ToneCoefficients_alpha0_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -118,7 +116,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha0_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha1_100_test )
+TEST(IIRFilter, SD1ToneCoefficients_alpha1_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -146,7 +144,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha1_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha1_1k_test )
+TEST(IIRFilter, SD1ToneCoefficients_alpha1_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -174,7 +172,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha1_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha1_10k_test )
+TEST(IIRFilter, SD1ToneCoefficients_alpha1_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -202,7 +200,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha1_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha05_100_test )
+TEST(IIRFilter, SD1ToneCoefficients_alpha05_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -230,7 +228,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha05_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha05_1k_test )
+TEST(IIRFilter, SD1ToneCoefficients_alpha05_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);
@@ -258,7 +256,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha05_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_SD1ToneCoefficients_alpha05_10k_test )
+TEST(IIRFilter, SD1ToneCoefficients_alpha05_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(SAMPLINGRATE);

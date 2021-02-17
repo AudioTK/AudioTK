@@ -17,15 +17,16 @@ stages:
   - install
   - before_script
   - script
-  - after_success
+  - name: after_success
+    if: branch = main
   - name: after_script
-    if: branch = master
+    if: branch = main
     
 jobs:
   include:
   - compiler: gcc-9
     os: linux
-    dist: bionic
+    dist: focal
     python: 3.8
     addons:
       apt:
@@ -35,25 +36,24 @@ jobs:
         - g++-9
         - libfftw3-dev
         - libsndfile-dev
-        - swig
         - libatlas-base-dev
         - curl
         - doxygen
     env:
-    - MY_NAME: Static Analysis
+    - MY_NAME: Coverage
     - COMPILER=g++-9
     - PLATFORM=gcc-9
     - ENABLE_PYTHON=OFF
     - ENABLE_STATIC_ANALYSIS=ON
     - ENABLE_CODECOVERAGE=ON
     - GCOV_VERSION=gcov-9
-    - Python_ADDITIONAL_VERSIONS=3.8.1
+    - Python_ADDITIONAL_VERSIONS=3.8.3
     - BUILD_TYPE=Coverage
     - CUSTOM_LCOV=ON
     - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/opt/python/${Python_ADDITIONAL_VERSIONS}/lib/libpython${PYTHON_VERSION}.so -DPYTHON_INCLUDE_DIR=/opt/python/${Python_ADDITIONAL_VERSIONS}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/opt/python/${Python_ADDITIONAL_VERSIONS}/bin/python -DENABLE_CODECOVERAGE=ON -DENABLE_STATIC_LIBRARIES=OFF -DCMAKE_CXX_FLAGS_DEBUG_INIT=\"-O0\""
   - compiler: gcc-9
     os: linux
-    dist: bionic
+    dist: focal
     python: 3.8
     addons:
       apt:
@@ -63,128 +63,85 @@ jobs:
         - g++-9
         - libfftw3-dev
         - libsndfile-dev
-        - swig
     env:
-    - MY_NAME: GCC 9
+    - MY_NAME: Release
     - COMPILER=g++-9
     - PLATFORM=gcc-9
     - ENABLE_PYTHON=ON
-    - PYTHON_VERSION=3.7
+    - PYTHON_VERSION=3.8
     - PYTHON=python3
-    - Python_ADDITIONAL_VERSIONS=3.8.1
+    - Python_ADDITIONAL_VERSIONS=3.8.3
     - BUILD_TYPE=Release
     - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/opt/python/${Python_ADDITIONAL_VERSIONS}/lib/libpython${PYTHON_VERSION}.so -DPYTHON_INCLUDE_DIR=/opt/python/${Python_ADDITIONAL_VERSIONS}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/opt/python/${Python_ADDITIONAL_VERSIONS}/bin/python -DENABLE_STATIC_LIBRARIES=ON"
-  - compiler: clang-9
+  - compiler: clang-11
     os: linux
-    dist: bionic
+    dist: focal
     addons:
       apt:
         sources:
         - ubuntu-toolchain-r-test
-        - sourceline: 'deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
+        - sourceline: 'deb https://apt.llvm.org/focal/ llvm-toolchain-focal-11 main'
           key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
         packages:
-        - clang-9
+        - clang-11
         - g++-9
         - libfftw3-dev
         - libsndfile-dev
-        - swig
         - libatlas-base-dev
     env:
     - MY_NAME=ASAN
-    - COMPILER=clang++-9
-    - PLATFORM=clang-9
+    - COMPILER=clang++-11
+    - PLATFORM=clang-11
     - ENABLE_PYTHON=OFF
     - BUILD_TYPE=Debug
     - ASAN_OPTIONS=verbosity=1:detect_stack_use_after_return=true
-    - LD_PRELOAD_=/usr/lib/llvm-9/lib/clang/9.0.0/lib/linux/libclang_rt.asan-x86_64.so
-    - ADDITONAL_CMAKE_FLAGS="-DENABLE_ADDRESS_SANITIZER=ON -DENABLE_STATIC_LIBRARIES=OFF  -DCMAKE_CXX_FLAGS_DEBUG_INIT=\"-O0\""
+    - LD_PRELOAD_=/usr/lib/llvm-11/lib/clang/11.1.0/lib/linux/libclang_rt.asan-x86_64.so
+    - ADDITONAL_CMAKE_FLAGS="-DENABLE_ADDRESS_SANITIZER=ON -DENABLE_TEST_DISCOVERY=OFF -DENABLE_STATIC_LIBRARIES=OFF -DCMAKE_CXX_FLAGS_DEBUG_INIT=\"-O0\""
     - ASAN_OPTIONS=detect_leaks=0
     - ASAN_SYMBOLIZER_PATH=llvm-symbolizer
-  - compiler: clang-9
+  - compiler: clang-11
     os: linux
-    dist: bionic
-    addons:
-      apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        - sourceline: 'deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
-          key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-        packages:
-        - clang-9
-        - g++-9
-        - libfftw3-dev
-        - libsndfile-dev
-        - swig
-        - libatlas-base-dev
-        - curl
-        - lcov
-    env:
-    - MY_NAME=LLVM coverage
-    - COMPILER=clang++-9
-    - PLATFORM=clang-9
-    - ENABLE_PYTHON=OFF
-    - BUILD_TYPE=Debug
-    - ENABLE_STATIC_ANALYSIS=OFF
-    - ENABLE_CODECOVERAGE=ON
-    - ADDITONAL_CMAKE_FLAGS="-DENABLE_CODECOVERAGE=ON -DLCOV_SCRIPT=--gcov-tool=`pwd`/scripts/llvm-cov.sh -DENABLE_STATIC_LIBRARIES=OFF -DCMAKE_CXX_FLAGS_DEBUG_INIT=\"-O0\""
-  - compiler: clang-9
-    os: linux
-    dist: bionic
+    dist: focal
     python: 3.7
     addons:
       apt:
         sources:
         - ubuntu-toolchain-r-test
-        - sourceline: 'deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
+        - sourceline: 'deb https://apt.llvm.org/focal/ llvm-toolchain-focal-11 main'
           key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
         packages:
-        - clang-9
+        - clang-11
         - g++-9
         - libfftw3-dev
         - libsndfile-dev
-        - swig
     env:
-    - MY_NAME: clang 9
-    - COMPILER=clang++-9
-    - PLATFORM=clang-9
+    - MY_NAME: Release
+    - COMPILER=clang++-11
+    - PLATFORM=clang-11
     - ENABLE_PYTHON=ON
     - PYTHON_VERSION=3.8
     - PYTHON=python3
-    - Python_ADDITIONAL_VERSIONS=3.8.1
+    - Python_ADDITIONAL_VERSIONS=3.8.3
     - BUILD_TYPE=Release
     - ADDITONAL_CMAKE_FLAGS="-DDISABLE_PYTHON_TESTS=ON -DPYTHON_LIBRARY=/opt/python/${Python_ADDITIONAL_VERSIONS}/lib/libpython${PYTHON_VERSION}.so -DPYTHON_INCLUDE_DIR=/opt/python/${Python_ADDITIONAL_VERSIONS}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/opt/python/${Python_ADDITIONAL_VERSIONS}/bin/python -DENABLE_STATIC_LIBRARIES=ON"
   - os: osx
-    osx_image: xcode12
-    python: 3.7
+    osx_image: xcode12.2
+    python: 3.9
     env:
-    - MY_NAME: XCode 12
+    - MY_NAME: XCode
     - COMPILER=clang++
     - PLATFORM=xcode-12
     - ADDITONAL_CMAKE_FLAGS=-DDISABLE_PYTHON_TESTS=ON -DCMAKE_OSX_ARCHITECTURES="x86_64" -DENABLE_STATIC_LIBRARIES=ON
     - ENABLE_PYTHON=ON
-    - PYTHON_VERSION=3.7
-    - PYTHON=python
-    - Python_ADDITIONAL_VERSIONS=3.7
+    - PYTHON_VERSION=3.9
+    - PYTHON=python3
+    - Python_ADDITIONAL_VERSIONS=3.9.1_6
     - BUILD_TYPE=Release
-  - os: osx
-    osx_image: xcode11.6
-    python: 3.7
-    env:
-    - MY_NAME: XCode 11
-    - COMPILER=clang++
-    - PLATFORM=xcode-11.6
-    - ADDITONAL_CMAKE_FLAGS=-DDISABLE_PYTHON_TESTS=ON -DCMAKE_OSX_ARCHITECTURES="i386,x86_64" -DENABLE_STATIC_LIBRARIES=ON
-    - ENABLE_PYTHON=ON
-    - PYTHON_VERSION=3.7
-    - PYTHON=python
-    - Python_ADDITIONAL_VERSIONS=3.7
-    - BUILD_TYPE=Release
+    - ADDITONAL_CMAKE_FLAGS="-DDISABLE_PYTHON_TESTS=ON -DPYTHON_LIBRARY=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/lib/libpython${PYTHON_VERSION}.dylib -DPYTHON_INCLUDE_DIR=/usr/local/Cellar/python@${PYTHON_VERSION}/${Python_ADDITIONAL_VERSIONS}/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/usr/local/bin/python3"
 
 before_install:
   - ls /usr/lib
   - ls /usr/lib/llvm-*/lib/clang/ || true
-  - ls /usr/lib/llvm-*/lib/clang/*/lib/linux || true
   - mkdir -p $HOME/usr/bin
   - export PATH="$HOME/usr/bin:$PATH"
   - export PATH="/usr/local/bin:$PATH"
@@ -209,9 +166,9 @@ before_install:
   - |
     if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then
       ls /opt/python/
-      wget https://cmake.org/files/v3.12/cmake-3.12.1-Linux-x86_64.sh
-      chmod +x cmake-3.12.1-Linux-x86_64.sh
-      ./cmake-3.12.1-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
+      wget https://cmake.org/files/v3.19/cmake-3.19.3-Linux-x86_64.sh
+      chmod +x cmake-3.19.3-Linux-x86_64.sh
+      ./cmake-3.19.3-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
       if [[ "$ENABLE_PYTHON" == "ON" ]]; then
         /opt/python/${Python_ADDITIONAL_VERSIONS}/bin/python${Python_ADDITIONAL_VERSIONS} -m pip install numpy scipy nose
       fi
@@ -221,42 +178,45 @@ before_install:
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew update
       rm -f /usr/local/include/c++
-      brew install fftw libsndfile swig
+      brew install fftw libsndfile
       brew upgrade cmake
       if [[ "$ENABLE_PYTHON" == "ON" ]]; then
-        if [[ "$PYTHON" == "python3" ]]; then brew upgrade python ; fi
+        brew upgrade ${PYTHON}
         ${PYTHON} -V
         sudo ${PYTHON} -m pip install numpy scipy nose
       fi
     fi
 
-  - wget --no-verbose --output-document=boost_1_73_0.tar.bz2 http://sourceforge.net/projects/boost/files/boost/1.73.0/boost_1_73_0.tar.bz2/download
+  - export BOOST_VERSION_DOT="1.75.0"
+  - export BOOST_VERSION="1_75_0"
+  - wget --no-verbose --output-document=boost_${BOOST_VERSION}.tar.bz2 http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION_DOT}/boost_${BOOST_VERSION}.tar.bz2/download
   - export BOOST_ROOT="$TRAVIS_BUILD_DIR/../boost"
-  - export BOOST_BUILD="$TRAVIS_BUILD_DIR/../boost-build"
-  - mkdir -p $BOOST_ROOT
-  - tar jxf boost_1_73_0.tar.bz2 --strip-components=1 -C $BOOST_ROOT
+  - mkdir -p ${BOOST_ROOT}
+  - tar jxf boost_${BOOST_VERSION}.tar.bz2 --strip-components=1 -C $BOOST_ROOT
+  - export GTEST_ROOT="$TRAVIS_BUILD_DIR/../gtest"
+  - export GTEST_BUILD="$TRAVIS_BUILD_DIR/../gtest-build"
+  - export GTEST_INSTALL="$TRAVIS_BUILD_DIR/../gtest-install"
+  - mkdir -p ${GTEST_ROOT}
+  - mkdir -p ${GTEST_BUILD}
+  - git clone https://github.com/google/googletest.git $GTEST_ROOT
 
 install:
-  - "(cd $BOOST_ROOT; ./bootstrap.sh --with-libraries=system,test)"
-  - "(cd $BOOST_ROOT; ./b2 threading=multi --prefix=$BOOST_BUILD -d0 install)"
+  - "(cd ${GTEST_BUILD}; cmake -DCMAKE_INSTALL_PREFIX=${GTEST_INSTALL} -DCMAKE_POSITION_INDEPENDENT_CODE=ON ${GTEST_ROOT} && make && make install)"
 
 before_script:
   - mkdir build
   - cd build
-  - cmake -DENABLE_GPL=ON -DDISABLE_EIGEN_WARNINGS=ON -DCMAKE_CXX_COMPILER=$COMPILER -DBOOST_ROOT=$BOOST_BUILD -DCMAKE_INSTALL_PREFIX=${HOME}/ATK -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_PYTHON=${ENABLE_PYTHON} ${ADDITONAL_CMAKE_FLAGS} ..
+  - cmake -DENABLE_GPL=ON -DDISABLE_EIGEN_WARNINGS=ON -DCMAKE_CXX_COMPILER=$COMPILER -DBOOST_ROOT=${BOOST_ROOT} -DGTest_DIR=${GTEST_INSTALL}/lib/cmake/GTest -DCMAKE_INSTALL_PREFIX=${HOME}/ATK -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_PYTHON=${ENABLE_PYTHON} ${ADDITONAL_CMAKE_FLAGS} ..
 
 script:
   - pwd
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then export LD_LIBRARY_PATH=${HOME}/ATK/lib:$LD_LIBRARY_PATH ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export DYLD_LIBRARY_PATH=${HOME}/ATK/lib:$BOOST_BUILD/lib ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export DYLD_LIBRARY_PATH=${HOME}/ATK/lib ; fi
   - make -j2
   - make install
   - export PYTHONPATH=${HOME}/ATK/lib/site-packages/:$PYTHONPATH
-  - echo $DYLD_LIBRARY_PATH
-  - echo $LD_LIBRARY_PATH
-  - ls ${HOME}/ATK/lib
   - |
-    if [[ "${ENABLE_CODECOVERAGE}" = "ON" ]]; then
+    if [[ "${ENABLE_CODECOVERAGE}" == "ON" ]]; then
       export PATH=${TRAVIS_BUILD_DIR}/script/:${PATH}
       VERBOSE=1 CTEST_OUTPUT_ON_FAILURE=TRUE make codecoverage
     else
@@ -265,20 +225,26 @@ script:
 
 after_success:
   - |
-    if [[ "${ENABLE_CODECOVERAGE}" = "ON" ]]; then
+    if [[ "${ENABLE_CODECOVERAGE}" == "ON" ]]; then
       bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
     fi
   - cd ${HOME}/ATK
-  - tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}.py${PYTHON_VERSION}-${BUILD_TYPE}.tar.gz *
+  - |
+    if [[ "ENABLE_PYTHON" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]]; then
+      tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}.py${PYTHON_VERSION}-${MY_NAME}.tar.gz *
+    else
+      tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}-${MY_NAME}.tar.gz *
+    fi
 
 after_script:
   - |
-    if [[ "${ENABLE_STATIC_ANALYSIS}" = "ON" ]]; then
+    if [[ "${ENABLE_STATIC_ANALYSIS}" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]] && [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
       cd ${HOME}
       echo "-----BEGIN RSA PRIVATE KEY-----" > ${HOME}/.ssh/key
       echo ${SSH_KEY} | awk '{for(i=1;i<length;i+=64) print substr($0,i,64)}' >> ${HOME}/.ssh/key
       echo "-----END RSA PRIVATE KEY-----" >> ${HOME}/.ssh/key
       chmod 0600 ${HOME}/.ssh/key
+      ssh-keygen -y -f ~/.ssh/key > ~/.ssh/key.pub
       GIT_SSH_COMMAND="ssh -i ${HOME}/.ssh/key -o \"StrictHostKeyChecking no\"" git clone git+ssh://3649288@git.sd3.gpaas.net/cov.audio-tk.com.git
       cd cov.audio-tk.com
       git rm -r *
@@ -287,31 +253,20 @@ after_script:
       git commit -m "Run ${TRAVIS_JOB_ID}"
       GIT_SSH_COMMAND="ssh -i ${HOME}/.ssh/key -o \"StrictHostKeyChecking no\"" git push
       ssh -i ${HOME}/.ssh/key -o "StrictHostKeyChecking no" 3649288@git.sd3.gpaas.net deploy cov.audio-tk.com.git
+      cd ../doc.audio-tk.com
+      git rm -r *
+      cp -R ${TRAVIS_BUILD_DIR}/Doxygen/html htdocs
+      git add .
+      git commit -m "Run ${TRAVIS_JOB_ID}"
+      GIT_SSH_COMMAND="ssh -i ${HOME}/.ssh/key -o \"StrictHostKeyChecking no\"" git push
+      ssh -i ${HOME}/.ssh/key -o "StrictHostKeyChecking no" 3649288@git.sd3.gpaas.net deploy doc.audio-tk.com.git
     fi
-  - |
-   if [[ "${ENABLE_STATIC_ANALYSIS}" = "ON" ]]; then
-     cd ${TRAVIS_BUILD_DIR}
-     doxygen Doxyfile
-     cd ${HOME}
-     echo "-----BEGIN RSA PRIVATE KEY-----" > ${HOME}/.ssh/key
-     echo ${SSH_KEY} | awk '{for(i=1;i<length;i+=64) print substr($0,i,64)}' >> ${HOME}/.ssh/key
-     echo "-----END RSA PRIVATE KEY-----" >> ${HOME}/.ssh/key
-     chmod 0600 ${HOME}/.ssh/key
-     GIT_SSH_COMMAND="ssh -i ${HOME}/.ssh/key -o \"StrictHostKeyChecking no\"" git clone git+ssh://3649288@git.sd3.gpaas.net/doc.audio-tk.com.git
-     cd doc.audio-tk.com
-     git rm -r *
-     cp -R ${TRAVIS_BUILD_DIR}/Doxygen/html htdocs
-     git add .
-     git commit -m "Run ${TRAVIS_JOB_ID}"
-     GIT_SSH_COMMAND="ssh -i ${HOME}/.ssh/key -o \"StrictHostKeyChecking no\"" git push
-     ssh -i ${HOME}/.ssh/key -o "StrictHostKeyChecking no" 3649288@git.sd3.gpaas.net deploy doc.audio-tk.com.git
-   fi
 
 deploy:
   skip_cleanup: true
   provider: releases
-  token: ${GITHUB_OAUTH_TOKEN}
-  file: ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}.py${PYTHON_VERSION}-${BUILD_TYPE}.tar.gz
+  file_glob: true
+  file: ${HOME}/AudioTK.*.tar.gz
   on:
     repo: mbrucher/AudioTK
     tags: true

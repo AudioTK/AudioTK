@@ -8,68 +8,66 @@
 #include <ATK/Core/OutPointerFilter.h>
 #include <ATK/Core/Utilities.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 #include <boost/math/constants/constants.hpp>
 
 constexpr gsl::index PROCESSSIZE = 64;
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_softness_test )
+TEST(GainMaxColoredExpanderFilter, softness_test)
 {
   ATK::GainFilter<ATK::GainMaxColoredExpanderFilter<double>> filter;
   filter.set_softness(0.5);
-  BOOST_CHECK_EQUAL(filter.get_softness(), 0.5);
+  ASSERT_EQ(filter.get_softness(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_softness_range_test )
+TEST(GainMaxColoredExpanderFilter, softness_range_test)
 {
   ATK::GainFilter<ATK::GainMaxColoredExpanderFilter<double>> filter;
-  BOOST_CHECK_THROW(filter.set_softness(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_softness(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_color_test )
+TEST(GainMaxColoredExpanderFilter, color_test)
 {
   ATK::GainFilter<ATK::GainMaxColoredExpanderFilter<double>> filter;
   filter.set_color(0.5);
-  BOOST_CHECK_EQUAL(filter.get_color(), 0.5);
+  ASSERT_EQ(filter.get_color(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_quality_test )
+TEST(GainMaxColoredExpanderFilter, quality_test)
 {
   ATK::GainFilter<ATK::GainMaxColoredExpanderFilter<double>> filter;
   filter.set_quality(0.5);
-  BOOST_CHECK_EQUAL(filter.get_quality(), 0.5);
+  ASSERT_EQ(filter.get_quality(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_quality_range_test )
+TEST(GainMaxColoredExpanderFilter, quality_range_test)
 {
   ATK::GainFilter<ATK::GainMaxColoredExpanderFilter<double>> filter;
-  BOOST_CHECK_THROW(filter.set_quality(0), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_quality(0), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_maxreduc_test )
+TEST(GainMaxColoredExpanderFilter, maxreduc_test)
 {
   ATK::GainFilter<ATK::GainMaxColoredExpanderFilter<double>> filter;
   filter.set_max_reduction(0.5);
-  BOOST_CHECK_EQUAL(filter.get_max_reduction(), 0.5);
+  ASSERT_EQ(filter.get_max_reduction(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_maxreduc_db_test )
+TEST(GainMaxColoredExpanderFilter, maxreduc_db_test)
 {
   ATK::GainFilter<ATK::GainMaxColoredExpanderFilter<double>> filter;
   filter.set_max_reduction_db(20);
-  BOOST_CHECK_EQUAL(filter.get_max_reduction(), 100);
+  ASSERT_EQ(filter.get_max_reduction(), 100);
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_maxreduc_range_test )
+TEST(GainMaxColoredExpanderFilter, maxreduc_range_test)
 {
   ATK::GainFilter<ATK::GainMaxColoredExpanderFilter<double>> filter;
-  BOOST_CHECK_THROW(filter.set_max_reduction(-0.000001), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_max_reduction(-0.000001), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_const_1_test )
+TEST(GainMaxColoredExpanderFilter, const_1_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -95,11 +93,11 @@ BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_const_1_test )
   
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(1, outdata[i], 0.1);
+    ASSERT_NEAR(1, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_const_0_test )
+TEST(GainMaxColoredExpanderFilter, const_0_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -124,11 +122,11 @@ BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_const_0_test )
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_SMALL(outdata[i], 0.001);
+    ASSERT_NEAR(outdata[i], 0, 0.001);
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_const_1_threshold_2_ratio_2_test )
+TEST(GainMaxColoredExpanderFilter, const_1_threshold_2_ratio_2_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -156,11 +154,11 @@ BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_const_1_threshold_2_ratio_2_t
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.700553358, outdata[i], 0.1);
+    ASSERT_NEAR(0.700553358, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_const_1_threshold_2_ratio_4_test )
+TEST(GainMaxColoredExpanderFilter, const_1_threshold_2_ratio_4_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -188,11 +186,11 @@ BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_const_1_threshold_2_ratio_4_t
 
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_CLOSE(0.389224231, outdata[i], 0.1);
+    ASSERT_NEAR(0.389224231, outdata[i], 0.1);
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_always_more_1_test )
+TEST(GainMaxColoredExpanderFilter, always_more_1_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -222,11 +220,11 @@ BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_always_more_1_test )
   
   for(gsl::index i = 1; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_GE(outdata[i], 1);
+    ASSERT_GE(outdata[i], 1);
   }
 }
 
-BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_always_less_1_test )
+TEST(GainMaxColoredExpanderFilter, always_less_1_test)
 {
   std::array<double, PROCESSSIZE> data;
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
@@ -256,6 +254,6 @@ BOOST_AUTO_TEST_CASE( GainMaxColoredExpanderFilter_always_less_1_test )
   
   for(gsl::index i = 0; i < PROCESSSIZE; ++i)
   {
-    BOOST_REQUIRE_LE(outdata[i], 1 + std::numeric_limits<float>::epsilon());
+    ASSERT_LE(outdata[i], 1 + std::numeric_limits<float>::epsilon());
   }
 }

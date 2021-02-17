@@ -9,32 +9,30 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_memory_test )
+TEST(PowerFilter, RMS_memory_test)
 {
   ATK::PowerFilter<double> filter;
   filter.set_memory(0.5);
-  BOOST_CHECK_EQUAL(filter.get_memory(), 0.5);
+  ASSERT_EQ(filter.get_memory(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_throw_memory_0_test )
+TEST(PowerFilter, RMS_throw_memory_0_test)
 {
   ATK::PowerFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_memory(-1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_memory(-1), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_throw_memory_1_test )
+TEST(PowerFilter, RMS_throw_memory_1_test)
 {
   ATK::PowerFilter<double> filter;
-  BOOST_CHECK_THROW(filter.set_memory(1), ATK::RuntimeError);
+  ASSERT_THROW(filter.set_memory(1), ATK::RuntimeError);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_0_1k_test )
+TEST(PowerFilter, RMS_0_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -64,7 +62,7 @@ BOOST_AUTO_TEST_CASE( PowerFilter_RMS_0_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_05_1k_test )
+TEST(PowerFilter, RMS_05_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -94,7 +92,7 @@ BOOST_AUTO_TEST_CASE( PowerFilter_RMS_05_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_09_1k_test )
+TEST(PowerFilter, RMS_09_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -123,7 +121,7 @@ BOOST_AUTO_TEST_CASE( PowerFilter_RMS_09_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_0_100_test )
+TEST(PowerFilter, RMS_0_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -153,7 +151,7 @@ BOOST_AUTO_TEST_CASE( PowerFilter_RMS_0_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_05_100_test )
+TEST(PowerFilter, RMS_05_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -183,7 +181,7 @@ BOOST_AUTO_TEST_CASE( PowerFilter_RMS_05_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_09_100_test )
+TEST(PowerFilter, RMS_09_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -212,7 +210,7 @@ BOOST_AUTO_TEST_CASE( PowerFilter_RMS_09_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_0_10k_test )
+TEST(PowerFilter, RMS_0_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -241,7 +239,7 @@ BOOST_AUTO_TEST_CASE( PowerFilter_RMS_0_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_05_10k_test )
+TEST(PowerFilter, RMS_05_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -270,7 +268,7 @@ BOOST_AUTO_TEST_CASE( PowerFilter_RMS_05_10k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PowerFilter_RMS_09_10k_test )
+TEST(PowerFilter, RMS_09_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);

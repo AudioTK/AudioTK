@@ -8,169 +8,167 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_Q_test )
+TEST(IIRFilter, RobertBristowJohnsonLowPassCoefficients_Q_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonLowPassCoefficients<double> > filter;
   filter.set_Q(20);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 20);
+  ASSERT_EQ(filter.get_Q(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_Q_range_test )
+TEST(IIRFilter, RobertBristowJohnsonLowPassCoefficients_Q_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonLowPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_Q_test )
+TEST(IIRFilter, RobertBristowJohnsonHighPassCoefficients_Q_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonHighPassCoefficients<double> > filter;
   filter.set_Q(20);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 20);
+  ASSERT_EQ(filter.get_Q(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_Q_range_test )
+TEST(IIRFilter, RobertBristowJohnsonHighPassCoefficients_Q_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonHighPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandPassCoefficients_Q_test )
+TEST(IIRFilter, RobertBristowJohnsonBandPassCoefficients_Q_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandPassCoefficients<double> > filter;
   filter.set_Q(20);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 20);
+  ASSERT_EQ(filter.get_Q(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandPassCoefficients_Q_range_test )
+TEST(IIRFilter, RobertBristowJohnsonBandPassCoefficients_Q_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandPass2Coefficients_Q_test )
+TEST(IIRFilter, RobertBristowJohnsonBandPass2Coefficients_Q_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandPass2Coefficients<double> > filter;
   filter.set_Q(20);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 20);
+  ASSERT_EQ(filter.get_Q(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandPass2Coefficients_Q_range_test )
+TEST(IIRFilter, RobertBristowJohnsonBandPass2Coefficients_Q_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandPass2Coefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandStopCoefficients_Q_test )
+TEST(IIRFilter, RobertBristowJohnsonBandStopCoefficients_Q_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandStopCoefficients<double> > filter;
   filter.set_Q(20);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 20);
+  ASSERT_EQ(filter.get_Q(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandStopCoefficients_Q_range_test )
+TEST(IIRFilter, RobertBristowJohnsonBandStopCoefficients_Q_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandStopCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonAllPassCoefficients_Q_test )
+TEST(IIRFilter, RobertBristowJohnsonAllPassCoefficients_Q_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonAllPassCoefficients<double> > filter;
   filter.set_Q(20);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 20);
+  ASSERT_EQ(filter.get_Q(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonAllPassCoefficients_Q_range_test )
+TEST(IIRFilter, RobertBristowJohnsonAllPassCoefficients_Q_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonAllPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_Q_test )
+TEST(IIRFilter, RobertBristowJohnsonBandPassPeakCoefficients_Q_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandPassPeakCoefficients<double> > filter;
   filter.set_Q(20);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 20);
+  ASSERT_EQ(filter.get_Q(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_Q_range_test )
+TEST(IIRFilter, RobertBristowJohnsonBandPassPeakCoefficients_Q_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandPassPeakCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_gain_test )
+TEST(IIRFilter, RobertBristowJohnsonBandPassPeakCoefficients_gain_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandPassPeakCoefficients<double> > filter;
   filter.set_gain(20);
-  BOOST_CHECK_EQUAL(filter.get_gain(), 20);
+  ASSERT_EQ(filter.get_gain(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_gain_range_test )
+TEST(IIRFilter, RobertBristowJohnsonBandPassPeakCoefficients_gain_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonBandPassPeakCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_gain(0), std::out_of_range);
+  ASSERT_THROW(filter.set_gain(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_Q_test )
+TEST(IIRFilter, RobertBristowJohnsonLowShelvingCoefficients_Q_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonLowShelvingCoefficients<double> > filter;
   filter.set_Q(20);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 20);
+  ASSERT_EQ(filter.get_Q(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_Q_range_test )
+TEST(IIRFilter, RobertBristowJohnsonLowShelvingCoefficients_Q_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonLowShelvingCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_gain_test )
+TEST(IIRFilter, RobertBristowJohnsonLowShelvingCoefficients_gain_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonLowShelvingCoefficients<double> > filter;
   filter.set_gain(20);
-  BOOST_CHECK_EQUAL(filter.get_gain(), 20);
+  ASSERT_EQ(filter.get_gain(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_gain_range_test )
+TEST(IIRFilter, RobertBristowJohnsonLowShelvingCoefficients_gain_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonLowShelvingCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_gain(0), std::out_of_range);
+  ASSERT_THROW(filter.set_gain(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighShelvingCoefficients_Q_test )
+TEST(IIRFilter, RobertBristowJohnsonHighShelvingCoefficients_Q_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonHighShelvingCoefficients<double> > filter;
   filter.set_Q(20);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 20);
+  ASSERT_EQ(filter.get_Q(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighShelvingCoefficients_Q_range_test )
+TEST(IIRFilter, RobertBristowJohnsonHighShelvingCoefficients_Q_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonHighShelvingCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighShelvingCoefficients_gain_test )
+TEST(IIRFilter, RobertBristowJohnsonHighShelvingCoefficients_gain_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonHighShelvingCoefficients<double> > filter;
   filter.set_gain(20);
-  BOOST_CHECK_EQUAL(filter.get_gain(), 20);
+  ASSERT_EQ(filter.get_gain(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighShelvingCoefficients_gain_range_test )
+TEST(IIRFilter, RobertBristowJohnsonHighShelvingCoefficients_gain_range_test)
 {
   ATK::IIRFilter<ATK::RobertBristowJohnsonHighShelvingCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_gain(0), std::out_of_range);
+  ASSERT_THROW(filter.set_gain(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_1k_test )
+TEST(IIRFilter, RobertBristowJohnsonLowPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -198,7 +196,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_1k_test 
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_100_test )
+TEST(IIRFilter, RobertBristowJohnsonLowPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -226,7 +224,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_100_test
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_2k_test )
+TEST(IIRFilter, RobertBristowJohnsonLowPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -254,7 +252,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_2k_test 
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_200_test )
+TEST(IIRFilter, RobertBristowJohnsonLowPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -282,7 +280,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowPassCoefficients_200_test
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_1k_test )
+TEST(IIRFilter, RobertBristowJohnsonHighPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -310,7 +308,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_1k_test
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_100_test )
+TEST(IIRFilter, RobertBristowJohnsonHighPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -338,7 +336,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_100_tes
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_2k_test )
+TEST(IIRFilter, RobertBristowJohnsonHighPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -366,7 +364,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_2k_test
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_200_test )
+TEST(IIRFilter, RobertBristowJohnsonHighPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -394,7 +392,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighPassCoefficients_200_tes
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassCoefficients_1k_test)
+TEST(IIRFilter, RobertBristowJohnsonBandPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -423,7 +421,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassCoefficients_1k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassCoefficients_100_test)
+TEST(IIRFilter, RobertBristowJohnsonBandPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -452,7 +450,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassCoefficients_100_test
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassCoefficients_2k_test)
+TEST(IIRFilter, RobertBristowJohnsonBandPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -481,7 +479,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassCoefficients_2k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPass2Coefficients_1k_test)
+TEST(IIRFilter, RobertBristowJohnsonBandPass2Coefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -510,7 +508,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPass2Coefficients_1k_test
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPass2Coefficients_100_test)
+TEST(IIRFilter, RobertBristowJohnsonBandPass2Coefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -539,7 +537,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPass2Coefficients_100_tes
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPass2Coefficients_2k_test)
+TEST(IIRFilter, RobertBristowJohnsonBandPass2Coefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -568,8 +566,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPass2Coefficients_2k_test
   checker.process(PROCESSSIZE);
 }
 
-
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandStopCoefficients_1k_test)
+TEST(IIRFilter, RobertBristowJohnsonBandStopCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -598,7 +595,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandStopCoefficients_1k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandStopCoefficients_100_test)
+TEST(IIRFilter, RobertBristowJohnsonBandStopCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -627,7 +624,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandStopCoefficients_100_test
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandStopCoefficients_2k_test)
+TEST(IIRFilter, RobertBristowJohnsonBandStopCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -656,7 +653,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandStopCoefficients_2k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonAllPassCoefficients_1k_test)
+TEST(IIRFilter, RobertBristowJohnsonAllPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -685,7 +682,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonAllPassCoefficients_1k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonAllPassCoefficients_100_test)
+TEST(IIRFilter, RobertBristowJohnsonAllPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -714,7 +711,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonAllPassCoefficients_100_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonAllPassCoefficients_2k_test)
+TEST(IIRFilter, RobertBristowJohnsonAllPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -743,7 +740,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonAllPassCoefficients_2k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_1k_test)
+TEST(IIRFilter, RobertBristowJohnsonBandPassPeakCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -773,7 +770,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_1k_t
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_100_test)
+TEST(IIRFilter, RobertBristowJohnsonBandPassPeakCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -803,7 +800,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_100_
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_2k_test)
+TEST(IIRFilter, RobertBristowJohnsonBandPassPeakCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -833,7 +830,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_RobertBristowJohnsonBandPassPeakCoefficients_2k_t
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_1k_test )
+TEST(IIRFilter, RobertBristowJohnsonLowShelvingCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -862,7 +859,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_1k_t
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_100_test )
+TEST(IIRFilter, RobertBristowJohnsonLowShelvingCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -891,7 +888,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_100_
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_200_test )
+TEST(IIRFilter, RobertBristowJohnsonLowShelvingCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -920,7 +917,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonLowShelvingCoefficients_200_
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighShelvingCoefficients_1k_test )
+TEST(IIRFilter, RobertBristowJohnsonHighShelvingCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -949,7 +946,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighShelvingCoefficients_1k_
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighShelvingCoefficients_10k_test )
+TEST(IIRFilter, RobertBristowJohnsonHighShelvingCoefficients_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -978,7 +975,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighShelvingCoefficients_10k
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_RobertBristowJohnsonHighShelvingCoefficients_500_test )
+TEST(IIRFilter, RobertBristowJohnsonHighShelvingCoefficients_500_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);

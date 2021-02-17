@@ -8,33 +8,31 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyLowPassCoefficients_frequency_test )
+TEST(IIRFilter, LinkwitzRileyLowPassCoefficients_frequency_test)
 {
   ATK::IIRFilter<ATK::LinkwitzRileyLowPassCoefficients<double> > filter;
   filter.set_cut_frequency(20);
-  BOOST_CHECK_EQUAL(filter.get_cut_frequency(), 20);
+  ASSERT_EQ(filter.get_cut_frequency(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRiley4LowPassCoefficients_frequency_test )
+TEST(IIRFilter, LinkwitzRiley4LowPassCoefficients_frequency_test)
 {
   ATK::IIRFilter<ATK::LinkwitzRiley4LowPassCoefficients<double> > filter;
   filter.set_cut_frequency(20);
-  BOOST_CHECK_EQUAL(filter.get_cut_frequency(), 20);
+  ASSERT_EQ(filter.get_cut_frequency(), 20);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRiley4LowPassCoefficients_frequency_range_test )
+TEST(IIRFilter, LinkwitzRiley4LowPassCoefficients_frequency_range_test)
 {
   ATK::IIRFilter<ATK::LinkwitzRiley4LowPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_cut_frequency(0), std::out_of_range);
+  ASSERT_THROW(filter.set_cut_frequency(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyLowPassCoefficients_1k_test )
+TEST(IIRFilter, LinkwitzRileyLowPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -62,7 +60,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyLowPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyLowPassCoefficients_100_test )
+TEST(IIRFilter, LinkwitzRileyLowPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -90,7 +88,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyLowPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyLowPassCoefficients_2k_test )
+TEST(IIRFilter, LinkwitzRileyLowPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -118,7 +116,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyLowPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyLowPassCoefficients_200_test )
+TEST(IIRFilter, LinkwitzRileyLowPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -146,7 +144,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyLowPassCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyHighPassCoefficients_1k_test )
+TEST(IIRFilter, LinkwitzRileyHighPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -174,7 +172,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyHighPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyHighPassCoefficients_100_test )
+TEST(IIRFilter, LinkwitzRileyHighPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -202,7 +200,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyHighPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyHighPassCoefficients_2k_test )
+TEST(IIRFilter, LinkwitzRileyHighPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -230,7 +228,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyHighPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyHighPassCoefficients_200_test )
+TEST(IIRFilter, LinkwitzRileyHighPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -258,7 +256,7 @@ BOOST_AUTO_TEST_CASE( IIRFilter_LinkwitzRileyHighPassCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4LowPassCoefficients_1k_test)
+TEST(IIRFilter, LinkwitzRiley4LowPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -286,7 +284,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4LowPassCoefficients_1k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4LowPassCoefficients_100_test)
+TEST(IIRFilter, LinkwitzRiley4LowPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -314,7 +312,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4LowPassCoefficients_100_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4LowPassCoefficients_2k_test)
+TEST(IIRFilter, LinkwitzRiley4LowPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -342,7 +340,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4LowPassCoefficients_2k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4LowPassCoefficients_200_test)
+TEST(IIRFilter, LinkwitzRiley4LowPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -370,7 +368,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4LowPassCoefficients_200_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4HighPassCoefficients_1k_test)
+TEST(IIRFilter, LinkwitzRiley4HighPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -398,7 +396,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4HighPassCoefficients_1k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4HighPassCoefficients_100_test)
+TEST(IIRFilter, LinkwitzRiley4HighPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -426,7 +424,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4HighPassCoefficients_100_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4HighPassCoefficients_2k_test)
+TEST(IIRFilter, LinkwitzRiley4HighPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -454,7 +452,7 @@ BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4HighPassCoefficients_2k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(IIRFilter_LinkwitzRiley4HighPassCoefficients_200_test)
+TEST(IIRFilter, LinkwitzRiley4HighPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);

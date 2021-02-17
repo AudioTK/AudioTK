@@ -20,7 +20,7 @@
 
   ID:               atk_core
   vendor:           Matthieu Brucher
-  version:          3.2.0
+  version:          3.3.0
   name:             ATK core
   description:      Core classes for ATK
   website:          http://www.audio-tk.com/
@@ -45,5 +45,6 @@
 #include <ATK/Core/PipelineGlobalSinkFilter.h>
 #include <ATK/Core/TypedBaseFilter.h>
 #include <ATK/Core/Utilities.h>
+#include <ATK/Core/WrapFilter.h>
 
 #endif

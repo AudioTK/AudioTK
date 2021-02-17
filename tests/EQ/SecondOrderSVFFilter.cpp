@@ -7,66 +7,64 @@
 #include <ATK/Mock/FFTCheckerFilter.h>
 #include <ATK/Mock/SimpleSinusGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024*64;
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_cut_frequency_test )
+TEST(SecondOrderSVFFilter, SVFLowPassCoefficients_cut_frequency_test)
 {
   ATK::SecondOrderSVFFilter<ATK::SecondOrderSVFLowPassCoefficients<double> > filter;
   filter.set_cut_frequency(1000);
-  BOOST_CHECK_EQUAL(filter.get_cut_frequency(), 1000);
+  ASSERT_EQ(filter.get_cut_frequency(), 1000);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_cut_frequency_range_test )
+TEST(SecondOrderSVFFilter, SVFLowPassCoefficients_cut_frequency_range_test)
 {
   ATK::SecondOrderSVFFilter<ATK::SecondOrderSVFLowPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_cut_frequency(0), std::out_of_range);
+  ASSERT_THROW(filter.set_cut_frequency(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_Q_test )
+TEST(SecondOrderSVFFilter, SVFLowPassCoefficients_Q_test)
 {
   ATK::SecondOrderSVFFilter<ATK::SecondOrderSVFLowPassCoefficients<double> > filter;
   filter.set_Q(10);
-  BOOST_CHECK_EQUAL(filter.get_Q(), 10);
+  ASSERT_EQ(filter.get_Q(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_Q_range_test )
+TEST(SecondOrderSVFFilter, SVFLowPassCoefficients_Q_range_test)
 {
   ATK::SecondOrderSVFFilter<ATK::SecondOrderSVFLowPassCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_Q(0), std::out_of_range);
+  ASSERT_THROW(filter.set_Q(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFBellCoefficients_gain_test )
+TEST(SecondOrderSVFFilter, SVFBellCoefficients_gain_test)
 {
   ATK::SecondOrderSVFFilter<ATK::SecondOrderSVFBellCoefficients<double> > filter;
   filter.set_gain(10);
-  BOOST_CHECK_EQUAL(filter.get_gain(), 10);
+  ASSERT_EQ(filter.get_gain(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLBellCoefficients_gain_range_test )
+TEST(SecondOrderSVFFilter, SVFLBellCoefficients_gain_range_test)
 {
   ATK::SecondOrderSVFFilter<ATK::SecondOrderSVFBellCoefficients<double> > filter;
-  BOOST_CHECK_THROW(filter.set_gain(0), std::out_of_range);
+  ASSERT_THROW(filter.set_gain(0), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowShelvingCoefficients_gain_test )
+TEST(SecondOrderSVFFilter, SVFLowShelvingCoefficients_gain_test)
 {
   ATK::SecondOrderSVFFilter<ATK::SecondOrderSVFLowShelfCoefficients<double> > filter;
   filter.set_gain(10);
-  BOOST_CHECK_EQUAL(filter.get_gain(), 10);
+  ASSERT_EQ(filter.get_gain(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighShelvingCoefficients_gain_test )
+TEST(SecondOrderSVFFilter, SVFHighShelvingCoefficients_gain_test)
 {
   ATK::SecondOrderSVFFilter<ATK::SecondOrderSVFHighShelfCoefficients<double> > filter;
   filter.set_gain(10);
-  BOOST_CHECK_EQUAL(filter.get_gain(), 10);
+  ASSERT_EQ(filter.get_gain(), 10);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_1k_test )
+TEST(SecondOrderSVFFilter, SVFLowPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -94,7 +92,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_100_test )
+TEST(SecondOrderSVFFilter, SVFLowPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -122,7 +120,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_2k_test )
+TEST(SecondOrderSVFFilter, SVFLowPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -150,7 +148,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_200_test )
+TEST(SecondOrderSVFFilter, SVFLowPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -178,7 +176,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowPassCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighPassCoefficients_1k_test )
+TEST(SecondOrderSVFFilter, SVFHighPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -206,7 +204,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighPassCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighPassCoefficients_100_test )
+TEST(SecondOrderSVFFilter, SVFHighPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -234,7 +232,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighPassCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighPassCoefficients_2k_test )
+TEST(SecondOrderSVFFilter, SVFHighPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -262,7 +260,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighPassCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighPassCoefficients_200_test )
+TEST(SecondOrderSVFFilter, SVFHighPassCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -290,7 +288,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighPassCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFNotchCoefficients_1k_test )
+TEST(SecondOrderSVFFilter, SVFNotchCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -318,7 +316,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFNotchCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFNotchCoefficients_100_test )
+TEST(SecondOrderSVFFilter, SVFNotchCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -346,7 +344,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFNotchCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFNotchCoefficients_2k_test )
+TEST(SecondOrderSVFFilter, SVFNotchCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -374,7 +372,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFNotchCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFNotchCoefficients_200_test )
+TEST(SecondOrderSVFFilter, SVFNotchCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -402,7 +400,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFNotchCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFPeakCoefficients_1k_test )
+TEST(SecondOrderSVFFilter, SVFPeakCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -430,7 +428,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFPeakCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFPeakCoefficients_100_test )
+TEST(SecondOrderSVFFilter, SVFPeakCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -458,7 +456,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFPeakCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFPeakCoefficients_2k_test )
+TEST(SecondOrderSVFFilter, SVFPeakCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -486,7 +484,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFPeakCoefficients_2k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFPeakCoefficients_200_test )
+TEST(SecondOrderSVFFilter, SVFPeakCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -514,7 +512,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFPeakCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassCoefficients_1k_test)
+TEST(SecondOrderSVFFilter, SVFBandPassCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -543,7 +541,7 @@ BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassCoefficients_1k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassCoefficients_100_test)
+TEST(SecondOrderSVFFilter, SVFBandPassCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -572,7 +570,7 @@ BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassCoefficients_100_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassCoefficients_2k_test)
+TEST(SecondOrderSVFFilter, SVFBandPassCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -601,7 +599,7 @@ BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassCoefficients_2k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassPeakCoefficients_1k_test)
+TEST(SecondOrderSVFFilter, SVFBandPassPeakCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -631,7 +629,7 @@ BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassPeakCoefficients_1k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassPeakCoefficients_100_test)
+TEST(SecondOrderSVFFilter, SVFBandPassPeakCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -661,7 +659,7 @@ BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassPeakCoefficients_100_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassPeakCoefficients_2k_test)
+TEST(SecondOrderSVFFilter, SVFBandPassPeakCoefficients_2k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024 * 64);
@@ -691,7 +689,7 @@ BOOST_AUTO_TEST_CASE(SecondOrderSVFFilter_SVFBandPassPeakCoefficients_2k_test)
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowShelvingCoefficients_1k_test )
+TEST(SecondOrderSVFFilter, SVFLowShelvingCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -720,7 +718,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowShelvingCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowShelvingCoefficients_100_test )
+TEST(SecondOrderSVFFilter, SVFLowShelvingCoefficients_100_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -749,7 +747,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowShelvingCoefficients_100_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowShelvingCoefficients_200_test )
+TEST(SecondOrderSVFFilter, SVFLowShelvingCoefficients_200_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -778,7 +776,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFLowShelvingCoefficients_200_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighShelvingCoefficients_1k_test )
+TEST(SecondOrderSVFFilter, SVFHighShelvingCoefficients_1k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -807,7 +805,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighShelvingCoefficients_1k_test )
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighShelvingCoefficients_10k_test )
+TEST(SecondOrderSVFFilter, SVFHighShelvingCoefficients_10k_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);
@@ -836,7 +834,7 @@ BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighShelvingCoefficients_10k_test 
   checker.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( SecondOrderSVFFilter_SVFHighShelvingCoefficients_500_test )
+TEST(SecondOrderSVFFilter, SVFHighShelvingCoefficients_500_test)
 {
   ATK::SimpleSinusGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(1024*64);

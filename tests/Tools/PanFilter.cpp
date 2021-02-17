@@ -9,39 +9,37 @@
 #include <ATK/Mock/TriangleCheckerFilter.h>
 #include <ATK/Mock/TriangleGeneratorFilter.h>
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_NO_MAIN
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 
 constexpr gsl::index PROCESSSIZE = 1024;
 
-BOOST_AUTO_TEST_CASE( PanFilter_pan_set_test )
+TEST(PanFilter, pan_set_test)
 {
   ATK::PanFilter<double> panfilter;
   panfilter.set_pan(0.5);
-  BOOST_CHECK_EQUAL(panfilter.get_pan(), 0.5);
+  ASSERT_EQ(panfilter.get_pan(), 0.5);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_pan_range_test )
+TEST(PanFilter, pan_range_test)
 {
   ATK::PanFilter<double> panfilter;
-  BOOST_CHECK_THROW(panfilter.set_pan(-1.00001), std::out_of_range);
+  ASSERT_THROW(panfilter.set_pan(-1.00001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_pan_range2_test )
+TEST(PanFilter, pan_range2_test)
 {
   ATK::PanFilter<double> panfilter;
-  BOOST_CHECK_THROW(panfilter.set_pan(1.00001), std::out_of_range);
+  ASSERT_THROW(panfilter.set_pan(1.00001), std::out_of_range);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_panlaw_set_test )
+TEST(PanFilter, panlaw_set_test)
 {
   ATK::PanFilter<double> panfilter;
   panfilter.set_pan_law(ATK::PanFilter<double>::PAN_LAWS::BALANCE);
-  BOOST_CHECK(panfilter.get_pan_law() == ATK::PanFilter<double>::PAN_LAWS::BALANCE);
+  ASSERT_EQ(panfilter.get_pan_law(), ATK::PanFilter<double>::PAN_LAWS::BALANCE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_sincos_0_left_test )
+TEST(PanFilter, center_sincos_0_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -62,7 +60,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_sincos_0_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_sincos_0_right_test )
+TEST(PanFilter, center_sincos_0_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -83,7 +81,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_sincos_0_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_sincos_0_left_test )
+TEST(PanFilter, left_sincos_0_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -105,7 +103,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_sincos_0_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_sincos_0_right_test )
+TEST(PanFilter, left_sincos_0_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -127,7 +125,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_sincos_0_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_sincos_0_left_test )
+TEST(PanFilter, right_sincos_0_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -149,7 +147,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_sincos_0_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_sincos_0_right_test )
+TEST(PanFilter, right_sincos_0_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -171,7 +169,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_sincos_0_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_sincos_3_left_test )
+TEST(PanFilter, center_sincos_3_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -193,7 +191,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_sincos_3_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_sincos_3_right_test )
+TEST(PanFilter, center_sincos_3_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -215,7 +213,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_sincos_3_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_sincos_3_left_test )
+TEST(PanFilter, left_sincos_3_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -237,7 +235,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_sincos_3_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_sincos_3_right_test )
+TEST(PanFilter, left_sincos_3_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -260,7 +258,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_sincos_3_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_sincos_3_left_test )
+TEST(PanFilter, right_sincos_3_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -283,7 +281,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_sincos_3_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_sincos_3_right_test )
+TEST(PanFilter, right_sincos_3_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -305,7 +303,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_sincos_3_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_square_0_left_test )
+TEST(PanFilter, center_square_0_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -327,7 +325,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_square_0_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_square_0_right_test )
+TEST(PanFilter, center_square_0_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -349,7 +347,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_square_0_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_square_0_left_test )
+TEST(PanFilter, left_square_0_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -372,7 +370,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_square_0_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_square_0_right_test )
+TEST(PanFilter, left_square_0_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -395,7 +393,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_square_0_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_square_0_left_test )
+TEST(PanFilter, right_square_0_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -418,7 +416,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_square_0_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_square_0_right_test )
+TEST(PanFilter, right_square_0_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -441,7 +439,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_square_0_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_square_3_left_test )
+TEST(PanFilter, center_square_3_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -463,7 +461,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_square_3_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_square_3_right_test )
+TEST(PanFilter, center_square_3_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -485,7 +483,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_square_3_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_square_3_left_test )
+TEST(PanFilter, left_square_3_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -507,7 +505,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_square_3_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_square_3_right_test )
+TEST(PanFilter, left_square_3_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -530,7 +528,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_square_3_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_square_3_left_test )
+TEST(PanFilter, right_square_3_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -553,7 +551,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_square_3_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_square_3_right_test )
+TEST(PanFilter, right_square_3_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -575,7 +573,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_square_3_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_linear_taper_left_test )
+TEST(PanFilter, center_linear_taper_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -597,7 +595,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_linear_taper_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_linear_taper_right_test )
+TEST(PanFilter, center_linear_taper_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -619,7 +617,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_linear_taper_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_linear_taper_left_test )
+TEST(PanFilter, left_linear_taper_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -642,7 +640,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_linear_taper_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_linear_taper_right_test )
+TEST(PanFilter, left_linear_taper_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -665,7 +663,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_linear_taper_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_linear_taper_left_test )
+TEST(PanFilter, right_linear_taper_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -688,7 +686,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_linear_taper_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_linear_taper_right_test )
+TEST(PanFilter, right_linear_taper_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -711,7 +709,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_linear_taper_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_balance_left_test )
+TEST(PanFilter, center_balance_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -733,7 +731,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_balance_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_center_balance_right_test )
+TEST(PanFilter, center_balance_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -755,7 +753,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_center_balance_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_balance_left_test )
+TEST(PanFilter, left_balance_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -777,7 +775,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_balance_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_left_balance_right_test )
+TEST(PanFilter, left_balance_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -800,7 +798,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_left_balance_right_test )
   checker_r.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_balance_left_test )
+TEST(PanFilter, right_balance_left_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
@@ -823,7 +821,7 @@ BOOST_AUTO_TEST_CASE( PanFilter_right_balance_left_test )
   checker_l.process(PROCESSSIZE);
 }
 
-BOOST_AUTO_TEST_CASE( PanFilter_right_balance_right_test )
+TEST(PanFilter, right_balance_right_test)
 {
   ATK::TriangleGeneratorFilter<double> generator;
   generator.set_output_sampling_rate(48000);
