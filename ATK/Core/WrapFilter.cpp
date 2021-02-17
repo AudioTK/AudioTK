@@ -21,15 +21,15 @@ WrapFilter<DataType_, DataType__>::WrapFilter(gsl::index nb_input_ports,
         std::vector<gsl::unique_ptr<BaseFilter>>& filters)>& fun)
   : Parent(nb_input_ports, nb_output_ports)
 {
-  for(size_t i = 0; i < nb_input_ports; ++i)
+  for(gsl::index i = 0; i < nb_input_ports; ++i)
   {
     inputFilters.emplace_back(nullptr, 1, 0, false);
   }
-  for(size_t i = 0; i < nb_output_ports; ++i)
+  for(gsl::index i = 0; i < nb_output_ports; ++i)
   {
     outputFilters.emplace_back(nullptr, 1, 0, false);
   }
-  for(size_t i = 0; i < nb_output_ports; ++i)
+  for(gsl::index i = 0; i < nb_output_ports; ++i)
   {
     sink.add_filter(&outputFilters[i]);
   }
