@@ -155,11 +155,12 @@ artifacts:
   - path: AudioTK.*.zip
     name: package
 
-deploy:
-  provider: GitHub
-  description: 'Audio Toolkit files'
-  auth_token: ${GITHUB_OAUTH_TOKEN}
-  artifact: package
-  on:
-    branch: master
-    APPVEYOR_REPO_TAG: true
+#deploy:
+#  provider: GitHub
+#  description: 'Audio Toolkit files'
+#  auth_token:
+#    secure: ${GITHUB_OAUTH_TOKEN}
+#  artifact: package
+#  on:
+#    branch: main
+#    APPVEYOR_REPO_TAG: true

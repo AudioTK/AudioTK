@@ -50,7 +50,7 @@ jobs:
     - Python_ADDITIONAL_VERSIONS=3.8.3
     - BUILD_TYPE=Coverage
     - CUSTOM_LCOV=ON
-    - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/opt/python/${Python_ADDITIONAL_VERSIONS}/lib/libpython${PYTHON_VERSION}.so -DPYTHON_INCLUDE_DIR=/opt/python/${Python_ADDITIONAL_VERSIONS}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/opt/python/${Python_ADDITIONAL_VERSIONS}/bin/python -DENABLE_CODECOVERAGE=ON -DENABLE_STATIC_LIBRARIES=OFF -DCMAKE_CXX_FLAGS_DEBUG_INIT=\"-O0\""
+    - ADDITONAL_CMAKE_FLAGS="-DPYTHON_LIBRARY=/opt/python/${Python_ADDITIONAL_VERSIONS}/lib/libpython${PYTHON_VERSION}.so -DPYTHON_INCLUDE_DIR=/opt/python/${Python_ADDITIONAL_VERSIONS}/include/python${PYTHON_VERSION} -DPYTHON_EXECUTABLE=/opt/python/${Python_ADDITIONAL_VERSIONS}/bin/python -DENABLE_CODECOVERAGE=ON -DENABLE_STATIC_LIBRARIES=OFF -DCMAKE_CXX_FLAGS_DEBUG_INIT=\"-O0\" -DBUILD_DOC=1"
   - compiler: gcc-9
     os: linux
     dist: focal
@@ -230,7 +230,7 @@ after_success:
     fi
   - cd ${HOME}/ATK
   - |
-    if [[ "ENABLE_PYTHON" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]]; then
+    if [[ "${ENABLE_PYTHON}" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]]; then
       tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}.py${PYTHON_VERSION}-${MY_NAME}.tar.gz *
     else
       tar -cvzf ${HOME}/AudioTK.${TRAVIS_OS_NAME}.${PLATFORM}-${MY_NAME}.tar.gz *
@@ -238,7 +238,7 @@ after_success:
 
 after_script:
   - |
-    if [[ "${ENABLE_STATIC_ANALYSIS}" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]] && [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+    if [[ "${ENABLE_STATIC_ANALYSIS}" == "ON" ]] && [[ "${TRAVIS_BRANCH}" == "main" ]]; then
       cd ${HOME}
       echo "-----BEGIN RSA PRIVATE KEY-----" > ${HOME}/.ssh/key
       echo ${SSH_KEY} | awk '{for(i=1;i<length;i+=64) print substr($0,i,64)}' >> ${HOME}/.ssh/key
@@ -253,7 +253,9 @@ after_script:
       git commit -m "Run ${TRAVIS_JOB_ID}"
       GIT_SSH_COMMAND="ssh -i ${HOME}/.ssh/key -o \"StrictHostKeyChecking no\"" git push
       ssh -i ${HOME}/.ssh/key -o "StrictHostKeyChecking no" 3649288@git.sd3.gpaas.net deploy cov.audio-tk.com.git
-      cd ../doc.audio-tk.com
+      cd ..
+      GIT_SSH_COMMAND="ssh -i ${HOME}/.ssh/key -o \"StrictHostKeyChecking no\"" git clone git+ssh://3649288@git.sd3.gpaas.net/doc.audio-tk.com.git
+      cd doc.audio-tk.com
       git rm -r *
       cp -R ${TRAVIS_BUILD_DIR}/Doxygen/html htdocs
       git add .
@@ -262,11 +264,11 @@ after_script:
       ssh -i ${HOME}/.ssh/key -o "StrictHostKeyChecking no" 3649288@git.sd3.gpaas.net deploy doc.audio-tk.com.git
     fi
 
-deploy:
-  skip_cleanup: true
-  provider: releases
-  file_glob: true
-  file: ${HOME}/AudioTK.*.tar.gz
-  on:
-    repo: mbrucher/AudioTK
-    tags: true
+#deploy:
+#  skip_cleanup: true
+#  provider: releases
+#  file_glob: true
+#  file: ${HOME}/AudioTK.*.tar.gz
+#  on:
+#    repo: AudioTK/AudioTK
+#    tags: true
