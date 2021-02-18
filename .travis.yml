@@ -253,7 +253,9 @@ after_script:
       git commit -m "Run ${TRAVIS_JOB_ID}"
       GIT_SSH_COMMAND="ssh -i ${HOME}/.ssh/key -o \"StrictHostKeyChecking no\"" git push
       ssh -i ${HOME}/.ssh/key -o "StrictHostKeyChecking no" 3649288@git.sd3.gpaas.net deploy cov.audio-tk.com.git
-      cd ../doc.audio-tk.com
+      cd ..
+      GIT_SSH_COMMAND="ssh -i ${HOME}/.ssh/key -o \"StrictHostKeyChecking no\"" git clone git+ssh://3649288@git.sd3.gpaas.net/doc.audio-tk.com.git
+      cd doc.audio-tk.com
       git rm -r *
       cp -R ${TRAVIS_BUILD_DIR}/Doxygen/html htdocs
       git add .
