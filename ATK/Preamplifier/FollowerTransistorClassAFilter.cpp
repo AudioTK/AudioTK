@@ -134,7 +134,7 @@ namespace ATK
   };
 
   template <typename DataType_>
-  class TransistorClassAInitialFunction
+  class FollowerTransistorClassAInitialFunction
   {
     const DataType_ Rp;
     const DataType_ Rg1;
@@ -151,8 +151,24 @@ namespace ATK
     using Vector = Eigen::Matrix<DataType, 4, 1>;
     using Matrix = Eigen::Matrix<DataType, 4, 4>;
 
-    TransistorClassAInitialFunction(DataType Rp, DataType Rg1, DataType Rg2, DataType Ro, DataType Rk1, DataType Rk2, DataType Vbias, TransistorFunction<DataType_>& transistor_function_1, TransistorFunction<DataType_>& transistor_function_2)
-      :Rp(1 / Rp), Rg1(1 / Rg1), Rg2(1 / Rg2), Ro(1 / Ro), Rk1(1 / Rk1), Rk2(1 / Rk2), Vbias(Vbias), transistor_function_1(transistor_function_1), transistor_function_2(transistor_function_2)
+    FollowerTransistorClassAInitialFunction(DataType Rp,
+        DataType Rg1,
+        DataType Rg2,
+        DataType Ro,
+        DataType Rk1,
+        DataType Rk2,
+        DataType Vbias,
+        TransistorFunction<DataType_>& transistor_function_1,
+        TransistorFunction<DataType_>& transistor_function_2)
+      : Rp(1 / Rp)
+      , Rg1(1 / Rg1)
+      , Rg2(1 / Rg2)
+      , Ro(1 / Ro)
+      , Rk1(1 / Rk1)
+      , Rk2(1 / Rk2)
+      , Vbias(Vbias)
+      , transistor_function_1(transistor_function_1)
+      , transistor_function_2(transistor_function_2)
     {
     }
 
@@ -214,9 +230,7 @@ namespace ATK
   }
 
   template <typename DataType>
-  FollowerTransistorClassAFilter<DataType>::~FollowerTransistorClassAFilter()
-  {
-  }
+  FollowerTransistorClassAFilter<DataType>::~FollowerTransistorClassAFilter() = default;
 
   template<typename DataType_>
   void FollowerTransistorClassAFilter<DataType_>::setup()
@@ -235,12 +249,19 @@ namespace ATK
   void FollowerTransistorClassAFilter<DataType_>::full_setup()
   {
     // setup default_output
-    SimplifiedVectorizedNewtonRaphson<TransistorClassAInitialFunction<DataType_>, 4, 50> custom(TransistorClassAInitialFunction<DataType_>(
-      Rp, Rg1, Rg2, Ro, Rk1, Rk2, //R
-      Vbias, // Vbias
-      transistor_function_1, // transistor
-      transistor_function_2 // transistor
-      ), typename TransistorClassAInitialFunction<DataType_>::Vector(Vbias / 20, Vbias * 6 / 10, Vbias / 10, Vbias / 2));
+    SimplifiedVectorizedNewtonRaphson<FollowerTransistorClassAInitialFunction<DataType_>, 4, 50> custom(
+        FollowerTransistorClassAInitialFunction<DataType_>(Rp,
+            Rg1,
+            Rg2,
+            Ro,
+            Rk1,
+            Rk2, // R
+            Vbias, // Vbias
+            transistor_function_1, // transistor
+            transistor_function_2 // transistor
+            ),
+        typename FollowerTransistorClassAInitialFunction<DataType_>::Vector(
+            Vbias / 20, Vbias * 6 / 10, Vbias / 10, Vbias / 2));
 
     auto stable = custom.optimize();
 

@@ -178,9 +178,7 @@ namespace ATK
   }
 
   template <typename DataType>
-  TransistorClassAFilter<DataType>::~TransistorClassAFilter()
-  {
-  }
+  TransistorClassAFilter<DataType>::~TransistorClassAFilter() = default;
 
   template<typename DataType_>
   void TransistorClassAFilter<DataType_>::setup()
