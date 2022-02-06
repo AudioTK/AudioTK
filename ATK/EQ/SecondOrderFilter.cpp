@@ -7,13 +7,6 @@
 
 namespace ATK
 {
-#if !(defined(_MSC_VER) || __cplusplus >= 201703L)
-  template<typename DataType_>
-  const gsl::index SecondOrderCoreCoefficients<DataType_>::in_order = 2;
-  template<typename DataType_>
-  const gsl::index SecondOrderCoreCoefficients<DataType_>::out_order = 2;
-#endif
-  
 #if ATK_ENABLE_INSTANTIATION
   template class SecondOrderCoreCoefficients<float>;
   template class SecondOrderCoreCoefficients<std::complex<float> >;
