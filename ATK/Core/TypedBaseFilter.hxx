@@ -19,7 +19,7 @@ namespace Utilities
   using ConversionTypes = boost::mp11::mp_list<std::int16_t, std::int32_t, int64_t, float, double, std::complex<float>, std::complex<double> > ;
 
   template<typename Vector, typename DataType>
-  void convert_scalar_array(ATK::BaseFilter* filter, unsigned int port, DataType* converted_input, gsl::index size, int type)
+  void convert_scalar_array(ATK::BaseFilter* filter, gsl::index port, DataType* converted_input, gsl::index size, int type)
   {
     if constexpr(boost::mp11::mp_empty<Vector>::value)
     {
