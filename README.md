@@ -20,6 +20,11 @@ and output sampling rates are also identical.
 Audio Toolkit is published under the BSD license.
 
 ## Changelog
+### 3.4.0
+* Update to Eigen 3.3.9
+* Fix MacOS upgrades
+* Remove some C++14 macros
+
 ### 3.3.0
 * Add WrapFilter that wraps a series of plugins as a unique filter
 * Enhance CMake functionality for external Audio ToolKit projects 

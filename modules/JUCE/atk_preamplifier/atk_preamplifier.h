@@ -20,7 +20,7 @@
 
   ID:               atk_preamplifier
   vendor:           Matthieu Brucher
-  version:          3.3.0
+  version:          3.4.0
   name:             ATK Preamplifier
   description:      Preamplifier classes for ATK
   website:          http://www.audio-tk.com/
