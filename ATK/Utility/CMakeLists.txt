@@ -1,11 +1,11 @@
 
 FILE(GLOB
-        ATK_UTILITY_SRC
+    ATK_UTILITY_SRC
     *.cpp
 )
 
 FILE(GLOB
-    
+    ATK_UTILITY_HEADERS
     *.h*
 )
 
